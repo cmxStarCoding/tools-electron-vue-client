@@ -2,7 +2,12 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 import Home from "./views/Home.vue"
 import UserLogin from "./views/user/UserLogin.vue"
+import UserRegister from "./views/user/UserRegister.vue"
 import PicPaste from "./views/pic/PicPaste.vue"
+import SystemSetting from "./views/system/Setting.vue"
+import AboutUs from "./views/system/AboutUs.vue"
+import UpdateLog from "./views/system/UpdateLog.vue"
+import PersonCenter from "./views/user/PersonCenter.vue"
 
 const router = createRouter({
     // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
@@ -10,8 +15,20 @@ const router = createRouter({
     routes: [
         { path: '/', redirect: "/home" },
         { path: '/home', component: Home },
+        //用户登录
         { path: '/user_login', component: UserLogin, name: 'user_login' },
-        { path: '/pic_paste', component: PicPaste, name: 'pic_paste' }
+        //用户注册
+        { path: '/user_register', component: UserRegister, name: 'user_register' },
+        //贴图工具
+        { path: '/pic_paste', component: PicPaste, name: 'pic_paste' },
+        //系统设置
+        { path: '/system_setting', component: SystemSetting, name: 'system_setting' },
+        //关于我们
+        { path: '/about_us', component: AboutUs, name: 'about_us' },
+        //关于我们
+        { path: '/update_log', component: UpdateLog, name: 'update_log' },
+        //个人中心
+        { path: '/person_center', component: PersonCenter, name: 'person_center' }
     ],
 })
 
