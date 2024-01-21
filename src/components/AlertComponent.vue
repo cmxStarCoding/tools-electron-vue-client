@@ -1,6 +1,6 @@
 <template>
     <teleport to='body'>
-        <div class="alert_container" v-if="config.show">
+        <div v-if="config.show" :class="{'alert_container_top':config.position == 'top','alert_container_middle':config.position == 'middle'}">
 
             <svg v-if="config.successIcon" t="1705543070110" class="icon" viewBox="0 0 1024 1024" version="1.1"
                 xmlns="http://www.w3.org/2000/svg" p-id="1655">
@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.alert_container {
+.alert_container_top {
     position: absolute;
     font-size: 13px;
     top: 0;
@@ -61,10 +61,10 @@ export default {
     align-items: center;
     transform: translate(-50%, -100%);
     background-color: #eaeaea;
-    padding: 5px 50px 5px 5px;
+    padding: 10px 50px 10px 5px;
     border-radius: 5px;
     //   animation: fadeInDown 1.2s ease-out 0.1s forwards;
-    animation: fadeInDown 1s forwards;
+    animation: fadeInDownTop 1.3s forwards;
 
     // fadeInDown 是动画的名称，与 @keyframes 规则中定义的名称相匹配。
     // 1.3s 是动画的持续时间，表示整个动画从开始到结束的时间为1.3秒。
@@ -79,7 +79,7 @@ export default {
     }
 }
 
-@keyframes fadeInDown {
+@keyframes fadeInDownTop {
     0% {
         transform: translate(-50%, -100%);
         opacity: 0;
@@ -95,6 +95,52 @@ export default {
         opacity: 0;
     }
 }
+
+.alert_container_middle {
+    position: absolute;
+    font-size: 13px;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    transform: translate(-50%, 0);
+    background-color: #eaeaea;
+    padding: 10px 50px 10px 5px;
+    border-radius: 5px;
+    //   animation: fadeInDown 1.2s ease-out 0.1s forwards;
+    animation: fadeInDownMiddele 1.3s forwards;
+
+    // fadeInDown 是动画的名称，与 @keyframes 规则中定义的名称相匹配。
+    // 1.3s 是动画的持续时间，表示整个动画从开始到结束的时间为1.3秒。
+    // ease-out 是动画的过渡函数，控制动画的速度变化。ease-out 表示动画会以较慢的速度开始，然后加速结束，呈现一种缓慢进入、快速退出的效果。
+    // 0.5s 是动画的延迟时间，表示动画将在0.5秒后开始播放。
+    // forwards 是动画填充模式（fill-mode），它指定在动画完成后，元素应该保持动画结束时的状态。forwards 表示元素将保持动画的最后一帧状态
+
+    .icon {
+        flex-shrink: 0; //子元素自动换行时，会导致其他同级子元素的宽高发生变化，这里可控制其他同级子元素的宽高发生变化
+        width: 20px;
+        margin: 0px 10px 0px 10px;
+    }
+}
+
+@keyframes fadeInDownMiddele {
+    0% {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, 0);
+        opacity: 0;
+    }
+}
+
+
 
 .success {
     color: #67C23A;

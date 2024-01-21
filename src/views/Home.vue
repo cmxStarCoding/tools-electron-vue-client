@@ -6,31 +6,31 @@
         </div>
         <ul class="children_category_list" >
             <li>
-                <img src="../assets/category.png" alt="">
+                <img src="../assets/images/category.png" alt="">
                 <span>贴图工具</span>
             </li>
             <li>
-                <img src="../assets/category.png" alt="">
+                <img src="../assets/images/category.png" alt="">
                 <span>无损放大</span>
             </li>
             <li>
-                <img src="../assets/category.png" alt="">
+                <img src="../assets/images/category.png" alt="">
                 <span>贴图工具</span>
             </li>
             <li>
-                <img src="../assets/category.png" alt="">
+                <img src="../assets/images/category.png" alt="">
                 <span>贴图工具</span>
             </li>
             <li>
-                <img src="../assets/category.png" alt="">
+                <img src="../assets/images/category.png" alt="">
                 <span>贴图工具</span>
             </li>
             <li>
-                <img src="../assets/category.png" alt="">
+                <img src="../assets/images/category.png" alt="">
                 <span>贴图工具</span>
             </li>
             <li>
-                <img src="../assets/category.png" alt="">
+                <img src="../assets/images/category.png" alt="">
                 <span>贴图工具</span>
             </li>
         </ul>
@@ -42,11 +42,11 @@
         </div>
         <ul class="children_category_list" >
             <li>
-                <img src="../assets/category.png" alt="">
+                <img src="../assets/images/category.png" alt="">
                 <span>Word转Pdf</span>
             </li>
             <li>
-                <img src="../assets/category.png" alt="">
+                <img src="../assets/images/category.png" alt="">
                 <span>Pdf转word</span>
             </li>
         </ul>

@@ -11,7 +11,11 @@
             <hr/>
             <div class="middle">
                 <span>我的微信</span>
-                <img src="../../assets/my-wechat.jpg">
+                <img src="../../assets/images/my-wechat.jpg">
+            </div>
+            <div class="sponsor">
+                <span>觉得不错 赞助一下作者</span>
+                <img src="../../assets/images/my-wechat.jpg">
             </div>
             <div class="bottom">
                 <p @click="openExternalLink" >Github个人主页</p>
@@ -41,7 +45,7 @@ export default {
     },
     methods: {
         openExternalLink() {
-            const url = 'https://github.com/cmxStarCoding?tab=repositories'; // 替换为你要打开的外部链接
+            const url = 'https://github.com/cmxStarCoding'; // 替换为你要打开的外部链接
             shell.openExternal(url);
         }
     }
@@ -69,7 +73,7 @@ export default {
             color: #495366;
         }
     }
-    .middle{
+    .middle,.sponsor{
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -77,7 +81,7 @@ export default {
         border-top:1px solid rgb(239, 239, 239);
         border-bottom:1px solid rgb(239, 239, 239);
         align-items: center;
-        margin-top: 100px;
+        margin-top: 30px;
         padding-bottom: 20px;   
         img{
             width: 150px;

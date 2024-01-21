@@ -1,40 +1,40 @@
 <template>
     <common-header> </common-header>
-    <div class="content">
-        <div class="left">
+    <div class="project_content">
+        <div class="project_left">
             <div>
                 <div class="left_top">
                     <div class="nav" @click="this.$router.push({ path: '/home' })">
-                        <img src="./assets/home.png">
+                        <img src="./assets/images/home.png">
                         <p>首页</p>
                     </div>
                 </div>
                 <div class="left_middle">
                     <div class="nav" @click="routeJump">
-                        <img src="./assets/pic.png">
+                        <img src="./assets/images/pic.png">
                         <p>模块1</p>
                     </div>
                     <div class="nav">
-                        <img src="./assets/pic.png">
+                        <img src="./assets/images/pic.png">
                         <p>模块2</p>
                     </div>
                     <div class="nav">
-                        <img src="./assets/pic.png">
+                        <img src="./assets/images/pic.png">
                         <p>模块3</p>
                     </div>
                     <div class="nav">
-                        <img src="./assets/pic.png">
+                        <img src="./assets/images/pic.png">
                         <p>模块4</p>
                     </div>
                     <div class="nav">
-                        <img src="./assets/pic.png">
+                        <img src="./assets/images/pic.png">
                         <p>模块5</p>
                     </div>
                 </div>
             </div>
             <div class="left_bottom" @click="this.$router.push({ path: '/system_setting' })">
                 <div class="nav">
-                    <img src="./assets/system.png">
+                    <img src="./assets/images/system.png">
                     <p>设置</p>
                 </div>
             </div>
@@ -124,12 +124,12 @@ body {
     margin-top: 60px;
 } */
 
-.content {
+.project_content {
     display: flex;
     height: calc(100vh - 65px);
 }
 
-.left {
+.project_left {
     display: flex;
     height: 100%; // 新增这行
     flex-direction: column; // 新增这行
@@ -170,6 +170,7 @@ body {
     overflow: auto;
     padding-top: 15px;
     padding-left: 20px;
+    width: 100%;
     /* 显示滚动条，只有内容溢出时才会显示 */
 }
 

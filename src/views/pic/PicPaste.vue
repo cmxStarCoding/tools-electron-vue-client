@@ -1,5 +1,4 @@
 <!-- ParentComponent.vue -->
-
 <template>
     <div>
         <button @click="showPopup">打开弹出框</button>
@@ -52,8 +51,7 @@ export default {
     methods: {
         showPopup() {
             this.isPopupVisible = true;
-            this.showAlert('1111','success')
-        }, 
+        },
         updatePopupVisible(value) {
             this.isPopupVisible = value;
         },
@@ -65,9 +63,6 @@ export default {
             // 处理取消按钮逻辑，可以根据需要调整
             console.log('Cancelled');
         },
-        showAlert1(title,type){
-            this.showAlert(title,type)
-        }
     },
 };
 </script>

@@ -3,7 +3,7 @@
         <div class="header_left">
             <div class="site_title">
                 <div class="site_logo">
-                    <img src="../../assets/icon.png" alt="">
+                    <img src="../../assets/images/icon.png" alt="">
                     <span>阿狸工具</span>
                 </div>
             </div>
@@ -12,19 +12,19 @@
 
 
         <div class="header_right">
-            <div class="open_member">
-                <div class="vip_icon">
-                    <img src="../../assets/VIP.png" alt="">
+            <!-- <div class="open_member">
+                <div class="vip_icon" v-if="isLogin">
+                    <img src="../../assets/images/VIP.png" alt="">
                     <span v-show="false">VIP用户</span>
-                    <span>开通VIP</span>
-                </div>
-            </div>
+                    <span @click="this.$router.push({path:'/recharge_vip'})">开通VIP</span>
+                </div> -->
+            <!-- </div> -->
 
             <div class="person_center" >
                 <div class="userinfo" >
-                    <div class="avatar" v-if="true" @click="this.$router.push({path:'/person_center'})">
-                        <img src="../../assets/avatar1.png" alt="">
-                        <span>奔跑的蜗牛</span>
+                    <div class="avatar" v-if="isLogin" @click="this.$router.push({path:'/person_center'})">
+                        <img src="../../assets/images/avatar1.png" alt="">
+                        <span>奔跑的蜗牛</span> 
                     </div>
                     <span class="login" v-if="!isLogin" @click="this.$router.push({path:'/user_login'})">登录</span>
                 </div>

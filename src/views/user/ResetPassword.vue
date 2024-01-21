@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="title">
-            <span>用户登录</span>
+            <span>重置密码</span>
         </div>
         <div class="form_item">
             <div class="form_item_title">
@@ -13,21 +13,27 @@
         </div>
         <div class="form_item">
             <div class="form_item_title">
-                <span>密码：</span> 
+                <span>邮箱：</span> 
             </div>
             <div>
-                <input type="password" placeholder="请输入密码"><span class="forget_password" @click="this.$router.push({path:'/reset_password'})">忘记密码</span>
+                <input type="password" placeholder="请输入您的邮箱"><span class="sendCode">发送邮箱验证码</span>
+            </div>
+        </div>
+        <div class="form_item">
+            <div class="form_item_title">
+                <span>验证码：</span> 
+            </div>
+            <div>
+                <input type="text" placeholder="请输入邮箱接收的验证码">
             </div>
         </div>
         <div class="form_item">
             <div class="form_item_title">
                 <span></span> 
             </div>
-            <div class="reg_login_button">
-                <button @click="this.$router.push({path:'/user_register'})" class="reg_button">注册</button>
-                <button class="login_button">登录</button>
+            <div class="resetbutton">
+                <button>发送重置邮件</button>
             </div>
-
         </div>
     </div>
 </template>
@@ -77,34 +83,20 @@ input{
     width: 200px;
     border-radius: 5px; 
 }
-.reg_login_button{
+.resetbutton{
+    display: flex;
     button{
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 14px;
-        border-radius: 5px; 
-    }
-    .reg_button{
-        background-color: rgb(242, 242, 242);
-        border: 1px solid rgb(88, 232, 69);
-        color: rgb(88, 232, 69);
-        margin-right: 37px;
-        padding: 2px 13px 2px 13px;
-    }
-
-    .login_button{
-        color: white;
+        padding: 5px 62px;
+        background-color: rgb(104, 215, 163);
         border: none;
-        background-color: rgb(88, 232, 69);
-        padding: 2px 30px 2px 30px;
-        width: 100px;
-
+        border-radius: 5px;
+        cursor: pointer;
     }
 }
-.forget_password{
-    color: royalblue;
+.sendCode{
     margin-left: 15px;
     cursor: pointer;
+    color: darkcyan;
 }
 </style>
   

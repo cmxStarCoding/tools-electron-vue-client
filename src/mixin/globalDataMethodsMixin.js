@@ -7,14 +7,17 @@ var baseMixin = {
                 class: "green",
                 successIcon: false,
                 failIcon: false,
-                warnIcon: false
-            },
+                warnIcon: false,
+                position:'top'
+            }
         }
     },
     methods: {
-        showAlert(title, icon = "success") {
+        showAlert(title, icon = "success",position = 'top') {
+
             this.alertConfig.show = true
             this.alertConfig.title = title
+            this.alertConfig.position = position
 
             if (icon == 'success') {
                 this.alertConfig.successIcon = true;
@@ -26,13 +29,12 @@ var baseMixin = {
                 this.alertConfig.warnIcon = true;
                 this.alertConfig.class = "warn";
             }
-
             setTimeout(() => {
                 this.alertConfig.show = false
                 this.alertConfig.successIcon = false;
                 this.alertConfig.failIcon = false;
                 this.alertConfig.warnIcon = false;
-            }, 1000);
+            }, 1300);
         },
     },
 }

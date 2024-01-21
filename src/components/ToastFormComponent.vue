@@ -6,14 +6,14 @@
             <div class="popup">
                 <div class="popup-header">
                     <span>{{ title }}</span>
-                    <button @click="closePopup">关闭</button>
+                    <span @click="closePopup" class="close">X</span>
                 </div>
                 <div class="popup-body">
                     <slot name="form"></slot>
                 </div>
                 <div class="popup-footer">
-                    <button @click="cancelForm">{{ cancelButtonText }}</button>
-                    <button @click="confirmForm">{{ confirmButtonText }}</button>
+                    <button @click="cancelForm" class="cancel_button">{{ cancelButtonText }}</button>
+                    <button @click="confirmForm" class="confirm_button">{{ confirmButtonText }}</button>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@ export default {
 };
 </script>
   
-<style scoped>
+<style lang="scss" scoped>
 /* 样式可以根据需要自行调整 */
 .popup-container {
     position: fixed;
@@ -65,31 +65,57 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 14px;
 }
 
+.popup-body{
+    width: 100%;
+}
 .popup {
     background: white;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90vh;
 }
 
 .popup-header {
     display: flex;
+    width: 100%;    
     justify-content: space-between;
-    align-items: center;
+    /* align-items: center;  */
     margin-bottom: 10px;
+    span {
+        padding: 8px 12px;
+        margin-left: 8px;
+    }
+    .close{
+        cursor: pointer;
+    }
 }
 
 .popup-footer {
     display: flex;
+    width: 100%;
     justify-content: flex-end;
-    margin-top: 10px;
+    button{
+        margin: 10px 15px;
+        padding: 3px 25px;
+        height: 30px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .confirm_button{
+        background-color: #409EFF;
+    }
+    .cancel_button{
+        background-color: #F2F6FC;
+    }
 }
 
-button {
-    padding: 8px 16px;
-    margin-left: 8px;
-}
+
 </style>
   
