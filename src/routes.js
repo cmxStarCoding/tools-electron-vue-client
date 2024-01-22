@@ -11,6 +11,9 @@ import UpdateLog from "./views/system/UpdateLog.vue"
 import PersonCenter from "./views/user/PersonCenter.vue"
 import RechargeVip from "./views/vip/RechargeVip.vue"
 
+import UseToolRecord from "./views/user/UseToolRecord.vue"
+import TaskList from "./views/user/TaskList.vue"
+
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -23,6 +26,10 @@ const router = createRouter({
         { path: '/user_register', component: UserRegister, name: 'user_register' },
         //重置密码
         { path: '/reset_password', component: ResetPassword, name: '/reset_password' },
+        //使用记录
+        { path: '/use_tool_record', component: UseToolRecord, name: 'use_tool_record' },
+        //任务列表
+        { path: '/task_list', component: TaskList, name: '/task_list' },
         //贴图工具
         { path: '/pic_paste', component: PicPaste, name: 'pic_paste' },
         //系统设置

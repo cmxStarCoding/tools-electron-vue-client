@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <div class="right">
+        <div class="project_right">
             <router-view></router-view>
 
         </div>
@@ -162,7 +162,7 @@ body {
 
 }
 
-.right {
+.project_right {
     flex: 1;
     border-right: 1px solid #eee;
     // background-color: rgb(243, 244, 248);

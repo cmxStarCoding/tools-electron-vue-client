@@ -2,7 +2,7 @@
 <template>
     <div class="update_log_content">
         <div class="title">
-            <span>更新日志</span>
+            <span>任务列表</span>
         </div>
         <table>
             <thead>
@@ -22,9 +22,9 @@
         </table>
         <!-- 分页 -->
         <div class="pagination">
-            <button class="pagination_button" @click="prevPage" :disabled="currentPage === 1">上一页</button>
+            <button @click="prevPage" :disabled="currentPage === 1">上一页</button>
             <span>{{ currentPage }} / {{ totalPages }}</span>
-            <button class="pagination_button" @click="nextPage" :disabled="currentPage === totalPages">下一页</button>
+            <button @click="nextPage" :disabled="currentPage === totalPages">下一页</button>
         </div>
     </div>
 </template>

@@ -7,7 +7,7 @@
 }
 
 .form_item_title{
-    width: 30vh;
+    width: 40%;
     display: flex;
     justify-content: flex-end;
     margin-right: 15px;
@@ -17,5 +17,5 @@
     height: 25px;
     border:1px solid #DCDFE6;
     border-radius: 5px;
-    width: 30vh;
+    width: 60%;
 }

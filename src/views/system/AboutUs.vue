@@ -15,7 +15,7 @@
             </div>
             <div class="sponsor">
                 <span>觉得不错 赞助一下作者</span>
-                <img src="../../assets/images/my-wechat.jpg">
+                <img src="../../assets/images/sponsor.jpg">
             </div>
             <div class="bottom">
                 <p @click="openExternalLink" >Github个人主页</p>
@@ -63,11 +63,11 @@ export default {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
-        margin-top: 15px;
+        margin-top: 10px;
         border-top:1px solid rgb(239, 239, 239);
         span{
             display: flex;
-            padding: 20px 0px 20px 40px;
+            padding: 5px 0px 5px 0px;
             text-indent: 4ch;
             line-height: 25px;
             color: #495366;
@@ -78,13 +78,11 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        border-top:1px solid rgb(239, 239, 239);
-        border-bottom:1px solid rgb(239, 239, 239);
+        // border-bottom:1px solid rgb(239, 239, 239);
         align-items: center;
-        margin-top: 30px;
-        padding-bottom: 20px;   
+        margin-top: 10px;
         img{
-            width: 150px;
+            width: 200px;
         }
         span{
             display: flex;
@@ -100,9 +98,9 @@ export default {
             transition: color 0.3s ease; /* 添加颜色过渡效果 */
             cursor: pointer;
         }
-        padding-top: 20px;
+        padding-top: 10px;
         border-bottom:1px solid rgb(239, 239, 239);
-        padding-bottom: 20px;
+        padding-bottom: 10px;
     }
 }
 </style>

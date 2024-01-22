@@ -16,8 +16,8 @@
         <div class="feedback_input" v-if="show_feedback_input">
             <div class="feedback_input_content">
                 <div class="feedback_input_title">
-                    <div class="title">意见反馈</div>
-                    <div class="close" @click="this.show_feedback_input = false">X</div>
+                    <span class="title">意见反馈</span>
+                    <span class="close" @click="this.show_feedback_input = false">X</span>
                 </div>
                 <div class="feedback_input_item">
                     <span class="item_title">您的意见：</span><textarea rows="7"></textarea>
@@ -117,12 +117,10 @@ export default {
             padding: 10px 0px 10px 0px;
 
             .title {
-                display: flex;
                 padding-left: 15px;
             }
 
             .close {
-                display: flex;
                 cursor: pointer;
                 padding-right: 15px;
             }
