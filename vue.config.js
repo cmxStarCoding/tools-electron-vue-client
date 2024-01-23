@@ -13,18 +13,18 @@ module.exports = defineConfig({
 
             nodeIntegration: true,
             builderOptions: {
-                electronDownload: {
-                    // cache: '/Users/cuimingxing/Downloads/electron/Cache',
-                    cache: '../cache/',
-                    mirror: 'https://npm.taobao.org/mirrors/electron/',
-                    customDir: 'v13.6.9-darwin-x64',
-                },
-                productName: productName,
+                // electronDownload: {
+                //     // cache: '/Users/cuimingxing/Downloads/electron/Cache',
+                //     cache: '../cache/',
+                //     mirror: 'https://npm.taobao.org/mirrors/electron/',
+                //     customDir: 'v13.6.9-darwin-x64',
+                // },
+                // productName: productName,
                 appId: appId,
 
                 win: {
                     // icon: 'xxx/icon.ico',
-                    target: ['nsis', 'zip']
+                    target: ['nsis']
                   },
                   nsis: {
                     oneClick: false, // 一键安装
