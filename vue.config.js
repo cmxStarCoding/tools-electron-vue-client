@@ -13,7 +13,7 @@ module.exports = defineConfig({
 
             nodeIntegration: true,
             builderOptions: {
-                //MAC打包需要此配置
+                //MAC打包需要此配置，windows不需要此配置
                 // electronDownload: {
                 //     // cache: '/Users/cuimingxing/Downloads/electron/Cache',
                 //     cache: '../cache/',
