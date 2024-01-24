@@ -1,12 +1,31 @@
 <template>
-    <common-header> </common-header>
+    <CommonHeader> </CommonHeader>
+
+    <PopupForm :visible="versionUpdateFormConfig.isVisible" :title="versionUpdateFormConfig.title"
+        :confirmButtonText="versionUpdateFormConfig.confirmButtonText"
+        :cancelButtonText="versionUpdateFormConfig.cancelButtonText" @confirm="updateVersion"
+        @cancel="cancelUpdateVersion">
+        <!-- 直接传入HTML代码 -->
+        <template #form>
+            <div class="download_new_version">
+                <p>发现新版本是否更新?</p>
+                <div v-if="showDownloadProgress" class="progress">
+                    <!-- <span>下载进度：</span> -->
+                    <progress :value="downloadProgress" max="100"></progress>
+                    <!-- <span class="jindu">{{ progress }}%</span> -->
+                </div>
+                
+            </div>
+        </template>
+    </PopupForm>
+    <AlertComponent :config="alertConfig"></AlertComponent>
     <div class="project_content">
         <div class="project_left">
             <div>
                 <div class="left_top">
                     <div class="nav" @click="this.$router.push({ path: '/home' })">
                         <img src="./assets/images/home.png">
-                        <p>首页</p>
+                        <p>首页1</p>
                     </div>
                 </div>
                 <div class="left_middle">
@@ -14,9 +33,9 @@
                         <img src="./assets/images/pic.png">
                         <p>模块1</p>
                     </div>
-                    <div class="nav">
+                    <div class="nav" @click="this.$router.push({ path: '/upload_process' })">
                         <img src="./assets/images/pic.png">
-                        <p>模块2</p>
+                        <p>进度</p>
                     </div>
                     <div class="nav">
                         <img src="./assets/images/pic.png">
@@ -82,18 +101,51 @@
 // const mainProcessEnv = remote.getGlobal('process.env');
 // import HelloWorld from './components/HelloWorld.vue'
 // console.log(process.env.VUE_APP_API_URL, 'asdasdasd111')
+
+import { ipcRenderer} from 'electron';
 import CommonHeader from './views/common/CommonHeader.vue'
+import PopupForm from './components/ToastFormComponent.vue'
+import AlertComponent from './components/AlertComponent.vue';
 export default {
     name: 'App',
     components: {
-        "common-header": CommonHeader
+        CommonHeader,
+        PopupForm,
+        AlertComponent
     },
     data() {
         return {
-            show_fixed_bottom_ul: false
+            show_fixed_bottom_ul: false,
+            showDownloadProgress: true,
+            downloadProgress: 0,
+            versionUpdateFormConfig : {
+                isVisible: true,
+                title: '版本更新',
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+                formData: {}, // 用于存储表单数据
+            }
         }
     },
+    mounted() {
+        this.getVersion()
+    },
     methods: {
+        async getVersion(){
+
+            //invoke异步，与之对应的是主进程使用handle
+            ipcRenderer.invoke('getPackageVersion').then((version) => {
+                console.log('Version:', version);
+                this.axios.post('/api/v1/check_system_update',{
+                    client_version:version
+                }).then((response) => {
+                    console.log(response.data);
+                }).catch((err) => {
+                    console.log(err)
+                })
+            });     
+        },
+
         routeJump() {
             this.$router.push({ path: '/pic_paste' })
         },
@@ -104,7 +156,39 @@ export default {
                     this.show_fixed_bottom_ul = false
                 }
             }, 7000);
-        }
+        },
+        updateUpdateVersionVisible(value) {
+            this.versionUpdateFormConfig.isVisible = !value;
+        },
+        async updateVersion() {
+            // 处理确定按钮逻辑，可以根据需要调整
+            // console.log('Confirmed with data:', this.versionUpdateFormConfig.formData);
+            this.showDownloadProgress = true;
+            ipcRenderer.send('download-file',{
+                file_url:"http://127.0.0.1:8083/static/download/app/阿狸工具-0.1.0.dmg"
+            });
+
+            ipcRenderer.on('download-progress', (event, progress) => {
+                console.log(progress,'下载进度')
+                this.downloadProgress = progress;
+            });
+
+            ipcRenderer.on('download-complete', () => {
+                console.log("下载完成了")
+                this.showAlert('下载完成','success')
+                this.showDownloadProgress = false;
+                this.versionUpdateFormConfig.isVisible = false
+            });
+
+            ipcRenderer.on('download_error', () => {
+                console.log("下载出错了")
+            });
+        },
+        cancelUpdateVersion() {
+            // 处理取消按钮逻辑，可以根据需要调整
+            console.log('Cancelled');
+            this.versionUpdateFormConfig.isVisible = false
+        },
     }
 }
 </script>
@@ -231,8 +315,15 @@ body {
         align-items: center;
         line-height: 40px;
     }
-
-
 }
 
-/* 定义路由切换的过渡效果 */</style>
+.download_new_version {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+    padding: 8px 12px;
+}
+
+/* 定义路由切换的过渡效果 */
+</style>

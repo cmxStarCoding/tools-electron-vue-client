@@ -3,15 +3,19 @@
         <div v-if="show" class="modal">
             <!-- 弹窗内容 -->
             <div class="modal-content">
+                <div class="modal-content-top">
+                    <span class="title">{{title }}</span>
+                    <span class="close"  @click="closeModal">X</span>
+                </div>
                 <!-- 内容 -->
                 <slot></slot>
                 <!-- 关闭按钮 -->
                 <!-- 确定按钮 -->
-                <button v-if="showConfirmButton" @click="handleConfirm">确定</button>
-                <!-- 取消按钮 -->
-                <button v-if="showCancelButton" @click="handleCancel">取消</button>
-                <!-- 关闭按钮 -->
-                <button @click="closeModal">关闭</button>
+                <div class="modal-content-bottom">
+                    <button v-if="showConfirmButton" @click="handleConfirm">确定</button>
+                    <!-- 取消按钮 -->
+                    <button v-if="showCancelButton" @click="handleCancel">取消</button>
+                </div>
             </div>
         </div>
     </transition>
@@ -20,6 +24,10 @@
 <script>
 export default {
     props: {
+        title: {
+            type: String,
+            default: "标题",
+        },
         showConfirmButton: {
             type: Boolean,
             default: true,
@@ -31,13 +39,11 @@ export default {
     },
     data() {
         return {
-            show: false,
+            show: true,
         };
     },
     methods: {
-        openModal() {
-            this.show = true;
-        },
+
         closeModal() {
             this.show = false;
         },
@@ -53,7 +59,7 @@ export default {
 };
 </script>
   
-<style>
+<style lang="scss" scoped>
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s;
@@ -80,8 +86,31 @@ export default {
 }
 
 .modal-content {
+    width: 50%;
     background: #fff;
     padding: 20px;
     border-radius: 8px;
-}</style>
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-content-bottom{
+    display: flex;
+    justify-content: flex-end;
+    button{
+        padding: 2px 20px;
+        margin-left: 30px;
+        cursor: pointer;
+    }
+}
+.close{
+    cursor: pointer;
+}
+</style>
   

@@ -1,9 +1,9 @@
 const { defineConfig } = require('@vue/cli-service')
 
-const productName = 'electron-1';
-const appId = 'com.itying.app';
-const menuCategory = 'electron-1';
-const shortcutName = 'electron-1';
+const productName = '阿狸工具';
+const appId = 'com.alitools.app';
+const menuCategory = '阿狸工具';
+// const shortcutName = '阿狸工具';
 
 
 module.exports = defineConfig({
@@ -14,20 +14,24 @@ module.exports = defineConfig({
             nodeIntegration: true,
             builderOptions: {
                 //MAC打包需要此配置，windows不需要此配置
-                // electronDownload: {
-                //     // cache: '/Users/cuimingxing/Downloads/electron/Cache',
-                //     cache: '../cache/',
-                //     mirror: 'https://npm.taobao.org/mirrors/electron/',
-                //     customDir: 'v13.6.9-darwin-x64',
-                // },
+                electronDownload: {
+                    cache: '../cache/',
+                    mirror: 'https://npm.taobao.org/mirrors/electron/',
+                    customDir: 'v13.6.9-darwin-x64',
+                },
                 productName: productName,
                 appId: appId,
 
                 win: {
-                    // icon: 'xxx/icon.ico',
                     icon: './public/icon/task.ico',//桌面快捷方式以及开始程序中的应用图标
                     artifactName: '${productName}_setup_${version}.${ext}',
-                    target: ['nsis']
+                    target: ['nsis'],
+                    publish: [
+                        {
+                          "provider": "generic",
+                          "url": "http://127.0.0.1:8083/static/download/app"
+                        }
+                    ]
                   },
                   nsis: {
                     oneClick: false, // 一键安装
@@ -45,30 +49,22 @@ module.exports = defineConfig({
                     createStartMenuShortcut: true, // 创建开始菜单图标
                     runAfterFinish:true
                   },
-
-                // win: {
-                //     icon: 'public/icon/icon.ico',
-                //     // artifactName: '${productName}_setup_${version}.${ext}',
-                //     target: ['nsis'],
-                // },
-                // nsis: {
-                //     oneClick: false,
-                //     menuCategory: menuCategory,
-                //     shortcutName: shortcutName,
-                //     allowToChangeInstallationDirectory: true,
-                //     perMachine: true,
-                //     runAfterFinish: true,
-                // },
                 mac: {
-                    target: 'dmg',
-                    icon: 'public/icon/icon.icns',
+                    target: ['dmg','zip'],
+                    icon: './public/icon/icon.icns',
                     hardenedRuntime: true,
                     gatekeeperAssess: true,
                     extendInfo: {
                         NSAppleEventsUsageDescription: 'Let me use Apple Events.',
                         NSCameraUsageDescription: 'Let me use the camera.',
                         NSScreenCaptureDescription: 'Let me take screenshots.',
-                    }
+                    },
+                    publish: [
+                        {
+                          "provider": "generic",
+                          "url": "http://127.0.0.1:8083/static/download/app"
+                        }
+                    ]
                 },
                 dmg: {
                     contents: [

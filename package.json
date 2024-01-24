@@ -16,6 +16,7 @@
     "ant-design-vue": "^4.0.0-rc.6",
     "axios": "^1.6.5",
     "core-js": "^3.8.3",
+    "electron-updater": "^6.1.7",
     "vue": "^3.2.13",
     "vue-router": "^4.0.13"
   },

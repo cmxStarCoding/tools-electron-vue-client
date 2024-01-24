@@ -42,12 +42,12 @@ export default {
         confirmForm() {
             // 触发确定按钮的方法
             this.$emit('confirm');
-            this.closePopup();
+            // this.closePopup();
         },
         cancelForm() {
             // 触发取消按钮的方法
             this.$emit('cancel');
-            this.closePopup();
+            // this.closePopup();
         },
     },
 };

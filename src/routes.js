@@ -1,5 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
+//测试组件
+import SystemUpdate from "./views/system/SystemUpdate.vue"
+import UploadProcess from "./views/test/UploadProcess.vue"
+
 import Home from "./views/Home.vue"
 import UserLogin from "./views/user/UserLogin.vue"
 import UserRegister from "./views/user/UserRegister.vue"
@@ -10,7 +14,6 @@ import AboutUs from "./views/system/AboutUs.vue"
 import UpdateLog from "./views/system/UpdateLog.vue"
 import PersonCenter from "./views/user/PersonCenter.vue"
 import RechargeVip from "./views/vip/RechargeVip.vue"
-
 import UseToolRecord from "./views/user/UseToolRecord.vue"
 import TaskList from "./views/user/TaskList.vue"
 
@@ -18,6 +21,12 @@ import TaskList from "./views/user/TaskList.vue"
 const router = createRouter({
     history: createWebHashHistory(),
     routes: [
+
+        //测试路由-系统更新
+        { path: '/system_update', component: SystemUpdate, name: 'system_update' },
+        //测试路由-下载文件展示进度
+        { path: '/upload_process', component: UploadProcess, name: 'upload_process'},
+
         { path: '/', redirect: "/home" },
         { path: '/home', component: Home },
         //用户登录
