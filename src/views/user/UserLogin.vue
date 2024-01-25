@@ -8,7 +8,7 @@
                 <span>账号：</span> 
             </div>
             <div>
-                <input type="text" placeholder="请输入账号">
+                <input type="text" placeholder="请输入账号" v-model="userLogonFormData.account">
             </div>
         </div>
         <div class="form_item">
@@ -16,7 +16,7 @@
                 <span>密码：</span> 
             </div>
             <div>
-                <input type="password" placeholder="请输入密码"><span class="forget_password" @click="this.$router.push({path:'/reset_password'})">忘记密码</span>
+                <input type="password" placeholder="请输入密码" v-model="userLogonFormData.password"><span class="forget_password" @click="this.$router.push({path:'/reset_password'})">忘记密码</span>
             </div>
         </div>
         <div class="form_item">
@@ -25,19 +25,50 @@
             </div>
             <div class="reg_login_button">
                 <button @click="this.$router.push({path:'/user_register'})" class="reg_button">注册</button>
-                <button class="login_button">登录</button>
+                <button class="login_button" @click="login">登录</button>
             </div>
 
         </div>
+        <AlertComponent :config="alertConfig"></AlertComponent>
+
     </div>
 </template>
   
 <script>
+
+import apiService from '../../models/axios'
+import AlertComponent from '../../components/AlertComponent.vue'
+import VueEvent from '../../models/event.js'
+
 export default {
-    name: 'HelloWorld',
-    props: {
-        msg: String
-    }
+    name: 'UserLogin',
+    components: {
+        AlertComponent
+    },
+    data() {
+        return {
+            userLogonFormData:{
+                account:"",
+                password:""
+            }
+        }
+    },
+    methods: {
+        login(){
+            apiService.UserLoginApi(this.userLogonFormData).then(response => {
+                VueEvent.emit("to-common-header-login",{
+                    response:response
+                });
+                this.showAlert("登录成功")
+                setTimeout(() => {
+                    this.$router.push({path:'/home'})
+                }, 500);
+
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')            
+            })
+        }
+    },
 }
 </script>
   
@@ -69,6 +100,7 @@ export default {
     width: 40%;
     justify-content: flex-end;
     margin-right: 10px;
+    font-weight: bold;
 }
 
 input{

@@ -6,7 +6,7 @@
         </div>
 
         <div class="header_right">
-            <div class="open_member" v-if="isLogin" @click="this.$router.push({ path: '/recharge_vip' })">
+            <div class="open_member" v-if="is_login" @click="this.$router.push({ path: '/recharge_vip' })">
                 <img src="../../assets/images/VIP.png" alt="">
                 <span v-show="false">VIP用户</span>
                 <span>开通VIP</span>
@@ -20,11 +20,11 @@
                 <span>任务记录</span>
             </div>
             <div class="person_center">
-                <div class="avatar" v-if="isLogin" @click="this.$router.push({ path: '/person_center' })" >
+                <div class="avatar" v-if="is_login" @click="this.$router.push({ path: '/person_center' })" >
                     <img src="../../assets/images/avatar1.png" alt="">
-                    <span>奔跑的蜗牛</span>
+                    <span>{{ user_info.nickname }}</span>
                 </div>
-                <span class="login" v-if="!isLogin" @click="this.$router.push({ path: '/user_login' })">登录</span>
+                <span class="login" v-if="!is_login" @click="this.$router.push({ path: '/user_login' })">登录</span>
             </div>
         </div>
     </div>
@@ -33,17 +33,46 @@
 <script>
 
 import Storage from '../../models/storage'
+import VueEvent from '../../models/event.js'
 
 export default {
-    name: 'HelloWorld',
-    props: {
-        msg: String
+
+    mounted() {
+        VueEvent.on("to-common-header-login", (data) => {
+            Storage.set('user_info',JSON.stringify(data.response.data.user_info))
+            Storage.set('user_token',data.response.data.jtw_token)
+            this.user_info = data.response.data.user_info;
+            this.is_login = true;
+        })
+        VueEvent.on("to-common-header-logout", () => {
+            this.user_info = {};
+            Storage.remove("user_token")
+            Storage.remove("user_info")
+            this.is_login = false;
+        })
+        VueEvent.on("edit-user-profile", (data) => {
+            this.user_info = {};
+            let userProfile = JSON.parse(Storage.get("user_info"))
+            switch (data.key) {
+                case "nickname":
+                    userProfile.nickname = data.value
+                    break;
+            
+                default:
+                    break;
+            }
+            this.user_info = userProfile
+            Storage.set('user_info',JSON.stringify(userProfile))
+        })
+    },
+    data() {
+        return {
+            user_info:JSON.parse(Storage.get("user_info")),
+            is_login:Storage.get("user_info") != null ? true :false
+        }
     },
     computed: {
-        isLogin() {
-            let userinfo = Storage.get("user_info")
-            return userinfo ? true : false
-        }
+
     },
 
 }

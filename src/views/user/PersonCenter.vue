@@ -8,8 +8,10 @@
                 <span>账号：</span>
             </div>
             <div class="setting_ele">
-                <span>15638276200</span>
+                <span>{{userDetail.nickname}}</span>
+                <button @click="loggout">退出</button>
             </div>
+            
         </div>
         <div class="avatar">
             <div class="setting_name">
@@ -17,7 +19,7 @@
             </div>
             <div class="setting_ele">
                 <div class="avatar_box">
-                    <img src="../../assets/images/avatar1.png" alt="">
+                    <img :src="userDetail.avatar_url" alt="">
                 </div>
                 <button>修改</button>
             </div>
@@ -27,8 +29,8 @@
                 <span>昵称：</span>
             </div>
             <div class="setting_ele">
-                <span v-if="show_edit_nicknanme_button">倔强的蜗牛1231</span>
-                <input type="text" value="倔强的蜗牛1231" class="nickname_input" v-if="show_save_nicknanme_button">
+                <span v-if="show_edit_nicknanme_button">{{userDetail.nickname}}</span>
+                <input type="text" v-model="editUserProfileForm.nickname" class="nickname_input" v-if="show_save_nicknanme_button">
                 <button v-if="show_edit_nicknanme_button" @click="edit_nickname">修改</button>
                 <button v-if="show_save_nicknanme_button" @click="save_nickname">保存</button>
             </div>
@@ -76,15 +78,20 @@
 <script>
 import PopupForm from '../../components/ToastFormComponent.vue';
 import AlertComponent from '../../components/AlertComponent.vue';
+import apiService from '../../models/axios'
 
+import VueEvent from '../../models/event.js'
 export default {
     components: {
         PopupForm,
         AlertComponent
     },
-
+    created(){
+        this.getUserDetail()
+    },
     data() {
         return {
+            userDetail:{},
             show_save_nicknanme_button: false,
             show_edit_nicknanme_button: true,
             editPasswordFormConfig : {
@@ -93,29 +100,61 @@ export default {
                 confirmButtonText: '确认',
                 cancelButtonText: '取消',
                 formData: {}, // 用于存储表单数据
-            }
+            },
+            editUserProfileForm:{}
         }
     },
     methods: {
+        getUserDetail(){
+            apiService.UserDetailApi().then((response) => {
+                this.userDetail = response.data
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')            
+            })
+        },
+        loggout(){
+            apiService.UserLogoutApi({}).then(() => {
+                VueEvent.emit("to-common-header-logout",{});
+                this.$router.push({path:'/home'})
+
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')            
+            })
+        },
         edit_nickname() {
+            this.editUserProfileForm.nickname = this.userDetail.nickname
             this.show_save_nicknanme_button = true
             this.show_edit_nicknanme_button = false
         },
         save_nickname() {
-            this.show_save_nicknanme_button = false
-            this.show_edit_nicknanme_button = true
+            apiService.UserEditApi({
+                nickname:this.editUserProfileForm.nickname,
+                type:1
+            }).then(() => {
+                VueEvent.emit("edit-user-profile",{
+                    key:"nickname",
+                    value:this.editUserProfileForm.nickname,
+                });
+                this.getUserDetail()
+                this.showAlert("修改成功")          
+                this.show_save_nicknanme_button = false
+                this.show_edit_nicknanme_button = true
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')            
+            })
         },
         updatEditPasswordFormVisible(value) {
             this.editPasswordFormConfig.isVisible = value;
         },
         editPasswordConfirm() {
             // 处理确定按钮逻辑，可以根据需要调整
-            console.log('Confirmed with data:', this.editPasswordFormConfig.formData);
+            this.editPasswordFormConfig.isVisible = false;
             this.showAlert('修改成功','success')
         },
         editPasswordCancel() {
             // 处理取消按钮逻辑，可以根据需要调整
             console.log('Cancelled');
+            this.editPasswordFormConfig.isVisible = false;
         },
     },
 }

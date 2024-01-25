@@ -35,7 +35,7 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            router.push({ name: 'user_login' })
+            router.push({ path: '/user_login' })
             // 处理 HTTP 状态码为 401 的情况，跳转至登录页面
             // 在这里你需要提供跳转至登录页面的逻辑
         }
@@ -43,4 +43,16 @@ api.interceptors.response.use(
     }
 );
 
-export default api;
+
+const apiService = {
+     CheckSystemUpdateApi: async (params) => api.post('/api/v1/check_system_update', params),
+     UserLoginApi: async (params) => api.post('/api/v1/user/login', params),
+     UserLogoutApi: async (params) => api.post('/api/v1/user/logout', params),
+     UserRegisterApi: async (params) => api.post('/api/v1/user/register', params),
+     UserDetailApi: async (params) => api.get('/api/v1/user', params),
+     UserEditApi: async (params) => api.post('/api/v1/user/edit', params),
+
+    // Add other API endpoints here...
+};
+
+export default apiService;
