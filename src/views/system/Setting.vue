@@ -10,48 +10,123 @@
             </span>
         </div>
         <div class="feedback">
-            <button @click="this.show_feedback_input = true">意见反馈</button>
-            <button class="check_update">检查更新</button>
+            <button @click="this.feedbackFormConfig.isVisible = true">意见反馈</button>
+            <button class="check_update" @click="check_update">检查更新</button>
         </div>
-        <div class="feedback_input" v-if="show_feedback_input">
-            <div class="feedback_input_content">
-                <div class="feedback_input_title">
-                    <span class="title">意见反馈</span>
-                    <span class="close" @click="this.show_feedback_input = false">X</span>
+        <PopupForm :visible="feedbackFormConfig.isVisible" :title="feedbackFormConfig.title"
+            :confirmButtonText="feedbackFormConfig.confirmButtonText"
+            :cancelButtonText="feedbackFormConfig.cancelButtonText" @confirm="feedbackConfirm"
+            @cancel="feedbackCancel" @update:visible="updatFeedbackFormVisible">
+            <template #form>
+                <div class="feedback_form">
+                    <div class="form_item">
+                        <div class="form_item_title">
+                            <label>您的意见：</label>
+                        </div>
+                        <textarea rows="7" class="form_input" v-model="feedbackFormConfig.formData.content"></textarea>
+                    </div>
+                    <div class="form_item">
+                        <div class="form_item_title">
+                            <label>联系方式：</label>
+                        </div>
+                        <input type="text" class="form_input" v-model="feedbackFormConfig.formData.contract_phone">
+                    </div>
                 </div>
-                <div class="feedback_input_item">
-                    <span class="item_title">您的意见：</span><textarea rows="7"></textarea>
-                </div>
+            </template>
+        </PopupForm>
 
-                <div class="feedback_input_item">
-                    <span class="item_title">联系方式：</span><input type="text" class="contact_type">
-                </div>
-                <div class="buttons">
-                    <button @click="this.show_feedback_input = false">取消</button>
-                    <button>确定</button>
+        <PopupForm :visible="versionUpdateFormConfig.isVisible" :title="versionUpdateFormConfig.title"
+        :confirmButtonText="versionUpdateFormConfig.confirmButtonText"
+        :cancelButtonText="versionUpdateFormConfig.cancelButtonText" @confirm="updateVersion" @cancel="cancelUpdateVersion"
+        @update:visible="updateUpdateVersionVisible">
+        <!-- 直接传入HTML代码 -->
+        <template #form>
+            <div class="download_new_version">
+                <p>发现新版本是否更新?</p>
+                <div v-if="showDownloadProgress" class="progress">
+                    <!-- <span>下载进度：</span> -->
+                    <progress :value="downloadProgress" max="100"></progress>
+                    <!-- <span class="jindu">{{ progress }}%</span> -->
                 </div>
             </div>
-        </div>
+        </template>
+        </PopupForm>
+
+        <AlertComponent :config="alertConfig"></AlertComponent>
+
     </div>
 </template>
   
 <script>
+import PopupForm from '../../components/ToastFormComponent.vue';
+import AlertComponent from '../../components/AlertComponent.vue';
+import apiService from '../../models/axios'
 export default {
+    components:{
+        PopupForm,
+        AlertComponent
+    },
     data() {
         return {
-            show_feedback_input: false
+            show_feedback_input: false,
+            feedbackFormConfig: {
+                isVisible: false,
+                title: '意见反馈',
+                confirmButtonText: '确认',
+                cancelButtonText: '取消',
+                formData: {}, // 用于存储表单数据
+            },
+            showDownloadProgress: false,
+            downloadProgress: 0,
+            versionUpdateFormConfig: {
+                isVisible: false,
+                title: '版本更新',
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+                formData: {}, // 用于存储表单数据
+            },
+            new_version_info:{},
+            client_package_info:{}
         }
     },
     methods: {
         feedback() {
             this.show_feedback_input = true
-        }
+        },
+        updatFeedbackFormVisible(value) {
+            this.feedbackFormConfig.isVisible = value;
+        },
+        feedbackConfirm() {
+            apiService.FeedbackApi(this.feedbackFormConfig.formData).then(() => {
+                this.showAlert("提交成功")
+                this.feedbackFormConfig.isVisible = false;
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
+        },
+        check_update(){
+            this.checkNewVersion(1)
+        },
+        cancelUpdateVersion() {
+            // 处理取消按钮逻辑，可以根据需要调整
+            this.versionUpdateFormConfig.isVisible = false
+        },
+        updateUpdateVersionVisible(value) {
+            this.versionUpdateFormConfig.isVisible = value;
+        },
+        feedbackCancel() {
+            // 处理取消按钮逻辑，可以根据需要调整
+            console.log('Cancelled');
+            this.feedbackFormConfig.isVisible = false;
+        },
     },
 }
 </script>
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+
+@import "../../assets/css/form.css";
 .system_content {
     border-top: 1px solid rgb(239, 239, 239);
     border-bottom: 1px solid rgb(239, 239, 239);
@@ -76,13 +151,11 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    // background-color: rgb(242, 242, 242);
     color: rgb(43, 43, 43);
 
     button {
         border: 1px solid rgb(218, 218, 218);
-        background-color: rgb(242, 242, 242);
-
+        background-color: rgb(242, 242, 242);   
         border-radius: 3px;
         padding: 3px 25px 3px 25px;
         font-size: 12px;
@@ -90,83 +163,15 @@ export default {
 
 }
 
-.feedback_input {
-    position: fixed;
-    top: 0px;
-    left: 0px;
+.feedback_form {
     display: flex;
-    background: rgba(119, 119, 119, 0.5);
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
+    width: 80%;
+    flex-direction: column;
 
-    .feedback_input_content {
-        display: flex;
-        flex-direction: column; //主轴为垂直方向
-        width: 80vh;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px #00000026;
-        background-color: #fff;
-
-        .feedback_input_title {
-            width: 100%;
-            flex-direction: row; //主轴为水平方向
-            display: flex;
-            justify-content: space-between; //主轴对齐方式
-            padding: 10px 0px 10px 0px;
-
-            .title {
-                padding-left: 15px;
-            }
-
-            .close {
-                cursor: pointer;
-                padding-right: 15px;
-            }
-        }
-
-        .feedback_input_item {
-            padding: 10px 20px 15px;
-            display: flex;
-            flex-direction: row; //主轴为横排
-            align-items: center; //交叉轴的对齐方式(这里指表单每一项标题和输入框居中对齐)
-
-            .item_title {
-                display: flex;
-                flex-basis: 15vh;
-                justify-content: flex-end; //主轴对齐方式
-            }
-        }
-
-
-        textarea {
-            border: 1px solid rgb(239, 239, 239);
-            width: 60vh;
-        }
-
-        .buttons {
-            flex-direction: row; //主轴为水平方向
-            justify-content: flex-end; //主轴的对齐方式
-            display: flex;
-            padding: 15px 0px 15px 0px;
-
-            button {
-                border: 1px solid rgb(218, 218, 218);
-                background-color: rgb(242, 242, 242);
-                border-radius: 3px;
-                padding: 3px 25px 3px 25px;
-                font-size: 12px;
-                margin-right: 20px;
-                cursor: pointer;
-            }
-        }
+    textarea {
+        border: 1px solid rgb(239, 239, 239);
+        height: 130px;
     }
-}
-
-.contact_type {
-    border: 1px solid rgb(239, 239, 239);
-    height: 20px;
 }
 
 button{

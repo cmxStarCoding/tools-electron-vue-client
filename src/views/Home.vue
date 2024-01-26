@@ -37,9 +37,7 @@
 <script>
 import PopupForm from '../components/ToastFormComponent.vue'
 import AlertComponent from '../components/AlertComponent.vue'
-import { ipcRenderer } from 'electron';
 import apiService from '../models/axios.js';
-import Cookie from '../models/cookie.js';
 
 
 export default {
@@ -59,29 +57,16 @@ export default {
                 confirmButtonText: '是',
                 cancelButtonText: '否',
                 formData: {}, // 用于存储表单数据
-            }
+            },
+            new_version_info:{},
+            client_package_info:{}
         }
     },
     mounted() {
-        this.getVersion()
+        this.checkNewVersion()
         this.getCateToolsList()
     },
     methods: {
-        async getVersion() {
-            //invoke异步，与之对应的是主进程使用handle
-            ipcRenderer.invoke('getPackageVersion').then((version) => {
-                apiService.CheckSystemUpdateApi({
-                    client_version: version
-                }).then((response) => {
-                    if (response.data.is_exist_new_version == 1 && Cookie.get('version-' + response.data.new_version.version) == undefined) {
-                        Cookie.set('version-' + response.data.new_version.version, 1, 86400)
-                        this.versionUpdateFormConfig.isVisible = true;
-                    }
-                }).catch((err) => {
-                    this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
-                })
-            });
-        },
         getCateToolsList(){
             apiService.CateToolsListApi({}).then((response) => {
                 this.cate_tool_list_data = response.data;
@@ -100,33 +85,8 @@ export default {
         updateUpdateVersionVisible(value) {
             this.versionUpdateFormConfig.isVisible = value;
         },
-        async updateVersion() {
-            this.showDownloadProgress = true;
-            ipcRenderer.send('download-file', {
-                file_url: "http://127.0.0.1:8083/static/download/app/阿狸工具-0.1.0.dmg"
-            });
-
-            ipcRenderer.on('download-progress', (event, progress) => {
-                console.log(progress, '下载进度')
-                this.downloadProgress = progress;
-            });
-
-            ipcRenderer.on('download-complete', () => {
-                this.showAlert('下载完成', 'success')
-                setTimeout(()=>{
-                    this.showDownloadProgress = false;
-                    this.versionUpdateFormConfig.isVisible = false
-                },1500)
-
-            });
-
-            ipcRenderer.on('download_error', () => {
-                console.log("下载出错了")
-            });
-        },
         cancelUpdateVersion() {
             // 处理取消按钮逻辑，可以根据需要调整
-            console.log('Cancelled');
             this.versionUpdateFormConfig.isVisible = false
         },
     }
@@ -163,6 +123,7 @@ export default {
         margin-right: 20px;
         margin-bottom: 20px;
         cursor: pointer;
+
     }
 
     img {

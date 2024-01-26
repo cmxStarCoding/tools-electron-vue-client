@@ -76,10 +76,6 @@ export default {
             is_login:Storage.get("user_info") != null ? true :false
         }
     },
-    computed: {
-
-    },
-
 }
 </script>
   
@@ -94,9 +90,6 @@ export default {
     color: #495366;
     font-size: 15px;
 }
-
-
-
 
 .site_logo {
     display: flex;
@@ -118,14 +111,12 @@ export default {
 
 }
 
-
 .header_right {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     width: 100%;
 }
-
 
 .record,
 .task,
@@ -157,19 +148,14 @@ export default {
         img {
             width: 100%;
             height: 100%;
-            
             border-radius: 50%
         }
     }
-
-
 }
-
 
 .person_center {
     display: flex;
     align-items: center; //垂直对齐
-
     .avatar {
         display: flex;
         span {

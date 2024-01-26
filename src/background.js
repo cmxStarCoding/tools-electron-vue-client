@@ -182,8 +182,8 @@ app.on('ready', async () => {
 
 ipcMain.on('download-file', async (event, data) => {
     try {
-        const fileUrl = data.file_url; // Replace with your file URL
-        const savePath = path.join(app.getPath('downloads'), '111.dmg');
+        const fileUrl = data.file_url;
+        const savePath = path.join(app.getPath('downloads'), data.file_name);
 
         const file = fs.createWriteStream(savePath);
 
@@ -221,12 +221,15 @@ ipcMain.on('download-file', async (event, data) => {
 
 
 // 主进程监听渲染进程请求
-ipcMain.handle('getPackageVersion', () => {
+ipcMain.handle('getClientPackageInfo', () => {
     const packageJsonPath = path.join(app.getAppPath(), 'package.json');
     const packageJsonContent = fs.readFileSync(packageJsonPath, 'utf8');
     const packageJson = JSON.parse(packageJsonContent);
-    return packageJson.version;
-  });
+    return {
+        version:packageJson.version,
+        platform:process.platform
+    };
+});
 
 
 

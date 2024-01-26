@@ -80,6 +80,8 @@ const apiService = {
     CateToolsListApi: async (params) => api.get('/api/v1/cate_tools_list', {'params':params}),
     //工具列表
     ToolsListApi: async (params) => api.get('/api/v1/tools_list', {'params':params}),
+    //意见反馈提交
+    FeedbackApi: async (params) => api.post('/api/v1/feedback', params),
 };
 
 export default apiService;
