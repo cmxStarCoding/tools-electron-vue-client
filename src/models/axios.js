@@ -21,7 +21,10 @@ api.interceptors.request.use(
         if (userToken) {
             config.headers.Authorization = 'Bearer ' + userToken;
         }
-        config.headers['Content-Type'] = 'application/json'
+
+        if(!config.headers['Content-Type']){
+            config.headers['Content-Type'] = 'application/json'
+        }
         return config;
     },
     (error) => {
@@ -45,12 +48,29 @@ api.interceptors.response.use(
 
 
 const apiService = {
+    //检测系统更新
      CheckSystemUpdateApi: async (params) => api.post('/api/v1/check_system_update', params),
+     //用户登录
      UserLoginApi: async (params) => api.post('/api/v1/user/login', params),
+     //用户退出登录
      UserLogoutApi: async (params) => api.post('/api/v1/user/logout', params),
+     //用户注册
      UserRegisterApi: async (params) => api.post('/api/v1/user/register', params),
+     //用户详情
      UserDetailApi: async (params) => api.get('/api/v1/user', params),
+     //编辑用户资料
      UserEditApi: async (params) => api.post('/api/v1/user/edit', params),
+     //修改用户密码
+     EditPasswordApi: async (params) => api.post('/api/v1/user/edit/password', params),
+     //忘记密码重置
+     ForgetPasswordResetApi: async (params) => api.post('/api/v1/forget_password_reset', params),
+     //上传文件
+     UploadFileApi: async (formData) => api.post('/api/v1/upload', formData, {'headers':{
+        'Content-Type':"multipart/form-data"
+     } }),
+     //发送邮箱验证
+     SendEmailApi: async (params) => api.get('/api/v1/send_email_code', {'params':params}),
+
 
     // Add other API endpoints here...
 };

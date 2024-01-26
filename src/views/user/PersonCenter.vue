@@ -8,10 +8,10 @@
                 <span>账号：</span>
             </div>
             <div class="setting_ele">
-                <span>{{userDetail.nickname}}</span>
+                <span>{{ userDetail.nickname }}</span>
                 <button @click="loggout">退出</button>
             </div>
-            
+
         </div>
         <div class="avatar">
             <div class="setting_name">
@@ -21,7 +21,11 @@
                 <div class="avatar_box">
                     <img :src="userDetail.avatar_url" alt="">
                 </div>
-                <button>修改</button>
+                <!-- 隐藏的文件上传字段 -->
+                <input type="file" ref="fileInput" accept=".jpg, .jpeg, .png," style="display: none" @change="handleFileChange">
+
+                <!-- 自定义按钮，触发文件上传字段点击事件 -->
+                <button type="button" class="custom-upload-button" @click="triggerFileInput">修改</button>
             </div>
         </div>
         <div class="nickname">
@@ -29,8 +33,9 @@
                 <span>昵称：</span>
             </div>
             <div class="setting_ele">
-                <span v-if="show_edit_nicknanme_button">{{userDetail.nickname}}</span>
-                <input type="text" v-model="editUserProfileForm.nickname" class="nickname_input" v-if="show_save_nicknanme_button">
+                <span v-if="show_edit_nicknanme_button">{{ userDetail.nickname }}</span>
+                <input type="text" v-model="editUserProfileForm.nickname" class="nickname_input"
+                    v-if="show_save_nicknanme_button">
                 <button v-if="show_edit_nicknanme_button" @click="edit_nickname">修改</button>
                 <button v-if="show_save_nicknanme_button" @click="save_nickname">保存</button>
             </div>
@@ -51,23 +56,26 @@
             @cancel="editPasswordCancel" @update:visible="updatEditPasswordFormVisible">
             <!-- 直接传入HTML代码 -->
             <template #form>
-                <div class="form_item">
-                    <div class="form_item_title">
-                        <label>密码:</label>
+                <div class="edit_password">
+                    <div class="form_item">
+                        <div class="form_item_title">
+                            <label>老密码:</label>
+                        </div>
+                        <input class="form_input" v-model="editPasswordFormConfig.formData.old_password" type="password" />
                     </div>
-                    <input class="form_input" v-model="editPasswordFormConfig.formData.username" type="text" />
-                </div>
-                <div class="form_item">
-                    <div class="form_item_title">
-                        <label>新密码:</label>
+                    <div class="form_item">
+                        <div class="form_item_title">
+                            <label>新密码:</label>
+                        </div>
+                        <input class="form_input" v-model="editPasswordFormConfig.formData.new_password" type="password" />
                     </div>
-                    <input class="form_input" v-model="editPasswordFormConfig.formData.password" type="password" />
-                </div>
-                <div class="form_item">
-                    <div class="form_item_title">
-                        <label>确认新密码:</label>
+                    <div class="form_item">
+                        <div class="form_item_title">
+                            <label>确认密码:</label>
+                        </div>
+                        <input class="form_input" v-model="editPasswordFormConfig.formData.confirm_password"
+                            type="password" />
                     </div>
-                    <input class="form_input" v-model="editPasswordFormConfig.formData.password" type="new_password" />
                 </div>
             </template>
         </PopupForm>
@@ -86,39 +94,39 @@ export default {
         PopupForm,
         AlertComponent
     },
-    created(){
+    created() {
         this.getUserDetail()
     },
     data() {
         return {
-            userDetail:{},
+            userDetail: {},
             show_save_nicknanme_button: false,
             show_edit_nicknanme_button: true,
-            editPasswordFormConfig : {
+            editPasswordFormConfig: {
                 isVisible: false,
                 title: '修改密码',
                 confirmButtonText: '确认',
                 cancelButtonText: '取消',
                 formData: {}, // 用于存储表单数据
             },
-            editUserProfileForm:{}
+            editUserProfileForm: {}
         }
     },
     methods: {
-        getUserDetail(){
+        getUserDetail() {
             apiService.UserDetailApi().then((response) => {
                 this.userDetail = response.data
             }).catch(err => {
-                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')            
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
             })
         },
-        loggout(){
+        loggout() {
             apiService.UserLogoutApi({}).then(() => {
-                VueEvent.emit("to-common-header-logout",{});
-                this.$router.push({path:'/home'})
+                VueEvent.emit("to-common-header-logout", {});
+                this.$router.push({ path: '/home' })
 
             }).catch(err => {
-                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')            
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
             })
         },
         edit_nickname() {
@@ -128,41 +136,79 @@ export default {
         },
         save_nickname() {
             apiService.UserEditApi({
-                nickname:this.editUserProfileForm.nickname,
-                type:1
+                nickname: this.editUserProfileForm.nickname,
+                type: 1
             }).then(() => {
-                VueEvent.emit("edit-user-profile",{
-                    key:"nickname",
-                    value:this.editUserProfileForm.nickname,
+                VueEvent.emit("edit-user-profile", {
+                    key: "nickname",
+                    value: this.editUserProfileForm.nickname,
                 });
                 this.getUserDetail()
-                this.showAlert("修改成功")          
+                this.showAlert("修改成功")
                 this.show_save_nicknanme_button = false
                 this.show_edit_nicknanme_button = true
             }).catch(err => {
-                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')            
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
             })
         },
         updatEditPasswordFormVisible(value) {
             this.editPasswordFormConfig.isVisible = value;
         },
         editPasswordConfirm() {
-            // 处理确定按钮逻辑，可以根据需要调整
-            this.editPasswordFormConfig.isVisible = false;
-            this.showAlert('修改成功','success')
+            apiService.EditPasswordApi(this.editPasswordFormConfig.formData).then(() => {
+                this.editPasswordFormConfig.isVisible = false;
+                VueEvent.emit("to-common-header-logout", {});
+                this.showAlert('修改成功,即将跳转登录页', 'success')
+                setTimeout(() => {
+                    this.$router.push({ path: '/user_login' })
+                }, 1000)
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
         },
         editPasswordCancel() {
             // 处理取消按钮逻辑，可以根据需要调整
             console.log('Cancelled');
             this.editPasswordFormConfig.isVisible = false;
+
+
         },
+        // 处理文件上传字段的 change 事件
+        handleFileChange(event) {
+            const file = event.target.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+            apiService.UploadFileApi(formData).then((response) => {
+                this.userDetail.avatar_url = response.data.path
+                apiService.UserEditApi({
+                    avatar_url: response.data.path,
+                    type: 2
+                }).then(() => {
+                    VueEvent.emit("edit-user-profile", {
+                        key: "avatar_url",
+                        value: response.data.path,
+                    });
+                    this.showAlert("修改成功")
+
+                }).catch(err => {
+                    this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+                })
+
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
+        },
+
+        // 触发文件上传字段点击事件
+        triggerFileInput() {
+            this.$refs.fileInput.click();
+        }
     },
 }
 </script>
 
 
 <style lang="scss" scoped>
-
 @import "../../assets/css/form.css";
 
 .person_center_content {
@@ -216,7 +262,9 @@ export default {
     border-radius: 25px;
 
     img {
-        width: 50px;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%
     }
 }
 
@@ -224,5 +272,11 @@ button {
     border: 1px solid rgb(218, 218, 218);
     padding: 3px 15px 3px 15px;
     cursor: pointer;
+}
+
+.edit_password {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
 }
 </style>

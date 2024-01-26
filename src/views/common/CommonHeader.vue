@@ -6,7 +6,7 @@
         </div>
 
         <div class="header_right">
-            <div class="open_member" v-if="is_login" @click="this.$router.push({ path: '/recharge_vip' })">
+            <div class="open_member" v-if="false" @click="this.$router.push({ path: '/recharge_vip' })">
                 <img src="../../assets/images/VIP.png" alt="">
                 <span v-show="false">VIP用户</span>
                 <span>开通VIP</span>
@@ -21,7 +21,9 @@
             </div>
             <div class="person_center">
                 <div class="avatar" v-if="is_login" @click="this.$router.push({ path: '/person_center' })" >
-                    <img src="../../assets/images/avatar1.png" alt="">
+                    <div class="avatar-container">
+                        <img :src="user_info.avatar_url" alt="" >
+                    </div>
                     <span>{{ user_info.nickname }}</span>
                 </div>
                 <span class="login" v-if="!is_login" @click="this.$router.push({ path: '/user_login' })">登录</span>
@@ -57,6 +59,9 @@ export default {
                 case "nickname":
                     userProfile.nickname = data.value
                     break;
+                case "avatar_url":
+                    userProfile.avatar_url = data.value
+                    break;
             
                 default:
                     break;
@@ -91,6 +96,8 @@ export default {
 }
 
 
+
+
 .site_logo {
     display: flex;
     justify-content: flex-start;
@@ -98,11 +105,11 @@ export default {
     padding-left: 15px;
     width: 40vh;
     cursor: pointer;
-
+  
     img {
         width: 24px;
         height: 24px;
-        margin-right: 5px;
+        margin-right: 3px;
     }
 
     span {
@@ -122,7 +129,7 @@ export default {
 
 .record,
 .task,
-.open_member,.avatar {
+.open_member{
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -130,11 +137,34 @@ export default {
 
     img {
         width: 24px;
-        margin-right: 3px;
+        margin-right: 10px;
+        border-radius: 50%
     }
     color: #3498db;
 
 }
+
+.avatar {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 15px;
+    color: #3498db;
+    .avatar-container{
+        width: 24px;
+        height: 24px;
+        margin-right: 5px;
+        img {
+            width: 100%;
+            height: 100%;
+            
+            border-radius: 50%
+        }
+    }
+
+
+}
+
 
 .person_center {
     display: flex;
@@ -156,5 +186,6 @@ export default {
     cursor: pointer;
     margin-right: 10px;
 }
+
 </style>
   
