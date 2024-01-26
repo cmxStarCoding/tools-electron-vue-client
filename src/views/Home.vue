@@ -1,56 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="container">
+
+    <div v-for="(item,key) in cate_tool_list_data" :key="key" class="container">
         <div class="parent_category">
-            <span>图片处理</span>
+            <span>{{item.name}}</span>
         </div>
         <ul class="children_category_list">
-            <li>
-                <img src="../assets/images/category.png" alt="">
-                <span>贴图工具</span>
-            </li>
-            <li>
-                <img src="../assets/images/category.png" alt="">
-                <span>无损放大</span>
-            </li>
-            <li>
-                <img src="../assets/images/category.png" alt="">
-                <span>贴图工具</span>
-            </li>
-            <li>
-                <img src="../assets/images/category.png" alt="">
-                <span>贴图工具</span>
-            </li>
-            <li>
-                <img src="../assets/images/category.png" alt="">
-                <span>贴图工具</span>
-            </li>
-            <li>
-                <img src="../assets/images/category.png" alt="">
-                <span>贴图工具</span>
-            </li>
-            <li>
-                <img src="../assets/images/category.png" alt="">
-                <span>贴图工具</span>
+            <li v-for="(v,k) in item.tools" :key="k" @click="this.$router.push({path:v.router})">
+                <img :src="v.logo" alt="">
+                <span>{{v.name }}</span>
             </li>
         </ul>
-    </div>
-
-    <div class="container">
-        <div class="parent_category">
-            <span>识别转换</span>
-        </div>
-        <ul class="children_category_list">
-            <li>
-                <img src="../assets/images/category.png" alt="">
-                <span>Word转Pdf</span>
-            </li>
-            <li>
-                <img src="../assets/images/category.png" alt="">
-                <span>Pdf转word</span>
-            </li>
-        </ul>
-
     </div>
 
     <PopupForm :visible="versionUpdateFormConfig.isVisible" :title="versionUpdateFormConfig.title"
@@ -83,13 +43,13 @@ import Cookie from '../models/cookie.js';
 
 
 export default {
-    name: 'App',
     components: {
         PopupForm,
         AlertComponent
     },
     data() {
         return {
+            cate_tool_list_data:[],
             show_fixed_bottom_ul: false,
             showDownloadProgress: false,
             downloadProgress: 0,
@@ -104,6 +64,7 @@ export default {
     },
     mounted() {
         this.getVersion()
+        this.getCateToolsList()
     },
     methods: {
         async getVersion() {
@@ -120,6 +81,13 @@ export default {
                     this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
                 })
             });
+        },
+        getCateToolsList(){
+            apiService.CateToolsListApi({}).then((response) => {
+                this.cate_tool_list_data = response.data;
+            }).catch((err) => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
         },
         close_fixed_icons_list() {
             this.show_fixed_bottom_ul = !this.show_fixed_bottom_ul
@@ -194,6 +162,7 @@ export default {
         border-radius: 10px;
         margin-right: 20px;
         margin-bottom: 20px;
+        cursor: pointer;
     }
 
     img {

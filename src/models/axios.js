@@ -76,8 +76,10 @@ const apiService = {
     UserUseLogApi: async (params) => api.get('/api/v1/user_use_log', {'params':params}),
     //系统更新日志
     SystemUpdateLogApi: async (params) => api.get('/api/v1/system_update_log', {'params':params}),
-
-    // Add other API endpoints here...
+    //系统更新日志
+    CateToolsListApi: async (params) => api.get('/api/v1/cate_tools_list', {'params':params}),
+    //工具列表
+    ToolsListApi: async (params) => api.get('/api/v1/tools_list', {'params':params}),
 };
 
 export default apiService;

@@ -6,27 +6,27 @@
         </div>
 
         <div class="header_right">
-            <div class="open_member" v-if="false" @click="this.$router.push({ path: '/recharge_vip' })">
+            <div class="open_member" v-if="false" @click="this.$router.push({ path: '/recharge_vip' })" :class="{'active':$route.path == '/recharge_vip'}">
                 <img src="../../assets/images/VIP.png" alt="">
                 <span v-show="false">VIP用户</span>
                 <span>开通VIP</span>
             </div>
-            <div class="record" @click="this.$router.push({ path: '/use_tool_record' })">
+            <div class="record" @click="this.$router.push({ path: '/use_tool_record' })" :class="{'active':$route.path == '/use_tool_record'}">
                 <img src="../../assets/images/record.png" alt="">
                 <span>使用记录</span>
             </div>
-            <div class="task" @click="this.$router.push({ path: '/task_list' })">
+            <div class="task" @click="this.$router.push({ path: '/task_list' })" :class="{'active':$route.path == '/task_list'}">
                 <img src="../../assets/images/task.png" alt="">
                 <span>任务记录</span>
             </div>
             <div class="person_center">
-                <div class="avatar" v-if="is_login" @click="this.$router.push({ path: '/person_center' })" >
+                <div class="avatar" v-if="is_login" @click="this.$router.push({ path: '/person_center' })" :class="{'active':$route.path == '/person_center'}">
                     <div class="avatar-container">
                         <img :src="user_info.avatar_url" alt="" >
                     </div>
                     <span>{{ user_info.nickname }}</span>
                 </div>
-                <span class="login" v-if="!is_login" @click="this.$router.push({ path: '/user_login' })">登录</span>
+                <span class="login" v-if="!is_login" @click="this.$router.push({ path: '/user_login' })" :class="{'active':$route.path == '/user_login'}">登录</span>
             </div>
         </div>
     </div>
@@ -185,6 +185,12 @@ export default {
     color: #3498db;
     cursor: pointer;
     margin-right: 10px;
+}
+.active{
+    background-color:#DCDFE6;
+    border-radius: 7%;
+    font-weight: bold;
+    padding: 4px 8px;
 }
 
 </style>

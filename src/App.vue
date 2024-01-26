@@ -4,36 +4,20 @@
         <div class="project_left">
             <div>
                 <div class="left_top">
-                    <div class="nav" @click="this.$router.push({ path: '/home' })">
+                    <div class="nav" @click="this.$router.push({ path: '/home' })" :class="{'active':$route.path == '/home'}">
                         <img src="./assets/images/home.png">
-                        <p>首页1</p>
+                        <p>首页</p>
                     </div>
                 </div>
                 <div class="left_middle">
-                    <div class="nav">
-                        <img src="./assets/images/pic.png">
-                        <p>模块1</p>
-                    </div>
-                    <div class="nav" @click="this.$router.push({ path: '/upload_process' })">
-                        <img src="./assets/images/pic.png">
-                        <p>进度</p>
-                    </div>
-                    <div class="nav">
-                        <img src="./assets/images/pic.png">
-                        <p>模块3</p>
-                    </div>
-                    <div class="nav">
-                        <img src="./assets/images/pic.png">
-                        <p>模块4</p>
-                    </div>
-                    <div class="nav">
-                        <img src="./assets/images/pic.png">
-                        <p>模块5</p>
+                    <div v-for="(item,key) in recommend_tools_list_data" :key="key" class="nav" @click="this.$router.push({ path: item.router })"  :class="{'active':$route.path == item.router}">
+                        <img :src="item.logo">
+                        <p>{{item.name}}</p>
                     </div>
                 </div>
             </div>
-            <div class="left_bottom" @click="this.$router.push({ path: '/system_setting' })">
-                <div class="nav">
+            <div class="left_bottom">
+                <div class="nav" @click="this.$router.push({ path: '/system_setting' })" :class="{'active':$route.path == '/system_setting'}">
                     <img src="./assets/images/system.png">
                     <p>设置</p>
                 </div>
@@ -84,18 +68,32 @@
 // console.log(process.env.VUE_APP_API_URL, 'asdasdasd111')
 
 import CommonHeader from './views/common/CommonHeader.vue'
+import apiService from './models/axios'
 
 export default {
     name: 'App',
     components: {
         CommonHeader,
     },
+    mounted() {
+        this.getToolsList()
+    },
     data() {
         return {
             show_fixed_bottom_ul: false,
+            recommend_tools_list_data:[]
         }
     },
     methods: {
+        getToolsList(){
+            apiService.ToolsListApi({
+                is_recommend:1
+            }).then((response) => {
+                this.recommend_tools_list_data = response.data
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
+        },
         close_fixed_icons_list() {
             this.show_fixed_bottom_ul = !this.show_fixed_bottom_ul
             setTimeout(() => {
@@ -141,19 +139,22 @@ body {
     .left_bottom {
         width: 80px;
         color: #495366;
-
+        cursor: pointer;
         .nav {
             font-size: 11px;
             text-align: center;
             padding-top: 10px;
-            cursor: pointer;
-
+            // display: flex;
+            // flex-direction: column;
+            // align-items: center;   
+            // justify-content: center; 
+            // width: 80%;
             img {
                 width: 24px;
             }
 
             p {
-                margin-top: 0px;
+                margin-top: 4px;
             }
         }
 
@@ -240,5 +241,13 @@ body {
     padding: 8px 12px;
 }
 
+.nav.active {
+  /* 这里是你想要应用的样式 */
+  background-color:#DCDFE6;
+  border-radius: 10%;
+  font-weight: bold;
+  padding-bottom: 3px;
+  /* 添加其他样式 */
+}
 /* 定义路由切换的过渡效果 */
 </style>

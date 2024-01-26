@@ -31,7 +31,7 @@
         <!-- 分页 -->
         <div class="pagination">
             <button @click="prevPage" :disabled="currentPage == 1" class="pagination_button">上一页</button>
-            <span>{{ currentPage }} / {{ totalPages }}</span>
+            <span class="pagination_page_number">{{ currentPage }} / {{ totalPages }}</span>
             <button @click="nextPage" :disabled="currentPage == totalPages" class="pagination_button">下一页</button>
         </div>
         <PopoverTips :content="popoverContent" ref="popoverRef"></PopoverTips> 

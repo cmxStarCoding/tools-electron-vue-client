@@ -118,9 +118,9 @@
             </table>
             <!-- 分页 -->
             <div class="pagination">
-                <button @click="prevPage" :disabled="currentPage === 1">上一页</button>
-                <span>{{ currentPage }} / {{ totalPages }}</span>
-                <button @click="nextPage" :disabled="currentPage === totalPages">下一页</button>
+                <button @click="prevPage" :disabled="currentPage === 1" class="pagination_button">上一页</button>
+                <span class="pagination_page_number">{{ currentPage }} / {{ totalPages }}</span>
+                <button @click="nextPage" :disabled="currentPage === totalPages" class="pagination_button">下一页</button>
             </div>
         </div>
     </div>
@@ -272,7 +272,7 @@ export default {
     flex-direction: column;
     align-items: center;
     // justify-content: center;
-    width: 500px;
+    width: 450px;
     height: 100%;
 }
 
@@ -284,6 +284,10 @@ export default {
 .paste {
     height: 150px;
 }
+.pagination{
+    justify-content: flex-start;
+}
+
 
 
 .debug_form {

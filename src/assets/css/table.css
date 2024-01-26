@@ -22,13 +22,15 @@ th {
     align-items: center;
     justify-content: flex-end;
     display: flex;
-    margin-top: 20px;
 
 
 }
 
 .pagination_button {
     padding: 4px;
-    margin: 0 15px;
     cursor: pointer;
+}
+
+.pagination_page_number{
+    margin:0px 15px;
 }
