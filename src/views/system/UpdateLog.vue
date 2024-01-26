@@ -9,67 +9,93 @@
                 <tr>
                     <th>序号</th>
                     <th>版本</th>
+                    <th>更新内容</th>
                     <th>发布时间</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(item, key) in tableData" :key="key">
-                    <td>{{ ((currentPage- 1) * pageSize) + (key+1) }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.age }}</td>
+                    <td>{{ ((currentPage - 1) * pageSize) + (key + 1) }}</td>
+                    <td>{{ item.version }}</td>
+                    <td>
+                        {{ item.content.length > 20 ? item.content.slice(0, 20) + '...' : item.content }}
+                        <button v-if="item.content.length > 20" @mouseover="showPopover($event,item.content)" @mouseout="hidePopover" class="popoverTips">
+                            !
+                        </button>
+                    </td>
+                    <td>{{ item.created_at }}</td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
         <!-- 分页 -->
         <div class="pagination">
-            <button class="pagination_button" @click="prevPage" :disabled="currentPage === 1">上一页</button>
+            <button @click="prevPage" :disabled="currentPage == 1" class="pagination_button">上一页</button>
             <span>{{ currentPage }} / {{ totalPages }}</span>
-            <button class="pagination_button" @click="nextPage" :disabled="currentPage === totalPages">下一页</button>
+            <button @click="nextPage" :disabled="currentPage == totalPages" class="pagination_button">下一页</button>
         </div>
+        <PopoverTips :content="popoverContent" ref="popoverRef"></PopoverTips> 
     </div>
 </template>
   
 <script>
+import apiService from '../../models/axios'
+import PopoverTips from '../../components/PopoverTipsComponent.vue';
 export default {
+    components: {
+        PopoverTips,
+    },
     data() {
         return {
-            tableData: [
-                { id: 1, name: 'John', age: 25 },
-                { id: 2, name: 'Jane', age: 30 },
-                // 其他数据...
-            ],
+            tableData: [],
             currentPage: 1,
-            pageSize: 2, // 每页显示的行数
+            pageSize: 10, // 每页显示的行数
+            total: 0,
+            popoverContent: 'This is a popover!',
         }
     },
+    mounted() {
+        this.getSystemUpdateLog()
+    },
     computed: {
-        currentTableData() {
-            const startIndex = (this.currentPage - 1) * this.pageSize;
-            const endIndex = startIndex + this.pageSize;
-            return this.tableData.slice(startIndex, endIndex);
-        },
         totalPages() {
-            return 2
-            // return Math.ceil(this.tableData.length / this.pageSize);
+            return Math.ceil(this.total / this.pageSize);
         },
     },
     methods: {
+        getSystemUpdateLog() {
+            apiService.SystemUpdateLogApi({
+                page: this.currentPage,
+                limit: this.pageSize,
+            }).then((response) => {
+                this.tableData = response.data.list
+                this.total = response.data.total
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
+        },
         prevPage() {
             if (this.currentPage > 1) {
                 this.currentPage--;
             }
+            this.getSystemUpdateLog()
         },
         nextPage() {
             if (this.currentPage < this.totalPages) {
                 this.currentPage++;
             }
-
-            this.tableData = [
-                { id: 3, name: '哈哈', age: 33 },
-                { id: 4, name: '嘿嘿', age: 32 },
-                // 其他数据...
-            ]
-
+            this.getSystemUpdateLog()
+        },
+        showPopover(event,content) {
+            this.popoverContent = content
+            this.$refs.popoverRef.showPopover();
+            // 设置 Popover 的位置
+            // 你可以根据需要调整这里的位置
+            this.$refs.popoverRef.$el.style.left = event.clientX + 'px';
+            this.$refs.popoverRef.$el.style.top = event.clientY + 'px';
+        },
+        hidePopover() {
+            this.$refs.popoverRef.hidePopover();
         },
     }
 }
@@ -77,46 +103,26 @@ export default {
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+@import "../../assets//css/table.css";
+
 .update_log_content {
     display: flex;
     flex-direction: column;
     font-size: 13px;
-    .title{
+
+    .title {
         flex-direction: row;
         justify-content: flex-start;
         padding: 10px 0px 10px 0px;
     }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-        th,
-        td {
-            border: 1px solid rgb(239, 239, 239);
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
+    .popoverTips{
+        font-size: 16px;
+        color:gray;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid gray;
     }
-
-    .pagination {
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        display: flex;
-        margin-top: 20px;
-
-        button {
-            padding: 4px;
-            margin: 0 3px;
-            cursor: pointer;
-        }
-    }
-
-
 }
 </style>
   

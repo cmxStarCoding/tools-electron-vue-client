@@ -19,16 +19,16 @@ th {
 .pagination {
     width: 100%;
     flex-direction: row;
-    margin-right: 200px;
     align-items: center;
     justify-content: flex-end;
     display: flex;
     margin-top: 20px;
 
+
 }
 
 .pagination_button {
     padding: 4px;
-    margin: 0 3px;
+    margin: 0 15px;
     cursor: pointer;
 }

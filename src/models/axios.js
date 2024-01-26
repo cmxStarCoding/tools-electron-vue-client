@@ -70,7 +70,12 @@ const apiService = {
      } }),
      //发送邮箱验证
      SendEmailApi: async (params) => api.get('/api/v1/send_email_code', {'params':params}),
-
+    //用户任务列表
+    UserTaskListApi: async (params) => api.get('/api/v1/user_task_log', {'params':params}),
+    //用户使用记录
+    UserUseLogApi: async (params) => api.get('/api/v1/user_use_log', {'params':params}),
+    //系统更新日志
+    SystemUpdateLogApi: async (params) => api.get('/api/v1/system_update_log', {'params':params}),
 
     // Add other API endpoints here...
 };

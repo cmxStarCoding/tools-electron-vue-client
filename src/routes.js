@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 //测试组件
-import SystemUpdate from "./views/system/SystemUpdate.vue"
+import SystemUpdate from "./views/test/SystemUpdate.vue"
 import UploadProcess from "./views/test/UploadProcess.vue"
 
 import Home from "./views/Home.vue"
