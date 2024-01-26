@@ -65,6 +65,7 @@ export default {
     mounted() {
         this.checkNewVersion()
         this.getCateToolsList()
+        
     },
     methods: {
         getCateToolsList(){

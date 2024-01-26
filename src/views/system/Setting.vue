@@ -6,7 +6,7 @@
                 版本
             </span>
             <span class="desc">
-                当前版本：阿狸工具V1.0.0
+                当前版本：阿狸工具{{client_package_info.version }}
             </span>
         </div>
         <div class="feedback">
@@ -61,6 +61,7 @@
 import PopupForm from '../../components/ToastFormComponent.vue';
 import AlertComponent from '../../components/AlertComponent.vue';
 import apiService from '../../models/axios'
+import { ipcRenderer } from 'electron';
 export default {
     components:{
         PopupForm,
@@ -88,6 +89,11 @@ export default {
             new_version_info:{},
             client_package_info:{}
         }
+    },
+    mounted() {
+        ipcRenderer.invoke('getClientPackageInfo').then((client_package_info) => {
+            this.client_package_info = client_package_info
+        })
     },
     methods: {
         feedback() {

@@ -4,6 +4,7 @@ require('dotenv').config({ path: './electron/.env' });
 
 import { app, protocol, BrowserWindow, Tray, Menu, ipcMain ,shell} from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+
 // import {autoUpdater} from "electron-updater"
 
 // import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
@@ -13,6 +14,7 @@ const path = require('path');
 const fs = require('fs');
 // const https = require('https');
 const http = require('http');
+
 
 let tray = null
 
@@ -37,83 +39,7 @@ async function createWindow() {
         }
     })
 
-    // function handleUpdate() {
-    //     var returnData = {
-    //         error: {status: -1, msg: '检测更新查询异常'},
-    //         checking: {status: 0, msg: '正在检查应用程序更新'},
-    //         updateAva: {status: 1, msg: '检测到新版本，正在下载,请稍后'},
-    //         updateNotAva: {status: -1, msg: '您现在使用的版本为最新版本,无需更新!'},
-    //     };
-
-    //     if (process.platform === 'darwin') {
-    //         // macOS 更新源 URL
-    //         autoUpdater.setFeedURL('http://127.0.0.1:8083/static/download/app');
-
-    //     } else if (process.platform === 'win32') {
-    //         // Windows 更新源 URL
-    //         autoUpdater.setFeedURL('http://127.0.0.1:8083/static/download/app');
-    //     }
-    //     //和之前package.json配置的一样
-
-
-    //     //更新错误
-    //     autoUpdater.on('error', function (error) {
-    //         returnData.error.data = error
-    //         sendUpdateMessage(returnData.error)
-    //     });
-
-    //     //检查中
-    //     autoUpdater.on('checking-for-update', function () {
-    //         sendUpdateMessage(returnData.checking)
-    //     });
-
-    //     //发现新版本
-    //     autoUpdater.on('update-available', function (info) {
-    //         returnData.updateAva.data = info
-    //         sendUpdateMessage(returnData.updateAva)
-    //     });
-
-    //     //当前版本为最新版本
-    //     autoUpdater.on('update-not-available', function (info) {
-    //         setTimeout(function () {
-    //             returnData.updateAva.data = info
-    //             sendUpdateMessage(returnData.updateNotAva)
-    //         }, 1000);
-    //     });
-
-    //     // 更新下载进度事件
-    //     autoUpdater.on('download-progress', function (progressObj) {
-    //         win.webContents.send('downloadProgress', progressObj)
-    //     });
-
-
-    //     autoUpdater.on('update-downloaded', function (event, releaseNotes, releaseName, releaseDate, updateUrl, quitAndUpdate) {
-    //         ipcMain.on('isUpdateNow', (e, arg) => {
-    //             //some code here to handle event
-    //             autoUpdater.quitAndInstall();
-    //         });
-    //         // win.webContents.send('isUpdateNow')
-    //     });
-
-    //     //执行自动更新检查
-    //     autoUpdater.checkForUpdates();
-    // }
-
-    // handleUpdate();
-
-    // 通过main进程发送事件给renderer进程，提示更新信息
-    // function sendUpdateMessage(text) {
-    //     win.webContents.send('message', text)
-    // }
-
-    // ipcMain.on("checkForUpdate", (event, data) => {
-    //     console.log(data,'执行自动更新检查!!!');
-    //     // event.sender.send('reply', 'hi lee my name is yuan, age is 17');
-    //     autoUpdater.checkForUpdates();
-    // });
-
-
-    // win.webContents.openDevTools()
+    win.webContents.openDevTools()
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         // Load the url of the dev server if in development mode
         await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
@@ -142,9 +68,7 @@ app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+
 app.on('ready', async () => {
     // if (isDevelopment && !process.env.IS_TEST) {
     //     // Install Vue Devtools

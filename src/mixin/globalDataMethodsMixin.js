@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 import apiService from '../models/axios.js';
-import Cookie from '../models/cookie.js';
+import Storage from '../models/storage.js';
 var baseMixin = {
     data() {
         return {
@@ -46,13 +46,27 @@ var baseMixin = {
                 apiService.CheckSystemUpdateApi({
                     client_version: client_package_info.version
                 }).then((response) => {
-                    if (response.data.is_exist_new_version == 1 && initiative == 0 && Cookie.get('version-' + response.data.new_version.version) == undefined) {
-                        Cookie.set('version-' + response.data.new_version.version, 1, 3600)
+
+                    if(response.data.is_exist_new_version == 0 ){
+                        return
+                    }
+
+                    let localCacheVersion = Storage.get('version-' + response.data.new_version.version)
+                    let interval_period_bool = false
+
+                    if(localCacheVersion === null){
+                        interval_period_bool= true
+                    }else if((Math.floor(Date.now() / 1000)) - localCacheVersion > response.data.new_version.interval_period){
+                        interval_period_bool= true
+                    }
+                    
+                    if (initiative == 0 && interval_period_bool) {
+                        Storage.set('version-' + response.data.new_version.version,Math.floor(Date.now() / 1000))
                         this.new_version_info = response.data.new_version
                         this.versionUpdateFormConfig.isVisible = true;
                     }
 
-                    if (response.data.is_exist_new_version == 1 && initiative == 1) {
+                    if (initiative == 1) {
                         this.new_version_info = response.data.new_version
                         this.versionUpdateFormConfig.isVisible = true;
                     }
