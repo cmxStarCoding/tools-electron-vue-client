@@ -101,6 +101,28 @@ var baseMixin = {
                 console.log("下载出错了")
             });
         },
+        getImageSize(url) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                // 设置图像的 src 属性为图片的 URL
+                img.src = url;
+
+                // 设置图像加载完成后的回调函数
+                img.onload = function() {
+                    // 获取图像的宽度和高度
+                    const width = img.width;
+                    const height = img.height;
+
+                    // 返回宽度和高度
+                    resolve({ width, height });
+                };
+
+                // 如果加载失败，也可以设置错误处理函数
+                img.onerror = function() {
+                    reject(new Error('加载图像失败'));
+                };
+            });
+        },
     },
 }
 

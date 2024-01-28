@@ -1,11 +1,7 @@
 'use strict'
-
 require('dotenv').config({ path: './electron/.env' });
-
-import { app, protocol, BrowserWindow, Tray, Menu, ipcMain ,shell} from 'electron'
+import { app, protocol, BrowserWindow, Tray, Menu, ipcMain, shell, dialog, globalShortcut} from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-
-// import {autoUpdater} from "electron-updater"
 
 // import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -15,27 +11,29 @@ const fs = require('fs');
 // const https = require('https');
 const http = require('http');
 
-
 let tray = null
 
+// 打印electron进程配置信息
 // console.log(process.env.TEST)
 protocol.registerSchemesAsPrivileged([
     { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
+// 创建窗口
 async function createWindow() {
     // Create the browser window.
     const win = new BrowserWindow({
-        width: 1350,
+        width: 1450,
         height: 870,
-        minWidth: 1350,
+        minWidth: 1450,
         minHeight: 870,
         webPreferences: {
 
             // Use pluginOptions.nodeIntegration, leave this alone
             // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
             nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-            contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
+            contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+            sandbox: false, 
         }
     })
 
@@ -49,18 +47,15 @@ async function createWindow() {
         // Load the index.html when not in development
         win.loadURL('app://./index.html')
     }
+
+    // 禁用windows下的f5刷新
+    win.webContents.on('before-input-event', (event, input) => {
+        // Prevent F5 key
+        if (input.key === 'F5') {
+            event.preventDefault();
+        }
+    });
 }
-
-
-
-// Quit when all windows are closed.
-app.on('window-all-closed', () => {
-    // On macOS it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') {
-        app.quit()
-    }
-})
 
 app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
@@ -68,6 +63,17 @@ app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 
+
+app.on('will-quit', () => {
+    // Unregister the global shortcut when the app is quitting
+    globalShortcut.unregister('CommandOrControl+R');
+});
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
+})
 
 app.on('ready', async () => {
     // if (isDevelopment && !process.env.IS_TEST) {
@@ -101,9 +107,16 @@ app.on('ready', async () => {
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
+
+    // 拦截comman+r刷新页面
+    // globalShortcut.register('CommandOrControl+R', () => {
+    //     // Do nothing or show a custom message
+    //     console.log('Command+R is disabled');
+    // });
+
 })
 
-
+// 下载文件
 ipcMain.on('download-file', async (event, data) => {
     try {
         const fileUrl = data.file_url;
@@ -144,7 +157,18 @@ ipcMain.on('download-file', async (event, data) => {
 });
 
 
-// 主进程监听渲染进程请求
+ipcMain.on('show-dialog', (event) => {
+    const result = dialog.showMessageBoxSync({
+        type: 'info',
+        title: 'Information',
+        message: 'This is an informational message.',
+        buttons: ['OK'],
+      });
+    // 向渲染进程发送结果
+    event.reply('show-dialog-response', result);
+});
+
+// 获取包信息
 ipcMain.handle('getClientPackageInfo', () => {
     const packageJsonPath = path.join(app.getAppPath(), 'package.json');
     const packageJsonContent = fs.readFileSync(packageJsonPath, 'utf8');
@@ -156,8 +180,7 @@ ipcMain.handle('getClientPackageInfo', () => {
 });
 
 
-
-// Exit cleanly on request from parent process in development mode.
+// 在开发模式下，根据父进程的请求干净地退出
 if (isDevelopment) {
     if (process.platform === 'win32') {
         process.on('message', (data) => {

@@ -16,12 +16,15 @@
     "axios": "^1.6.5",
     "core-js": "^3.8.3",
     "mitt": "^3.0.1",
+    "vcolorpicker": "^2.0.12",
     "vue": "^3.2.13",
+    "vue-pick-colors": "^1.6.1",
     "vue-router": "^4.0.13"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@types/vue-color": "^2.4.8",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
