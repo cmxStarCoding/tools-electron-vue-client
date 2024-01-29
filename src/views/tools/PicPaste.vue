@@ -212,7 +212,7 @@
                                 <label>提示：</label>
                             </span>
                         <div>
-                            <span>将您的所有贴图文件，放置在一个文件夹中压缩为zip格式的压缩包进行上传</span>
+                            <span class="compress_form_tips">将您的所有贴图文件，放置在一个文件夹中压缩为zip格式的压缩包进行上传<br>提交任务后可在右上角任务记录中查看和下载结果</span>
                         </div>
                         
                     </div>
@@ -815,5 +815,10 @@ td {
     justify-content: flex-end;
     align-items: center;
     margin-right: 15px;
+}
+
+.compress_form_tips{
+    color: gray;
+    font-size: 12px;
 }
 </style>
