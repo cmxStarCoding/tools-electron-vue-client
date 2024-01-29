@@ -48,6 +48,9 @@ var baseMixin = {
                 }).then((response) => {
 
                     if(response.data.is_exist_new_version == 0 ){
+                        if(initiative == 1){
+                            this.showAlert("暂无新版本","warn");
+                        }
                         return
                     }
 

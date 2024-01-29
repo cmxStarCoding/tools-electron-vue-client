@@ -74,9 +74,7 @@ const apiService = {
     //修改用户密码
     EditPasswordApi: async (params) => api.post('/api/v1/user/edit/password', params),
     //上传文件
-    UploadFileApi: async (formData) => api.post('/api/v1/upload', formData, {'headers':{
-    'Content-Type':"multipart/form-data"
-    } }),
+    UploadFileApi: async (formData,config) => api.post('/api/v1/upload', formData, config),
     //用户任务列表
     UserTaskListApi: async (params) => api.get('/api/v1/user_task_log', {'params':params}),
     //用户使用记录
@@ -87,7 +85,12 @@ const apiService = {
     UserStrategyListApi: async (params) => api.get('/api/v1/user_pic_paste_strategy_list', {'params':params}),
     //用户贴图策略效果预览
     UserStrategyDebugApi: async (params) => api.post('/api/v1/pic_paste_debug', params),
-
+    //用户贴图策略添加或修改
+    UserPicPasteStrategySaveApi: async (params) => api.post('/api/v1/user_pic_paste_strategy_save', params),
+    //用户贴图策略删除
+    UserPicPasteStrategyDeleteApi: async (id,params) => api.delete('/api/v1/user_pic_paste_strategy_delete/'+id,params),
+    //执行批量贴图任务
+    UserPasteApi: async (params) => api.post('/api/v1/pic/paste', params),
 };
 
 export default apiService;

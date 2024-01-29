@@ -23,25 +23,33 @@
                         <img :src="stretegyFormData.stick_img_url" alt="" class="paste">
                         <span>{{ stick_image_wh }}</span>
                     </div>
-                    
+
                     <input type="file" ref="stickFileInputRef" accept=".jpg, .jpeg, .png," style="display: none"
                         @change="handleStickFileChange">
-                        
+
                     <button @click="triggerStickFileInput">更换贴图</button>
                 </div>
             </div>
-      
-            <div class="top_effect" v-show = "effect_image">
+
+            <div class="top_effect" v-show="effect_image">
                 <span>效果图预览</span>
                 <img :src="effect_image" alt="">
             </div>
             <div class="top_form">
                 <div class="top_form_top">
                     <span class="debug_form_title">{{ title }}</span>
-                    <!-- <span class="demo_strategy" @click="useDemoStrategy">不知道怎么用？用demo策略数据看下效果吧</span> -->
+                    <span class="demo_strategy" @click="useDemoStrategy">不知道怎么用？用demo策略数据看下效果吧</span>
                 </div>
                 <div class="top_form_body">
                     <div class="debug_form">
+                        <div class="form_item">
+                            <span class="form_item_title">
+                                <label>策略名称:</label>
+                                <button @mouseover="showPopover($event, 'name')" @mouseout="hidePopover"
+                                    class="popoverTips">!</button>
+                            </span>
+                            <input class="form_input" v-model="stretegyFormData.name" type="text" />
+                        </div>
                         <div class="form_item">
                             <span class="form_item_title">
                                 <label>贴图背景区域形状:</label>
@@ -121,13 +129,13 @@
                             </span>
                             <div class="form_button">
                                 <button @click="previewEffect">预览</button>
-                                <button v-if="stretegyFormData.id">保存</button>
-                                <button v-if="!stretegyFormData.id">新增</button>
+                                <button v-if="stretegyFormData.id" @click="addOrUpdateStrategy('edit')">保存</button>
+                                <button v-if="!stretegyFormData.id" @click="addOrUpdateStrategy('add')">新增</button>
                                 <button @click="resetStretegy">重置</button>
                             </div>
                         </div>
                         <div class="demo_tips" v-if="show_demo_tips">
-                            <span> 不知道怎么用?调整参数，点击预览看看效果吧</span>
+                            <span>点击预览看看效果吧</span>
                         </div>
                     </div>
                 </div>
@@ -142,7 +150,8 @@
                 <thead>
                     <tr>
                         <th>序号</th>
-                        <th>贴图区域形状</th>
+                        <th>名称</th>
+                        <th>背景区域形状</th>
                         <th>半径(px)</th>
                         <th>边长(px)</th>
                         <th>x轴坐标</th>
@@ -154,6 +163,7 @@
                 <tbody>
                     <tr v-for="(item, key) in tableData" :key="key">
                         <td>{{ ((currentPage - 1) * pageSize) + (key + 1) }}</td>
+                        <td>{{ item.name }}</td>
                         <td>{{ item.shape_text }}</td>
                         <td>{{ item.x }}</td>
                         <td>{{ item.side_length }}</td>
@@ -164,11 +174,15 @@
                             <button :disabled="item.id == stretegyFormData.id" @click="editStrategy(item)">调整</button>
                             <!-- <button v-if="item.id == stretegyFormData.id" @click="saveStrategy(item)">保存</button>
                             <button v-if="item.id == stretegyFormData.id" @click="cancelSaveStrategy()">取消</button> -->
-                            <button>添加策略任务</button>
+                            <button :disabled="item.id == stretegyFormData.id" @click="deleteStrategy(item)">删除</button>
+                            <button :disabled="item.id == stretegyFormData.id"
+                                @click="AddStrategyTask(item)">添加策略任务</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
+
+
             <!-- 分页 -->
             <div class="pagination">
                 <button @click="prevPage" :disabled="currentPage == 1" class="pagination_button">上一页</button>
@@ -176,7 +190,35 @@
                 <button @click="nextPage" :disabled="currentPage == totalPages" class="pagination_button">下一页</button>
             </div>
         </div>
-
+        <PopupForm :visible="AddStrategyTaskFormConfig.isVisible" :title="AddStrategyTaskFormConfig.title"
+            :confirmButtonText="AddStrategyTaskFormConfig.confirmButtonText"
+            :cancelButtonText="AddStrategyTaskFormConfig.cancelButtonText" @confirm="AddStrategyTaskConfirm"
+            @cancel="AddStrategyTaskCancel" @update:visible="updatAddStrategyTaskFormVisible">
+            <!-- 直接传入HTML代码 -->
+            <template #form>
+                <div class="add_strategy_from">
+                    <div class="form_item">
+                        <span class="compress_form_item_title">
+                            <label>贴图压缩包文件：</label>
+                        </span>
+                        <div>
+                            <input type="file" accept=".zip" @change="handleCompressFileChange" />
+                        <span v-if="compress_progress >0 ">上传进度：{{compress_progress}}%</span>
+                        </div>
+                 
+                    </div>
+                    <div class="form_item">
+                        <span class="compress_form_item_title">
+                                <label>提示：</label>
+                            </span>
+                        <div>
+                            <span>将您的所有贴图文件，放置在一个文件夹中压缩为zip格式的压缩包进行上传</span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </template>
+        </PopupForm>
         <PopoverTips :content="popoverContent" ref="popoverRef"></PopoverTips>
     </div>
 </template>
@@ -186,30 +228,41 @@ import AlertComponent from '../../components/AlertComponent.vue';
 import PopoverTips from '../../components/PopoverTipsComponent.vue';
 import apiService from '../../models/axios'
 import PickColors from 'vue-pick-colors'
+import PopupForm from '../../components/ToastFormComponent.vue';
 
 export default {
     components: {
         AlertComponent,
         PopoverTips,
-        PickColors
+        PickColors,
+        PopupForm
     },
     data() {
         return {
-            original_image_wh:"",
-            stick_image_wh:"",
-            show_demo_tips:false,
-            demoStretegyFormData:{
+            
+            original_image_wh: "",
+            stick_image_wh: "",
+            show_demo_tips: false,
+            demoStretegyFormData: {
+                name: "demo策略",
                 original_image_url: "http://127.0.0.1:8083/static/demo_ditu.jpg",
                 stick_img_url: "http://127.0.0.1:8083/static/demo_paste.png",
-                bc_shape:2,
-                bc_color:'#1CA085',
-                side_length:85,
-                x:50,
-                y:600,
-                type:2,
-                multiple:5.7
+                bc_shape: 2,
+                bc_color: '#1CA085',
+                side_length: 85,
+                x: 50,
+                y: 600,
+                type: 2,
+                multiple: 5.7
             },
-            effect_image: "http://127.0.0.1:8083/static/ditu.jpg",
+            defaultStretegyFormData: {
+                original_image_url: "http://127.0.0.1:8083/static/demo_ditu.jpg",
+                stick_img_url: "http://127.0.0.1:8083/static/demo_paste.png",
+                bc_shape: 0,
+                bc_color: '#1CA085',
+                type: 0,
+            },
+            effect_image: "http://127.0.0.1:8083/static/demo_ditu.jpg",
             popoverContent: "",
             stretegyFormData: {},
             tableData: [],
@@ -218,9 +271,23 @@ export default {
             currentPage: 1,
             pageSize: 2, // 每页显示的行数
             total: 0,
+            AddStrategyTaskFormConfig: {
+                isVisible: false,
+                title: '添加策略任务',
+                confirmButtonText: '确认',
+                cancelButtonText: '取消',
+                formData: {}, // 用于存储表单数据
+            },
+            strategy_id:0,
+            compress_file_url:"",
+            compress_progress:0,
         }
     },
     methods: {
+        useDemoStrategy() {
+            this.stretegyFormData = this.demoStretegyFormData
+            this.show_demo_tips = true
+        },
         changeColor(value) {
             console.log(value)
         },
@@ -231,7 +298,30 @@ export default {
         },
         //重置
         resetStretegy() {
-            this.stretegyFormData = this.demoStretegyFormData
+            this.stretegyFormData = this.defaultStretegyFormData,
+                this.effect_image = this.defaultStretegyFormData.original_image_url
+        },
+        addOrUpdateStrategy(type) {
+            console.log(type)
+            apiService.UserPicPasteStrategySaveApi(this.stretegyFormData).then(() => {
+                let message = this.stretegyFormData.id ? '修改成功' : '添加成功'
+                this.showAlert(message)
+                this.getUserStrategyList()
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
+        },
+        deleteStrategy(item) {
+            console.log(item)
+            apiService.UserPicPasteStrategyDeleteApi(item.id, {}).then(() => {
+                this.showAlert("删除成功")
+                if (item.id == this.stretegyFormData.id) {
+                    this.resetStretegy()
+                }
+                this.getUserStrategyList()
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
         },
         //预览
         previewEffect() {
@@ -242,7 +332,7 @@ export default {
 
             apiService.UserStrategyDebugApi(this.stretegyFormData).then((response) => {
                 this.effect_image = response.data.image_url
-                
+
             }).catch(err => {
                 this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
             })
@@ -264,26 +354,29 @@ export default {
             console.log(file)
             const formData = new FormData();
             formData.append('file', file);
-            apiService.UploadFileApi(formData).then((response) => {
-
+            apiService.UploadFileApi(formData, {
+                headers: {
+                    'Content-Type': "multipart/form-data"
+                }
+            }).then((response) => {
 
                 const img = new Image();
                 // 设置图像的 src 属性为图片的 URL
                 img.src = response.data.path;  // 替换为你的图片路径
                 var that = this;
                 // 设置图像加载完成后的回调函数
-                img.onload = function() {
+                img.onload = function () {
                     // 获取图像的宽度和高度
                     let width = img.width;
                     let height = img.height;
                     console.log('宽度:', width);
                     console.log('高度:', height);
 
-                    if(width > 1399){
-                        that.showAlert("图片宽度不能大于1400px",'fail')
-                    }else if(height > 1399){
-                        that.showAlert("图片高度不能大于1400px",'fail')
-                    }else{
+                    if (width > 1399) {
+                        that.showAlert("图片宽度不能大于1400px", 'fail')
+                    } else if (height > 1399) {
+                        that.showAlert("图片高度不能大于1400px", 'fail')
+                    } else {
                         that.original_image_wh = width + '*' + height
                         that.stretegyFormData.original_image_url = response.data.path
                         that.effect_image = response.data.path
@@ -302,32 +395,34 @@ export default {
             const file = event.target.files[0];
             const formData = new FormData();
             formData.append('file', file);
-            apiService.UploadFileApi(formData).then((response) => {
+            apiService.UploadFileApi(formData, {
+                headers: {
+                    'Content-Type': "multipart/form-data"
+                }
+            }).then((response) => {
 
                 const img = new Image();
                 // 设置图像的 src 属性为图片的 URL
                 img.src = response.data.path;  // 替换为你的图片路径
                 var that = this;
                 // 设置图像加载完成后的回调函数
-                img.onload = function() {
+                img.onload = function () {
                     // 获取图像的宽度和高度
                     let width = img.width;
                     let height = img.height;
                     console.log('宽度:', width);
                     console.log('高度:', height);
 
-                    if(width > 1399){
-                        that.showAlert("图片宽度不能大于1400px",'fail')
-                    }else if(height > 1399){
-                        that.showAlert("图片高度不能大于1400px",'fail')
-                    }else{
+                    if (width > 1399) {
+                        that.showAlert("图片宽度不能大于1400px", 'fail')
+                    } else if (height > 1399) {
+                        that.showAlert("图片高度不能大于1400px", 'fail')
+                    } else {
                         that.stick_image_wh = width + '*' + height
                         that.stretegyFormData.stick_img_url = response.data.path
                     }
                 };
 
-
-                
             }).catch(err => {
                 this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
             })
@@ -365,8 +460,9 @@ export default {
                 this.popoverContent = "贴图背景区域的形状,圆形背景区域以x，y为圆心，r为半径画圆区域，方形则以x，y为背景区域左上角的起点，以边长画正方形区域，ps：存在背景区域时，贴图图片的中心点会背景区域的中心点重合"
             } else if (tip_type == 'bc_color') {
                 this.popoverContent = "贴图背景区域的颜色"
+            } else if (tip_type == 'name') {
+                this.popoverContent = "您可自定义贴图策略的名称，方便后续查找使用"
             }
-
             this.$refs.popoverRef.showPopover();
             // 设置 Popover 的位置
             // 你可以根据需要调整这里的位置
@@ -376,12 +472,53 @@ export default {
         hidePopover() {
             this.$refs.popoverRef.hidePopover();
         },
+        handleCompressFileChange(event) {
+            const file = event.target.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+            apiService.UploadFileApi(formData, {
+                headers: {
+                    'Content-Type': "multipart/form-data"
+                },
+                onUploadProgress: progressEvent => {
+                    this.compress_progress= Math.round((progressEvent.loaded / progressEvent.total) * 100);
+                }
+            }).then((response) => {
+                this.compress_file_url = response.data.path; 
+                console.log(response)
+
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
+        },
+        updatAddStrategyTaskFormVisible(value) {
+            this.AddStrategyTaskFormConfig.isVisible = value;
+        },
+        AddStrategyTask(item){
+            this.AddStrategyTaskFormConfig.isVisible = true
+            this.strategy_id = item.id
+            this.compress_progress = 0
+        },
+        AddStrategyTaskConfirm() {
+            apiService.UserPasteApi({
+                strategy_id:this.strategy_id,
+                compress_file_url:this.compress_file_url
+            }).then(() => {
+                this.showAlert("添加成功")
+                this.AddStrategyTaskFormConfig.isVisible = false;
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
+        },
+        AddStrategyTaskCancel() {
+            // 处理取消按钮逻辑，可以根据需要调整
+            console.log('Cancelled');
+            this.AddStrategyTaskFormConfig.isVisible = false;
+        },
     },
     mounted() {
-        this.stretegyFormData = this.demoStretegyFormData
+        this.stretegyFormData = this.defaultStretegyFormData
         this.getUserStrategyList()
-        this.show_demo_tips = true
-        this.previewEffect()
     },
     computed: {
         totalPages() {
@@ -396,27 +533,23 @@ export default {
             var that = this
             console.log('oldValue:', oldValue);
             this.getImageSize(newValue)
-            .then((size) => {
-                console.log('宽度:', size.width);
-                console.log('高度:', size.height);
-                that.original_image_wh = size.width + 'x' + size.height
-            })
-            .catch((error) => {
-                console.error(error.message);
-            });
+                .then((size) => {
+                    that.original_image_wh = size.width + 'x' + size.height
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                });
         },
         'stretegyFormData.stick_img_url'(newValue, oldValue) {
             console.log('oldValue:', oldValue);
             var that = this
             this.getImageSize(newValue)
-            .then((size) => {
-                console.log('宽度:', size.width);
-                console.log('高度:', size.height);
-                that.stick_image_wh = size.width + 'x' + size.height
-            })
-            .catch((error) => {
-                console.error(error.message);
-            });
+                .then((size) => {
+                    that.stick_image_wh = size.width + 'x' + size.height
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                });
         },
     },
 }
@@ -470,17 +603,18 @@ export default {
     display: flex;
     padding: 0px 0px 10px 0px;
     width: 100%;
-    height: 500px;
+    height: 450px;
     border-bottom: 1px solid #DCDFE6;
 }
 
-.top_left{
+.top_left {
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding-right: 80px;
     border-right: 1px solid #DCDFE6;
 }
+
 .top_left_top {
     display: flex;
     flex-direction: column;
@@ -488,7 +622,7 @@ export default {
     justify-content: center;
 
     button {
-        padding: 4px 40px;
+        padding: 4px 20px;
         background-color: #67C23A;
         border: none;
         border-radius: 5px;
@@ -496,30 +630,33 @@ export default {
         margin-top: 10px;
         color: white;
     }
-    
+
     img {
         height: 250px;
         border-radius: 5%;
     }
-    span{
+
+    span {
         color: gray;
     }
 }
 
 .top_left_bottom {
-    margin-top: 20px;
+    margin-top: 10px;
     border-top: 1px solid #DCDFE6;
     display: flex;
     align-items: center;
-    padding: 0 10px;
-    
+    padding: 0 5px;
+
     justify-content: center;
     height: 100%;
-    .top_left_bottom_paste{
+
+    .top_left_bottom_paste {
         display: flex;
         flex-direction: column;
         align-items: center;
-        span{
+
+        span {
             color: gray;
         }
     }
@@ -535,7 +672,7 @@ export default {
     }
 
     img {
-        height: 100px;
+        height: 80px;
     }
 }
 
@@ -547,13 +684,14 @@ export default {
     justify-content: center;
     padding-right: 80px;
     border-right: 1px solid #DCDFE6;
-    padding-left:80px;
+    padding-left: 80px;
 
     img {
         height: 400px;
         border-radius: 5%;
     }
-    span{
+
+    span {
         padding: 0px 0px 5px 0px;
     }
 }
@@ -612,7 +750,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .bottom_title {
@@ -659,10 +797,23 @@ td {
     }
 }
 
-.demo_tips{
+.demo_tips {
     width: 100%;
     text-align: center;
-    margin-top:5px;
-    color:  gray;
+    margin-top: 5px;
+    color: gray;
+}
+
+.add_strategy_from {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+}
+.compress_form_item_title{
+    width: 26%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 15px;
 }
 </style>
