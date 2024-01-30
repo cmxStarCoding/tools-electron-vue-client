@@ -1,6 +1,6 @@
 <template>
     <div id="elHeader">
-        <div class="titlebtn">
+        <div class="titlebtn" v-if="is_win">
             <div class="min" @click="min" :class="{'active' : mourse_area == 'min'}" @mousemove="changeColor('min')" @mouseout="clearColor()">
                 <img src="../../assets/images/system_icon/min.png" />
             </div>
@@ -21,11 +21,23 @@ export default {
 
     data() {
         return {
+          is_win:false,
           mourse_area:""
         };
+    },  
+    mounted() {
+        this.initPageInfo()
     },
     methods: {
+        initPageInfo(){
+          ipcRenderer.invoke('getClientPackageInfo').then((client_package_info) => {
+            // this.is_win = false
+            console.log(client_package_info)
+              this.is_win = client_package_info.platform == "win32" ? true : false
+          })
+        },
         min() {
+            // alert("aaa");
             ipcRenderer.send("window-min");
         },
         max() {
@@ -36,8 +48,10 @@ export default {
         },
         clearColor(){
           this.mourse_area =""
+
         },
         changeColor(value){
+          console.log(value)
           this.mourse_area = value
         }
     },

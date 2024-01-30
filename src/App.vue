@@ -1,5 +1,5 @@
 <template>
-    <CommonTopHeader v-if="is_win"></CommonTopHeader>
+    <CommonTopHeader></CommonTopHeader>
     <CommonHeader> </CommonHeader>
     <div class="project_content">
         <div class="project_left">
@@ -69,7 +69,6 @@
 // console.log(process.env.VUE_APP_API_URL, 'asdasdasd111')
 import CommonTopHeader from './views/common/CommonTopHeader.vue'
 import CommonHeader from './views/common/CommonHeader.vue'
-import { ipcRenderer } from 'electron';
 import apiService from './models/axios'
 
 export default {
@@ -81,24 +80,14 @@ export default {
     },
     mounted() {
         this.getToolsList()
-        this.initPageInfo()
     },
     data() {
         return {
-            is_win:false,
             show_fixed_bottom_ul: false,
             recommend_tools_list_data:[]
         }
     },
     methods: {
-        initPageInfo(){
-          ipcRenderer.invoke('getClientPackageInfo').then((client_package_info) => {
-            // this.is_win = false
-            console.log(client_package_info)
-              this.is_win = client_package_info.platform == "win32" ? true : false
-              console.log(this.is_win)
-          })
-        },
         getToolsList(){
             apiService.ToolsListApi({
                 is_recommend:1
