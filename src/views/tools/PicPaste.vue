@@ -245,8 +245,8 @@ export default {
             show_demo_tips: false,
             demoStretegyFormData: {
                 name: "demo策略",
-                original_image_url: "http://127.0.0.1:8083/static/demo_ditu.jpg",
-                stick_img_url: "http://127.0.0.1:8083/static/demo_paste.png",
+                original_image_url: "https://alitools.cmxstar.top/static/demo_ditu.jpg",
+                stick_img_url: "https://alitools.cmxstar.top/static/demo_paste.png",
                 bc_shape: 2,
                 bc_color: '#1CA085',
                 side_length: 85,
@@ -256,13 +256,13 @@ export default {
                 multiple: 5.7
             },
             defaultStretegyFormData: {
-                original_image_url: "http://127.0.0.1:8083/static/demo_ditu.jpg",
-                stick_img_url: "http://127.0.0.1:8083/static/demo_paste.png",
+                original_image_url: "https://alitools.cmxstar.top/static/demo_ditu.jpg",
+                stick_img_url: "https://alitools.cmxstar.top/static/demo_paste.png",
                 bc_shape: 0,
                 bc_color: '#1CA085',
                 type: 0,
             },
-            effect_image: "http://127.0.0.1:8083/static/demo_ditu.jpg",
+            effect_image: "https://alitools.cmxstar.top/static/demo_ditu.jpg",
             popoverContent: "",
             stretegyFormData: {},
             tableData: [],

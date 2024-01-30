@@ -51,7 +51,7 @@ module.exports = defineConfig({
                     uninstallerIcon: './public/icon/70_70.ico', // 卸载图标
                     installerHeaderIcon: './public/icon/70_70.ico', // 安装时头部图标
                     createDesktopShortcut: true, // 创建桌面快捷方式图标
-                    shortcutName: 'I便笺', // 桌面快捷方式图标名称
+                    shortcutName: '阿狸工具', // 桌面快捷方式图标名称
                     createStartMenuShortcut: true, // 创建开始菜单图标
                     runAfterFinish: true
                 },
