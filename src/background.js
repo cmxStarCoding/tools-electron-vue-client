@@ -1,14 +1,15 @@
 'use strict'
 require('dotenv').config({ path: './electron/.env' });
-import { app, protocol, BrowserWindow, Tray, Menu, ipcMain, shell, dialog, globalShortcut,nativeImage} from 'electron'
+import { app, protocol, BrowserWindow, Tray, Menu, ipcMain, shell, dialog, globalShortcut, nativeImage } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-import {initMenu} from "./ipcMain/menu"
+import { initMenu } from "./ipcMain/menu"
+
 // import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 const path = require('path');
 const fs = require('fs');
-// const https = require('https');
+const https = require('https');
 const http = require('http');
 
 let tray = null
@@ -27,17 +28,25 @@ async function createWindow() {
         height: 870,
         minWidth: 1450,
         minHeight: 870,
+        //隐藏屏幕上方中间的标题
+        titleBarStyle: 'hidden',
+        // frame: false,
+        // titleBarOverlay: {
+        //     color: '#2f3241',
+        //     symbolColor: '#74b1be',
+        //     height: 60
+        // },
         webPreferences: {
 
             // Use pluginOptions.nodeIntegration, leave this alone
             // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
             nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-            sandbox: false, 
+            sandbox: false,
         }
     })
 
-   
+
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         // Load the url of the dev server if in development mode
         await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
@@ -61,6 +70,27 @@ async function createWindow() {
     ipcMain.on('sendStartControl', () => {
         win.webContents.openDevTools()
     })
+
+    //监听渲染进程广播的事件
+    ipcMain.on("window-min", () => {
+        console.log("window-min")
+        win.minimize();
+    })
+
+    ipcMain.on("window-max", () => {
+        console.log("window-max")
+        if (win.isMaximized()) {
+            win.restore()
+        } else {
+            win.maximize()
+        }
+    })
+    ipcMain.on("window-close", () => {
+        console.log("window-close")
+        win.close();
+    })
+
+
 }
 
 
@@ -116,12 +146,12 @@ app.on('ready', async () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
 
-    initMenu(Menu,dialog,app,path,fs)
+    initMenu(Menu, dialog, app, path, fs)
 
 
 
-    if(!process.env.WEBPACK_DEV_SERVER_URL){
-    // 拦截comman+r刷新页面
+    if (!process.env.WEBPACK_DEV_SERVER_URL) {
+        // 拦截comman+r刷新页面
         globalShortcut.register('CommandOrControl+R', () => {
             // Do nothing or show a custom message
             console.log('Command+R is disabled');
@@ -134,11 +164,16 @@ app.on('ready', async () => {
 ipcMain.on('download-file', async (event, data) => {
     try {
         const fileUrl = data.file_url;
+
+        const parsedUrl = new URL(fileUrl);
+        const protocol = parsedUrl.protocol === 'https:' ? https : http;
+
+
         const savePath = path.join(app.getPath('downloads'), data.file_name);
 
         const file = fs.createWriteStream(savePath);
 
-        const request = http.get(fileUrl, (response) => {
+        const request = protocol.get(fileUrl, (response) => {
             const totalLength = response.headers['content-length'];
             let downloaded = 0;
 
@@ -178,7 +213,7 @@ ipcMain.on('show-dialog', (event) => {
         title: 'Information',
         message: 'This is an informational message.',
         buttons: ['OK'],
-      });
+    });
     // 向渲染进程发送结果
     event.reply('show-dialog-response', result);
 });
@@ -189,8 +224,8 @@ ipcMain.handle('getClientPackageInfo', () => {
     const packageJsonContent = fs.readFileSync(packageJsonPath, 'utf8');
     const packageJson = JSON.parse(packageJsonContent);
     return {
-        version:packageJson.version,
-        platform:process.platform
+        version: packageJson.version,
+        platform: process.platform
     };
 });
 

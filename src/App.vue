@@ -1,4 +1,5 @@
 <template>
+    <CommonTopHeader></CommonTopHeader>
     <CommonHeader> </CommonHeader>
     <div class="project_content">
         <div class="project_left">
@@ -66,14 +67,17 @@
 // const mainProcessEnv = remote.getGlobal('process.env');
 // import HelloWorld from './components/HelloWorld.vue'
 // console.log(process.env.VUE_APP_API_URL, 'asdasdasd111')
-
+import CommonTopHeader from './views/common/CommonTopHeader.vue'
 import CommonHeader from './views/common/CommonHeader.vue'
+
 import apiService from './models/axios'
 
 export default {
     name: 'App',
     components: {
-        CommonHeader,
+        CommonTopHeader,
+        CommonHeader
+        
     },
     mounted() {
         this.getToolsList()
