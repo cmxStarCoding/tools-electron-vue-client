@@ -20,11 +20,11 @@ module.exports = defineConfig({
                     }
                 ],
                 //MAC打包需要此配置，windows不需要此配置
-                electronDownload: {
-                    cache: '../cache/',
-                    mirror: 'https://npm.taobao.org/mirrors/electron/',
-                    customDir: 'v13.6.9-darwin-x64',
-                },
+                // electronDownload: {
+                //     cache: '../cache/',
+                //     mirror: 'https://npm.taobao.org/mirrors/electron/',
+                //     customDir: 'v13.6.9-darwin-x64',
+                // },
                 productName: productName,
                 appId: appId,
 

@@ -30,7 +30,7 @@ async function createWindow() {
         minHeight: 870,
         //隐藏屏幕上方中间的标题
         titleBarStyle: 'hidden',
-        // frame: false,
+        frame: false,
         // titleBarOverlay: {
         //     color: '#2f3241',
         //     symbolColor: '#74b1be',
@@ -73,12 +73,10 @@ async function createWindow() {
 
     //监听渲染进程广播的事件
     ipcMain.on("window-min", () => {
-        console.log("window-min")
         win.minimize();
     })
 
     ipcMain.on("window-max", () => {
-        console.log("window-max")
         if (win.isMaximized()) {
             win.restore()
         } else {

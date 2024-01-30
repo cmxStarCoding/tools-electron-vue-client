@@ -1,17 +1,14 @@
 <template>
     <div id="elHeader">
         <div class="titlebtn">
-            <div class="min" @click="min">
-                <!-- <img src="../assets/min.png" /> -->
-                -
+            <div class="min" @click="min" :class="{'active' : mourse_area == 'min'}" @mousemove="changeColor('min')" @mouseout="clearColor()">
+                <img src="../../assets/images/system_icon/min.png" />
             </div>
-            <div class="max" @click="max">
-                <!-- <img src="../assets/max.png" /> -->
-                []
+            <div class="max" @click="max" :class="{'active' : mourse_area == 'max'}" @mousemove="changeColor('max')" @mouseout="clearColor()">
+                <img src="../../assets/images/system_icon/max.png" />
             </div>
-            <div class="close" @click="close">
-                <!-- <img src="../assets/close.png" /> -->
-                x
+            <div class="close" @click="close" :class="{'active' : mourse_area == 'close'}" @mousemove="changeColor('close')" @mouseout="clearColor()">
+                <img src="../../assets/images/system_icon/close.png" />
             </div>
         </div>
     </div>
@@ -23,11 +20,12 @@ import { ipcRenderer } from "electron";
 export default {
 
     data() {
-        return {};
+        return {
+          mourse_area:""
+        };
     },
     methods: {
         min() {
-            // alert("aaa");
             ipcRenderer.send("window-min");
         },
         max() {
@@ -36,6 +34,12 @@ export default {
         close() {
             ipcRenderer.send("window-close");
         },
+        clearColor(){
+          this.mourse_area =""
+        },
+        changeColor(value){
+          this.mourse_area = value
+        }
     },
 }
 </script>
@@ -46,52 +50,50 @@ export default {
 #elHeader {
     width: 100%;
     height: 30px;
-    line-height: 30px;
     background-color: #eee;
+    display: flex;
+    justify-content: flex-end;
+
     -webkit-app-region: drag;
 }
 
 .titlebtn {
     position: relative;
-    width: 200px;
-    height: 30px;
-    line-height: 30px;
-    float: right;
+    display: flex;
     -webkit-app-region: no-drag;
 
     .min {
-        position: absolute;
-        background: "green";
-        right: 100px;
-        width: 18px;
-
+        padding: 2px 5px 2px 5px;
+        cursor: pointer;
         img {
-            width: 100%;
-            margin-top: 6px;
+            width: 20px;
+            height: 20px;
         }
     }
 
     .max {
-        position: absolute;
-        background: "yellow";
-        right: 60px;
-        width: 18px;
+        padding: 2px 5px 2px 5px;
+        cursor: pointer;
 
-        img {
-            width: 100%;
-            margin-top: 6px;
+         img {
+            width: 20px;
+            height: 20px;
         }
     }
 
     .close {
-        position: absolute;
-        background: "black";
-        right: 20px;
-        width: 18px;
+        padding: 2px 5px 2px 5px;
+        cursor: pointer;
+        border-radius: 5px;
 
         img {
-            width: 100%;
-            margin-top: 6px;
+            width: 20px;
+            height: 20px;
         }
     }
-}</style>
+}
+
+.active {
+    background-color: #74b1be;
+}
+</style>
