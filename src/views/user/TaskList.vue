@@ -21,7 +21,9 @@
                     <td>{{ item.tools.name }}</td>
                     <td>{{ item.status_text }}</td>
                     <td>{{ item.created_at }}</td>
-                    <td></td>
+                    <td>
+                        <button v-if="item.tools.mark == 'pic_paste_mark' && item.status == 3" @click="down_pic_paste_result(item)">下载</button>
+                    </td>
 
                 </tr>
             </tbody>
@@ -36,7 +38,10 @@
 </template>
   
 <script>
+
 import apiService from '../../models/axios'
+import { shell } from 'electron'
+
 export default {
     data() {
         return {
@@ -77,6 +82,13 @@ export default {
                 this.currentPage++;
             }
             this.getTaskList()
+        },
+        down_pic_paste_result(item){
+            // const url = 'https://github.com/cmxStarCoding'; // 替换为你要打开的外部链接
+
+            let requestResult = JSON.parse(item.request_result)
+
+            shell.openExternal(requestResult.file_path);
         },
     }
 }

@@ -2,7 +2,7 @@
 <template>
     <div class="system_content">
         <div class="left">
-            <span class="title">
+            <span class="title" @click="startCotrol">
                 版本
             </span>
             <span class="desc">
@@ -69,6 +69,7 @@ export default {
     },
     data() {
         return {
+            startCotrolNum:0,
             show_feedback_input: false,
             feedbackFormConfig: {
                 isVisible: false,
@@ -98,6 +99,13 @@ export default {
     methods: {
         feedback() {
             this.show_feedback_input = true
+        },
+        startCotrol(){
+            
+            this.startCotrolNum++
+            if(this.startCotrolNum >= 5){
+                ipcRenderer.send('sendStartControl',{})
+            }
         },
         updatFeedbackFormVisible(value) {
             this.feedbackFormConfig.isVisible = value;

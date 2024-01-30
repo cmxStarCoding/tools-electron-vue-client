@@ -1,7 +1,7 @@
 <template>
     <div class="header_content">
-        <div class="site_logo">
-            <img src="../../assets/images/icon.png" alt="">
+        <div class="site_logo" @click="this.$router.push({path:'/home'})">
+            <img src="../../assets/images/70_70.png" alt="">
             <span>阿狸工具</span>
         </div>
 

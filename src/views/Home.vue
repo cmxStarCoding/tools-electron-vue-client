@@ -128,7 +128,7 @@ export default {
     }
 
     img {
-        width: 60px;
+        width: 40px;
         margin-right: 10px;
     }
 }

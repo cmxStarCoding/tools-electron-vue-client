@@ -1,8 +1,8 @@
 'use strict'
 require('dotenv').config({ path: './electron/.env' });
-import { app, protocol, BrowserWindow, Tray, Menu, ipcMain, shell, dialog, globalShortcut} from 'electron'
+import { app, protocol, BrowserWindow, Tray, Menu, ipcMain, shell, dialog, globalShortcut,nativeImage} from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-
+import {initMenu} from "./ipcMain/menu"
 // import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -37,7 +37,7 @@ async function createWindow() {
         }
     })
 
-    win.webContents.openDevTools()
+   
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         // Load the url of the dev server if in development mode
         await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
@@ -46,16 +46,24 @@ async function createWindow() {
         createProtocol('app')
         // Load the index.html when not in development
         win.loadURL('app://./index.html')
-    }
 
-    // 禁用windows下的f5刷新
-    win.webContents.on('before-input-event', (event, input) => {
-        // Prevent F5 key
-        if (input.key === 'F5') {
-            event.preventDefault();
-        }
-    });
+
+        // 禁用windows下的f5刷新
+        win.webContents.on('before-input-event', (event, input) => {
+            // Prevent F5 key
+            if (input.key === 'F5') {
+                event.preventDefault();
+            }
+        });
+
+    }
+    //开启dev工具
+    ipcMain.on('sendStartControl', () => {
+        win.webContents.openDevTools()
+    })
 }
+
+
 
 app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
@@ -86,7 +94,7 @@ app.on('ready', async () => {
     // }
     createWindow()
     // tray = new Tray(path.join(__dirname, 'icon.png'))
-    tray = new Tray('./electron/icon.png')
+    tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '../public/icon/20_20.png')))
 
 
     // 单击系统托盘时触发的事件
@@ -96,9 +104,9 @@ app.on('ready', async () => {
 
     // 右键点击系统托盘时显示的上下文菜单
     const contextMenu = [
-        { label: '选项一', click: () => { /* 在这里编写选项一的逻辑 */ } },
-        { label: '选项二', click: () => { /* 在这里编写选项二的逻辑 */ } },
-        { type: 'separator' }, // 添加分隔线
+        // { label: '选项一', click: () => { /* 在这里编写选项一的逻辑 */ } },
+        // { label: '选项二', click: () => { /* 在这里编写选项二的逻辑 */ } },
+        // { type: 'separator' }, // 添加分隔线
         { label: '退出', click: () => { app.quit() } } // 退出应用程序
     ]
     tray.setContextMenu(Menu.buildFromTemplate(contextMenu))
@@ -108,11 +116,17 @@ app.on('ready', async () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
 
+    initMenu(Menu,dialog,app,path,fs)
+
+
+
+    if(!process.env.WEBPACK_DEV_SERVER_URL){
     // 拦截comman+r刷新页面
-    // globalShortcut.register('CommandOrControl+R', () => {
-    //     // Do nothing or show a custom message
-    //     console.log('Command+R is disabled');
-    // });
+        globalShortcut.register('CommandOrControl+R', () => {
+            // Do nothing or show a custom message
+            console.log('Command+R is disabled');
+        });
+    }
 
 })
 
@@ -157,6 +171,7 @@ ipcMain.on('download-file', async (event, data) => {
 });
 
 
+//弹窗
 ipcMain.on('show-dialog', (event) => {
     const result = dialog.showMessageBoxSync({
         type: 'info',

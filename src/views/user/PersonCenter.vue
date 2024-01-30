@@ -22,7 +22,8 @@
                     <img :src="userDetail.avatar_url" alt="">
                 </div>
                 <!-- 隐藏的文件上传字段 -->
-                <input type="file" ref="fileInput" accept=".jpg, .jpeg, .png," style="display: none" @change="handleFileChange">
+                <input type="file" ref="fileInput" accept=".jpg, .jpeg, .png," style="display: none"
+                    @change="handleFileChange">
 
                 <!-- 自定义按钮，触发文件上传字段点击事件 -->
                 <button type="button" class="custom-upload-button" @click="triggerFileInput">修改</button>
@@ -178,7 +179,11 @@ export default {
             const file = event.target.files[0];
             const formData = new FormData();
             formData.append('file', file);
-            apiService.UploadFileApi(formData).then((response) => {
+            apiService.UploadFileApi(formData, {
+                headers: {
+                    'Content-Type': "multipart/form-data"
+                },
+            }).then((response) => {
                 this.userDetail.avatar_url = response.data.path
                 apiService.UserEditApi({
                     avatar_url: response.data.path,
