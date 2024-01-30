@@ -73,40 +73,40 @@ export default {
 }
 
 .titlebtn {
-    position: relative;
     display: flex;
     -webkit-app-region: no-drag;
     align-items: center;
+    justify-content: center;
 
     .min {
-        padding: 2px 5px 2px 5px;
+        padding: 5px 5px 2px 5px;
         cursor: pointer;
         border-radius: 5px;
         img {
-            width: 25px;
-            height: 25px;
+            width: 20px;
+            height: 20px;
         }
     }
 
     .max {
-        padding: 2px 5px 2px 5px;
+        padding: 5px 5px 2px 5px;
         cursor: pointer;
         border-radius: 5px;
 
          img {
-            width: 25px;
-            height: 25px;
+            width: 20px;
+            height: 20px;
         }
     }
 
     .close {
-        padding: 2px 5px 2px 5px;
+        padding: 5px 5px 2px 5px;
         cursor: pointer;
         border-radius: 5px;
 
         img {
-            width: 25px;
-            height: 25px;
+            width: 20px;
+            height: 20px;
         }
     }
 }

@@ -126,7 +126,7 @@ body {
 
 .project_content {
     display: flex;
-    height: calc(100vh - 65px);
+    height: calc(100vh - 95px);
 }
 
 .project_left {
