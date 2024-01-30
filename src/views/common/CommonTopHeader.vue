@@ -69,29 +69,33 @@ export default {
     justify-content: flex-end;
 
     -webkit-app-region: drag;
+    align-items: center;
 }
 
 .titlebtn {
     position: relative;
     display: flex;
     -webkit-app-region: no-drag;
+    align-items: center;
 
     .min {
         padding: 2px 5px 2px 5px;
         cursor: pointer;
+        border-radius: 5px;
         img {
-            width: 20px;
-            height: 20px;
+            width: 25px;
+            height: 25px;
         }
     }
 
     .max {
         padding: 2px 5px 2px 5px;
         cursor: pointer;
+        border-radius: 5px;
 
          img {
-            width: 20px;
-            height: 20px;
+            width: 25px;
+            height: 25px;
         }
     }
 
@@ -101,8 +105,8 @@ export default {
         border-radius: 5px;
 
         img {
-            width: 20px;
-            height: 20px;
+            width: 25px;
+            height: 25px;
         }
     }
 }
