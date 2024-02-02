@@ -2,20 +2,31 @@
 <div><h2>你好 我是1.2.4</h2>
     <button @click="updateApp" style="width:100px;height: 40px;">更新</button>
     <SystemUpdate v-model:show="show" :percent="percent"></SystemUpdate>
+    <ImageViewer :image_path_array="[
+                'http://127.0.0.1:8083/static/image_viewer.jpeg',
+                'http://127.0.0.1:8083/static/2.jpeg'
+            ]" :visible="visible" @update-visible="bb"></ImageViewer>
 </div>
 </template>
 
 <script>
 
 import SystemUpdate from "../../components/SystemUpdateComponent.vue";
+import ImageViewer from "../../components/ImageViewerComponent.vue";
+
 import { ipcRenderer } from 'electron';
 export default {
     components: {
-        SystemUpdate
+        SystemUpdate,
+        ImageViewer
     },
     data() {
         return {
-           
+            visible:true,
+            src:[
+                // "http://127.0.0.1:8083/static/image_viewer.jpeg",
+                // "http://127.0.0.1:8083/static/2.jpeg"
+            ],
             percent: 0,
             show: false
         }
@@ -49,6 +60,10 @@ export default {
         });
     },
     methods: {
+        bb(value){
+            console.log(value,33333)
+            this.visible = false
+        },
         updateApp() {
             ipcRenderer.send('checkForUpdate', 'asdad')
         }

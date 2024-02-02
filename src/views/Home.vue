@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-
+    <!-- <button @click="this.$router.push({path:'/system_update'})">测试</button> -->
     <div v-for="(item,key) in cate_tool_list_data" :key="key" class="container">
         <div class="parent_category">
             <span>{{item.name}}</span>

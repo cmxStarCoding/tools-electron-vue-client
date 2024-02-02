@@ -59,6 +59,7 @@ async function createWindow() {
 
         // 禁用windows下的f5刷新
         win.webContents.on('before-input-event', (event, input) => {
+            console.log(888888888)
             // Prevent F5 key
             if (input.key === 'F5') {
                 event.preventDefault();
@@ -69,6 +70,7 @@ async function createWindow() {
     //开启dev工具
     ipcMain.on('sendStartControl', () => {
         win.webContents.openDevTools()
+        globalShortcut.unregister('CommandOrControl+R');
     })
 
     //监听渲染进程广播的事件
@@ -144,7 +146,7 @@ app.on('ready', async () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
 
-    initMenu(Menu, dialog, app, path, fs)
+    // initMenu(Menu, dialog, app, path, fs)
 
 
 

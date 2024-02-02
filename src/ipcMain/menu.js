@@ -1,4 +1,4 @@
-exports.initMenu = (Menu,dialog,app,path,fs) => {
+exports.initMenu = (Menu) => {
     //https://www.electronjs.org/docs/api/menu-item
     var menuTemplate = [
         // {

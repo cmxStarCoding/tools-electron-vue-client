@@ -44,7 +44,7 @@
                     <div class="debug_form">
                         <div class="form_item">
                             <span class="form_item_title">
-                                <label>策略名称:</label>
+                                <label>名称:</label>
                                 <button @mouseover="showPopover($event, 'name')" @mouseout="hidePopover"
                                     class="popoverTips">!</button>
                             </span>
@@ -64,7 +64,7 @@
                         </div>
                         <div class="form_item" v-if="stretegyFormData.bc_shape > 0">
                             <span class="form_item_title">
-                                <label>贴图背景区域颜色:</label>
+                                <label>背景区域颜色:</label>
                                 <button @mouseover="showPopover($event, 'bc_color')" @mouseout="hidePopover"
                                     class="popoverTips">!</button>
                             </span>
@@ -151,6 +151,8 @@
                     <tr>
                         <th>序号</th>
                         <th>名称</th>
+                        <th>底图</th>
+                        <th>贴图</th>
                         <th>背景区域形状</th>
                         <th>半径(px)</th>
                         <th>边长(px)</th>
@@ -164,6 +166,9 @@
                     <tr v-for="(item, key) in tableData" :key="key">
                         <td>{{ ((currentPage - 1) * pageSize) + (key + 1) }}</td>
                         <td>{{ item.name }}</td>
+                        <td><img :src="item.original_image_url" alt="" style="height: 40px;width: auto;" @click="image_viewer(item)"></td>
+                        <td><img :src="item.stick_img_url" alt="" style="height: 40px;width: auto;" @click="image_viewer(item,'stick_img_url')"></td>
+
                         <td>{{ item.shape_text }}</td>
                         <td>{{ item.x }}</td>
                         <td>{{ item.side_length }}</td>
@@ -176,7 +181,7 @@
                             <button v-if="item.id == stretegyFormData.id" @click="cancelSaveStrategy()">取消</button> -->
                             <button :disabled="item.id == stretegyFormData.id" @click="deleteStrategy(item)">删除</button>
                             <button :disabled="item.id == stretegyFormData.id"
-                                @click="AddStrategyTask(item)">添加策略任务</button>
+                                @click="AddStrategyTask(item)">批量上传贴图</button>
                         </td>
                     </tr>
                 </tbody>
@@ -203,23 +208,27 @@
                         </span>
                         <div>
                             <input type="file" accept=".zip" @change="handleCompressFileChange" />
-                        <span v-if="compress_progress >0 ">上传进度：{{compress_progress}}%</span>
+                            <span v-if="compress_progress > 0">上传进度：{{ compress_progress }}%</span>
                         </div>
-                 
+
                     </div>
                     <div class="form_item">
                         <span class="compress_form_item_title">
-                                <label>提示：</label>
-                            </span>
+                            <label>提示：</label>
+                        </span>
                         <div>
-                            <span class="compress_form_tips">将您的所有贴图文件，放置在一个文件夹中压缩为zip格式的压缩包进行上传<br>提交任务后可在右上角任务记录中查看和下载结果</span>
+                            <span
+                                class="compress_form_tips">将您的所有贴图文件，放置在一个文件夹中压缩为zip格式的压缩包进行上传<br>提交任务后可在右上角任务记录中查看和下载结果</span>
                         </div>
-                        
+
                     </div>
                 </div>
             </template>
         </PopupForm>
         <PopoverTips :content="popoverContent" ref="popoverRef"></PopoverTips>
+        <!-- 图片放大组件 -->
+        <ImageViewer :image_path_array="image_viewer_path_array" :visible="image_viewer_visible" @update-visible="update_image_viewer_visible"></ImageViewer>
+
     </div>
 </template>
 
@@ -229,17 +238,20 @@ import PopoverTips from '../../components/PopoverTipsComponent.vue';
 import apiService from '../../models/axios'
 import PickColors from 'vue-pick-colors'
 import PopupForm from '../../components/ToastFormComponent.vue';
+import ImageViewer from '../../components/ImageViewerComponent.vue';
 
 export default {
     components: {
         AlertComponent,
         PopoverTips,
         PickColors,
-        PopupForm
+        PopupForm,
+        ImageViewer
     },
     data() {
         return {
-            
+            image_viewer_path_array:[],
+            image_viewer_visible:false,
             original_image_wh: "",
             stick_image_wh: "",
             show_demo_tips: false,
@@ -278,12 +290,13 @@ export default {
                 cancelButtonText: '取消',
                 formData: {}, // 用于存储表单数据
             },
-            strategy_id:0,
-            compress_file_url:"",
-            compress_progress:0,
+            strategy_id: 0,
+            compress_file_url: "",            
+            compress_progress: 0,
         }
     },
     methods: {
+
         useDemoStrategy() {
             this.stretegyFormData = this.demoStretegyFormData
             this.show_demo_tips = true
@@ -481,10 +494,10 @@ export default {
                     'Content-Type': "multipart/form-data"
                 },
                 onUploadProgress: progressEvent => {
-                    this.compress_progress= Math.round((progressEvent.loaded / progressEvent.total) * 100);
+                    this.compress_progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
                 }
             }).then((response) => {
-                this.compress_file_url = response.data.path; 
+                this.compress_file_url = response.data.path;
                 console.log(response)
 
             }).catch(err => {
@@ -494,15 +507,15 @@ export default {
         updatAddStrategyTaskFormVisible(value) {
             this.AddStrategyTaskFormConfig.isVisible = value;
         },
-        AddStrategyTask(item){
+        AddStrategyTask(item) {
             this.AddStrategyTaskFormConfig.isVisible = true
             this.strategy_id = item.id
             this.compress_progress = 0
         },
         AddStrategyTaskConfirm() {
             apiService.UserPasteApi({
-                strategy_id:this.strategy_id,
-                compress_file_url:this.compress_file_url
+                strategy_id: this.strategy_id,
+                compress_file_url: this.compress_file_url
             }).then(() => {
                 this.showAlert("添加成功")
                 this.AddStrategyTaskFormConfig.isVisible = false;
@@ -515,6 +528,18 @@ export default {
             console.log('Cancelled');
             this.AddStrategyTaskFormConfig.isVisible = false;
         },
+        update_image_viewer_visible(value){
+            this.image_viewer_visible = value
+        },
+        image_viewer(item,source = 'original_image_url'){
+            if(source == 'original_image_url'){
+                this.image_viewer_path_array = [item.original_image_url]
+            }else if(source == 'stick_img_url'){
+                this.image_viewer_path_array = [item.stick_img_url]
+            }
+            
+            this.image_viewer_visible = true
+        },
     },
     mounted() {
         this.stretegyFormData = this.defaultStretegyFormData
@@ -525,7 +550,7 @@ export default {
             return Math.ceil(this.total / this.pageSize);
         },
         title() {
-            return this.stretegyFormData.id ? '调整批量贴图策略' : '新增批量贴图策略';
+            return this.stretegyFormData.id ? '调整策略' : '新增策略';
         }
     },
     watch: {
@@ -590,7 +615,7 @@ export default {
     font-size: 14px;
     font-weight: bold;
     border-bottom: 1px solid #DCDFE6;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     display: flex;
 
     .use_mark {
@@ -601,7 +626,7 @@ export default {
 
 .top {
     display: flex;
-    padding: 0px 0px 10px 0px;
+    padding: 0px 0px 5px 0px;
     width: 100%;
     height: 450px;
     border-bottom: 1px solid #DCDFE6;
@@ -750,7 +775,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 5px;
+    // margin-top: 5px;
 }
 
 .bottom_title {
@@ -809,7 +834,8 @@ td {
     flex-direction: column;
     width: 85%;
 }
-.compress_form_item_title{
+
+.compress_form_item_title {
     width: 26%;
     display: flex;
     justify-content: flex-end;
@@ -817,7 +843,7 @@ td {
     margin-right: 15px;
 }
 
-.compress_form_tips{
+.compress_form_tips {
     color: gray;
     font-size: 12px;
 }

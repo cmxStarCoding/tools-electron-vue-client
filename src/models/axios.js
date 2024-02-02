@@ -25,6 +25,7 @@ api.interceptors.request.use(
         if(!config.headers['Content-Type']){
             config.headers['Content-Type'] = 'application/json'
         }
+        config.headers['timeout'] = 10
         return config;
     },
     (error) => {
