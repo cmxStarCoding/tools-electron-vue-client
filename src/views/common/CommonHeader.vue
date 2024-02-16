@@ -69,6 +69,14 @@ export default {
             this.user_info = userProfile
             Storage.set('user_info',JSON.stringify(userProfile))
         })
+
+        VueEvent.on("to-common-header-token-expire", () => {
+            this.user_info = {};
+            Storage.remove("user_token")
+            Storage.remove("user_info")
+            this.is_login = false;
+        })
+
     },
     data() {
         return {

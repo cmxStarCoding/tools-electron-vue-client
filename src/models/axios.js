@@ -1,6 +1,7 @@
 import axios from 'axios';
 import router from '../routes';
 import localStorage from '../models/storage'
+import VueEvent from './event.js'
 
 const baseURL = process.env.NODE_ENV === 'production'
     ? process.env.VUE_APP_API_BASE_URL
@@ -39,6 +40,10 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
+  
+            VueEvent.emit("to-common-header-token-expire",{
+                
+            });
             router.push({ path: '/user_login' })
             // 处理 HTTP 状态码为 401 的情况，跳转至登录页面
             // 在这里你需要提供跳转至登录页面的逻辑
