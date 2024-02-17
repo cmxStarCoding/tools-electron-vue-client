@@ -795,11 +795,11 @@ select {
     border: 1px solid #DCDFE6;
     border-radius: 5px;
 
-    option {
-        font-size: 34px;
-        height: 30px;
-        background-color: red;
-    }
+    // option {
+    //     font-size: 34px;
+    //     height: 30px;
+    //     background-color: red;
+    // }
 }
 
 .popoverTips {
