@@ -2,7 +2,7 @@
 require('dotenv').config({ path: './electron/.env' });
 import { app, protocol, BrowserWindow, Tray, Menu, ipcMain, shell, dialog, globalShortcut, nativeImage } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-import { initMenu } from "./ipcMain/menu"
+// import { initMenu } from "./ipcMain/menu"
 
 // import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -92,8 +92,6 @@ async function createWindow() {
 
 
 }
-
-
 
 app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the

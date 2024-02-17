@@ -11,11 +11,11 @@
                 <span v-show="false">VIP用户</span>
                 <span>开通VIP</span>
             </div>
-            <div class="record" @click="this.$router.push({ path: '/use_tool_record' })" :class="{'active':$route.path == '/use_tool_record'}">
+            <div class="record" v-if="is_login" @click="this.$router.push({ path: '/use_tool_record' })" :class="{'active':$route.path == '/use_tool_record'}">
                 <img src="../../assets/images/record.png" alt="">
                 <span>使用记录</span>
             </div>
-            <div class="task" @click="this.$router.push({ path: '/task_list' })" :class="{'active':$route.path == '/task_list'}">
+            <div class="task" v-if="is_login" @click="this.$router.push({ path: '/task_list' })" :class="{'active':$route.path == '/task_list'}">
                 <img src="../../assets/images/task.png" alt="">
                 <span>任务记录</span>
             </div>

@@ -42,7 +42,7 @@
         <!-- 直接传入HTML代码 -->
         <template #form>
             <div class="download_new_version">
-                <p>发现新版本是否更新?</p>
+                <p>发现新版本是否下载?</p>
                 <div v-if="showDownloadProgress" class="progress">
                     <!-- <span>下载进度：</span> -->
                     <progress :value="downloadProgress" max="100"></progress>

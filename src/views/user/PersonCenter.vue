@@ -8,7 +8,7 @@
                 <span>账号：</span>
             </div>
             <div class="setting_ele">
-                <span>{{ userDetail.nickname }}</span>
+                <span>{{ userDetail.account }}</span>
                 <button @click="loggout">退出</button>
             </div>
 
@@ -124,7 +124,7 @@ export default {
         loggout() {
             apiService.UserLogoutApi({}).then(() => {
                 VueEvent.emit("to-common-header-logout", {});
-                this.$router.push({ path: '/home' })
+                this.$router.push({ path: '/user_login' })
 
             }).catch(err => {
                 this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
