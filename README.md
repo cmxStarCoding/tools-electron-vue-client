@@ -7,6 +7,8 @@ Electron客户端 ，阿狸工具-专注提高工作效率
 ### 运行环境
 - Node 16.20.2+
 - Electron ^13.0.0
+- Vue ^^3.2.13
+
 
 
 ### 安装
@@ -17,12 +19,10 @@ git clone https://github.com/cmxStarCoding/tools-electron-vue-client
 
 npm install
 ```
-配置mysql以及redis：
-```bash
-
 
 运行及打包：
 ```bash
+
 cd tools-electron-vue-client
 
 #运行
