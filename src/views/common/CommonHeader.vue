@@ -95,7 +95,7 @@ export default {
     display: flex;
     height: 65px;
     border: none;
-    color: #495366;
+    // color: #495366;
     font-size: 15px;
 }
 

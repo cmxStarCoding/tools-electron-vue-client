@@ -277,6 +277,9 @@ button {
     border: 1px solid rgb(218, 218, 218);
     padding: 3px 15px 3px 15px;
     cursor: pointer;
+    background-color: #FB4B59;
+    color: white;
+    border-radius: 6px;
 }
 
 .edit_password {
