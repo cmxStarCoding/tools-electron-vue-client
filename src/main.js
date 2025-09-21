@@ -4,6 +4,10 @@ import router from './routes'
 // import axios from './models/axios'; 
 import GlobalDataMethodsMixin from './mixin/globalDataMethodsMixin';
 
+
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+
 // import Antd from 'ant-design-vue';
 // import 'ant-design-vue/dist/reset.css';
 
@@ -18,4 +22,5 @@ app.use(router)
 // app.config.globalProperties.axios = axios
 
 app.mixin(GlobalDataMethodsMixin);
+app.use(ElementPlus)
 app.mount('#app')
