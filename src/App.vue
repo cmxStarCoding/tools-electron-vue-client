@@ -6,14 +6,10 @@
             <div>
                 <div class="left_top">
                     <div class="nav" @click="this.$router.push({ path: '/home' })" :class="{'active':$route.path == '/home'}">
-                        <img src="./assets/images/home.png">
-                        <p>首页</p>
-                    </div>
-                </div>
-                <div class="left_middle">
-                    <div v-for="(item,key) in recommend_tools_list_data" :key="key" class="nav" @click="this.$router.push({ path: item.router })"  :class="{'active':$route.path == item.router}">
-                        <img :src="item.logo">
-                        <p>{{item.name}}</p>
+                        <div class="new_msg">
+                            <el-icon><ChatDotRound /></el-icon>
+                            <span>17</span>   
+                        </div>
                     </div>
                 </div>
             </div>
@@ -107,8 +103,8 @@ body {
 
 .project_left {
     display: flex;
-    height: 100%; // 新增这行
-    flex-direction: column; // 新增这行
+    height: 100%;
+    flex-direction: column; 
     justify-content: space-between;
     background-color: rgb(250, 250, 250);
     border-right: 1px solid #eee;
@@ -120,13 +116,14 @@ body {
         color: #495366;
         cursor: pointer;
         .nav {
-            font-size: 11px;
+            // font-size: 11px;
             text-align: center;
-            padding-top: 10px;
-            // display: flex;
-            // flex-direction: column;
-            // align-items: center;   
-            // justify-content: center; 
+            height: 50px;
+            // padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;   
+            justify-content: center; 
             // width: 80%;
             img {
                 width: 24px;
@@ -135,6 +132,33 @@ body {
             p {
                 margin-top: 4px;
             }
+            .el-icon{
+                font-size: 23px;
+            }
+            .new_msg{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                span {
+                    background-color: rgb(235, 5, 5);
+                    width: 16px;
+                    height: 16px;
+                    line-height: 16px;
+                    border-radius: 8px;
+                    /* 添加以下代码实现完美居中 */
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    color: white;
+                    font-size: 12px;
+                    position: relative;
+                    left: -6px; 
+                    top: -7px; 
+            }
+            }
+            
         }
 
     }
@@ -222,8 +246,8 @@ body {
 
 .nav.active {
   /* 这里是你想要应用的样式 */
-  background-color:#DCDFE6;
-  border-radius: 10%;
+//   background-color:#DCDFE6;
+//   border-radius: 10%;
   font-weight: bold;
   padding-bottom: 3px;
   /* 添加其他样式 */

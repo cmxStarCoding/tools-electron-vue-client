@@ -6,700 +6,44 @@
         <el-container>
             <el-aside width="280px">
                 <div class="input-container">
-                    <el-input v-model="input2" class="responsive-input" placeholder="Type something"
-                        :prefix-icon="Search" />
+                    <el-input v-model="input2" class="responsive-input" placeholder="搜索" :prefix-icon="Search" />
+                    <el-icon><Plus /></el-icon>
                 </div>
                 <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                    
+                    <el-avatar shape="square" :size="40" fit="cover" :src="url" /> 
+                    <span class="new_msg">12</span>   
                     <div class="conversation_info">
                         <div class="conversation_info_top">
                             <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
+                                <!-- <el-text class="mx-1" size="small">群聊</el-text> -->
+                                <span style="font-size: 14px;">婷婷</span>
                             </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
+                            <el-text class="mx-1" size="small">19:21</el-text>
                         </div>
                         <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
+                            <el-text size="small" type="info">大家好啊</el-text>
                         </div>
                     </div>
                 </div>
-                <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+              <div class="conversation_list">
+                    
+                    <el-avatar shape="square" :size="40" fit="cover" :src="url" /> 
+                    <span class="new_msg">5</span>   
                     <div class="conversation_info">
                         <div class="conversation_info_top">
                             <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
+                                <!-- <el-text class="mx-1" size="small">群聊</el-text> -->
+                                <span style="font-size: 14px;">老妈</span>
                             </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
+                            <el-text class="mx-1" size="small">19:21</el-text>
                         </div>
                         <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
+                            <el-text size="small" type="info">吃饭了吗</el-text>
                         </div>
                     </div>
                 </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                               <div class="conversation_list">
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <el-text class="mx-1" size="large">群聊</el-text>
-                                <el-text class="mx-1" size="large">测试群</el-text>
-                            </div>
-                            <el-text class="mx-1" size="large">2025/09/21</el-text>
-                        </div>
-                        <div>
-                            <el-text class="mx-1" size="large">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
+                
             </el-aside>
             <el-container>
                 <el-header height="40px">Header</el-header>
@@ -728,7 +72,7 @@ export default {
     data() {
         return {
              input2: '',
-             url:"https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+             url:"https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg"
         }
     },
     mounted() {
@@ -741,11 +85,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+
 .el-aside {
-    border: 1px solid gray;
-    background-color: aqua;
+    // border: 1px solid gray;
+    // background-color: aqua;
     height: calc(100vh - 30px);
+    padding-left: 10px;
+    .input-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .el-icon{
+            margin-right: 5px;
+            cursor: pointer;
+            height: 22px;
+            width: 22px;
+            line-height: 10px;
+            border-radius: 3px;
+            background-color: white;
+        }
+    }
+
 }
+
 
 .el-header {
     border: 1px solid gray;
@@ -767,11 +131,32 @@ export default {
     display: flex;
     flex-direction:row;
     padding-top: 10px;
-    border: 1px solid grey;
+    // border: 1px solid grey;
+
+    .new_msg{
+        background-color: rgb(235, 5, 5);
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        border-radius: 8px;
+        /* 添加以下代码实现完美居中 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        font-size: 12px;
+        position: relative;
+        left: -12px; /* 向左移动15px */
+        top: -5px;  /* 向上移动15px，定位到右上角 */
+    }
 
     .conversation_info {
         display: flex;
         flex-direction:column;
+        justify-content:flex-start;
+        // padding-left: 5px;
+        padding-right: 5px;
         flex: 1;
         .conversation_info_top {
             display: flex;
@@ -795,11 +180,11 @@ export default {
     color: var(--el-text-color-regular);
 }
 
-.input-container {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
+// .input-container {
+//     display: flex;
+//     gap: 1rem;
+//     flex-wrap: wrap;
+// }
 
 .responsive-input {
     width: 240px;
