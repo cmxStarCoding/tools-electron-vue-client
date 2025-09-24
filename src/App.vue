@@ -5,18 +5,28 @@
         <div class="project_left">
             <div>
                 <div class="left_top">
+                    <div>
+                        <el-avatar shape="square"  :src="squareUrl" />
+                    </div>
+
                     <div class="nav" @click="this.$router.push({ path: '/home' })" :class="{'active':$route.path == '/home'}">
                         <div class="new_msg">
                             <el-icon><ChatDotRound /></el-icon>
                             <span>17</span>   
                         </div>
                     </div>
+                    <div class="nav">
+                        <el-icon><User /></el-icon>
+                    </div> 
+                    <div class="nav">
+                        <el-icon><Tools /></el-icon>
+
+                    </div>   
                 </div>
             </div>
             <div class="left_bottom">
                 <div class="nav" @click="this.$router.push({ path: '/system_setting' })" :class="{'active':$route.path == '/system_setting'}">
-                    <img src="./assets/images/system.png">
-                    <p>设置</p>
+                    <el-icon><Operation /></el-icon>
                 </div>
             </div>
         </div>
@@ -55,6 +65,7 @@ export default {
     data() {
         return {
             show_fixed_bottom_ul: false,
+            squareUrl:"https://cms-static.pengwin.com/data/crm/default/d4/e4/dc/d4e4dc60b1ef06ddc57e7c9185e584e1.jpg",
             recommend_tools_list_data:[]
         }
     },
@@ -109,6 +120,20 @@ body {
     background-color: rgb(250, 250, 250);
     border-right: 1px solid #eee;
 
+    .left_top{
+        display: flex;
+        flex-direction: column;
+        // justify-content: flex-start;
+        align-items: center;
+    }
+
+    .el-avatar{
+        margin: 13px 0px 13px 0px;
+    }
+
+    .el-icon{
+        font-size: 23px;
+    }
     .left_top,
     .left_middle,
     .left_bottom {
@@ -132,14 +157,13 @@ body {
             p {
                 margin-top: 4px;
             }
-            .el-icon{
-                font-size: 23px;
-            }
+      
             .new_msg{
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
                 align-items: center;
+                padding-left: 18px;
                 span {
                     background-color: rgb(235, 5, 5);
                     width: 16px;
@@ -161,6 +185,10 @@ body {
             
         }
 
+    }
+
+    .left_bottom{
+        margin-bottom: 10px;
     }
 
 }
@@ -249,7 +277,7 @@ body {
 //   background-color:#DCDFE6;
 //   border-radius: 10%;
   font-weight: bold;
-  padding-bottom: 3px;
+//   padding-bottom: 3px;
   /* 添加其他样式 */
 }
 /* 定义路由切换的过渡效果 */

@@ -46,7 +46,7 @@
                 
             </el-aside>
             <el-container>
-                <el-header height="40px">Header</el-header>
+                <el-header height="40px">婷婷</el-header>
                 <el-main height="800px">Main</el-main>
                 <el-footer height="160px">Footer</el-footer>
             </el-container>
@@ -92,11 +92,14 @@ export default {
     // background-color: aqua;
     height: calc(100vh - 30px);
     padding-left: 10px;
+    border-right: 1px solid #eae4e4;
     .input-container{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        // border-bottom: 1px solid #ded5d5;
+        height: 40px;
         .el-icon{
             margin-right: 5px;
             cursor: pointer;
@@ -112,18 +115,24 @@ export default {
 
 
 .el-header {
-    border: 1px solid gray;
-    background-color: aqua;
+    // border: 1px solid gray;
+    display: flex;
+    flex-direction: raw;
+    align-items: center;
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+    // background-color: aqua;
 }
 
 .el-main {
-    border: 1px solid gray;
-    background-color: aqua;
+    // border: 1px solid gray;
+    // background-color: aqua;
+    border-bottom: 1px solid #eee;
 }
 
 .el-footer {
-    border: 1px solid gray;
-    background-color: aqua;
+    // border: 1px solid gray;
+    // background-color: aqua;
 }
 
 .conversation_list {
@@ -145,7 +154,6 @@ export default {
         align-items: center;
         text-align: center;
         color: white;
-        font-size: 12px;
         position: relative;
         left: -12px; /* 向左移动15px */
         top: -5px;  /* 向上移动15px，定位到右上角 */

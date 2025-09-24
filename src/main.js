@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import './assets/css/global.css' // 导入全局样式
 import router from './routes'
 // import axios from './models/axios'; 
 import GlobalDataMethodsMixin from './mixin/globalDataMethodsMixin';
