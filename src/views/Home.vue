@@ -7,12 +7,14 @@
             <el-aside width="280px">
                 <div class="input-container">
                     <el-input v-model="input2" class="responsive-input" placeholder="搜索" :prefix-icon="Search" />
-                    <el-icon><Plus /></el-icon>
+                    <el-icon>
+                        <Plus />
+                    </el-icon>
                 </div>
                 <div class="conversation_list">
-                    
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" /> 
-                    <span class="new_msg">12</span>   
+
+                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                    <span class="new_msg">12</span>
                     <div class="conversation_info">
                         <div class="conversation_info_top">
                             <div>
@@ -26,10 +28,10 @@
                         </div>
                     </div>
                 </div>
-              <div class="conversation_list">
-                    
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" /> 
-                    <span class="new_msg">5</span>   
+                <div class="conversation_list">
+
+                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                    <span class="new_msg">5</span>
                     <div class="conversation_info">
                         <div class="conversation_info_top">
                             <div>
@@ -43,11 +45,40 @@
                         </div>
                     </div>
                 </div>
-                
+
             </el-aside>
             <el-container>
                 <el-header height="40px">婷婷</el-header>
-                <el-main height="800px">Main</el-main>
+                <el-main height="800px">
+                    <div v-if="chat_Messages">
+                        <div v-for="message in chat_Messages" :key="message.id" class="message-item" :class="message.sender === 'self' ? 'self' : 'other'">
+                            <div class="message-content" v-if="message.sender === 'other'">
+                                <div class="message-info">
+                                    <div class="message-avatar">
+                                        <el-avatar :size="32" shape="square" :src="message.sender === 'self' ? url : message.avatar" />
+                                    </div>
+                                    <!-- <div class="message-sender">{{ message.sender === 'self' ? '我' : message.name}}</div> -->
+                                </div>
+                                <div class="message-bubble-other">{{ message.content }}</div>
+                                <!-- <div class="message-time">{{ formatMessageTime(message.time) }}</div> -->
+                            </div>
+
+                            <div class="message-content" v-if="message.sender === 'self'">
+                                <div class="message-bubble-self">{{ message.content }}</div>
+                                <div class="message-info">
+                                    <div class="message-avatar">
+                                        <el-avatar :size="32" shape="square" :src="message.sender === 'self' ? url : message.avatar" />
+                                    </div>
+                                    <!-- <div class="message-sender">{{ message.sender === 'self' ? '我' : message.name}}</div> -->
+                                </div>
+                                
+                                <!-- <div class="message-time">{{ formatMessageTime(message.time) }}</div> -->
+                            </div>
+
+                        </div>
+                    </div>
+
+                </el-main>
                 <el-footer height="160px">Footer</el-footer>
             </el-container>
         </el-container>
@@ -63,44 +94,57 @@ export default {
     components: {
 
     },
-    computed:{
+    computed: {
         Search() {
-        //把导入的图标挂到实例上，模板才能用
-        return Search
+            //把导入的图标挂到实例上，模板才能用
+            return Search
         },
     },
     data() {
         return {
-             input2: '',
-             url:"https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg"
+            input2: '',
+            url: "https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg",
+            chat_Messages: [
+                { id: 1, nickname: "婷婷", avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg', sender: 'other', content: '大家好，今天天气不错啊,大家好，今天天气不错啊,大家好，今天天气不错啊大家好，今天天气不错啊,大家好，今天天气不错啊大家好，今天天气不错啊,大家好，今天天气不错啊大家好，今天天气不错啊,大家好，今天天气不错啊大家好，今天天气不错啊,大家好，今天天气不错啊大家好，今天天气不错啊,大家好，今天天气不错啊', time: new Date(Date.now() - 2 * 60 * 60 * 1000) },
+                { id: 2, nickname: "银尘", avatar: 'https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg', sender: 'self', content: '是啊，适合出去走走', time: new Date(Date.now() - 1.5 * 60 * 60 * 1000) },
+                { id: 3, nickname: "婷婷", avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg', sender: 'other', content: '你有什么计划吗？', time: new Date(Date.now() - 60 * 60 * 1000) },
+                { id: 4, nickname: "银尘", avatar: 'https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg', sender: 'self', content: '还没想好，可能去公园吧', time: new Date(Date.now() - 45 * 60 * 1000) },
+                { id: 5, nickname: "婷婷", avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg', sender: 'other', content: '听起来不错，我可以一起去吗？', time: new Date(Date.now() - 30 * 60 * 1000) },
+            ]
         }
     },
     mounted() {
 
     },
     methods: {
-        
+        formatMessageTime(time) {
+            const messageTime = new Date(time);
+            return messageTime.toLocaleTimeString('zh-CN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-
-
 .el-aside {
     // border: 1px solid gray;
     // background-color: aqua;
     height: calc(100vh - 30px);
     padding-left: 10px;
     border-right: 1px solid #eae4e4;
-    .input-container{
+
+    .input-container {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         // border-bottom: 1px solid #ded5d5;
         height: 40px;
-        .el-icon{
+
+        .el-icon {
             margin-right: 5px;
             cursor: pointer;
             height: 22px;
@@ -126,8 +170,42 @@ export default {
 
 .el-main {
     // border: 1px solid gray;
-    // background-color: aqua;
+    background-color: rgb(250, 248, 248);
     border-bottom: 1px solid #eee;
+
+    .message-content {
+        max-width: 70%;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        margin-bottom: 5px;
+        .message-bubble-other {
+            padding: 10px;
+            margin-left: 5px;
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        .message-bubble-self {
+            padding: 10px;
+            margin-right: 5px;
+            background-color: #95ec69;
+            border-radius: 5px;
+        }
+    }
+    /* 聊天消息样式 */
+    .message-item {
+        display: flex;
+        margin-bottom: 20px;
+        
+    }
+
+    .message-item.self {
+        justify-content: flex-end;
+    }
+
+
+
 }
 
 .el-footer {
@@ -138,11 +216,11 @@ export default {
 .conversation_list {
     height: 50px;
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     padding-top: 10px;
     // border: 1px solid grey;
 
-    .new_msg{
+    .new_msg {
         background-color: rgb(235, 5, 5);
         width: 16px;
         height: 16px;
@@ -155,17 +233,20 @@ export default {
         text-align: center;
         color: white;
         position: relative;
-        left: -12px; /* 向左移动15px */
-        top: -5px;  /* 向上移动15px，定位到右上角 */
+        left: -12px;
+        /* 向左移动15px */
+        top: -5px;
+        /* 向上移动15px，定位到右上角 */
     }
 
     .conversation_info {
         display: flex;
-        flex-direction:column;
-        justify-content:flex-start;
+        flex-direction: column;
+        justify-content: flex-start;
         // padding-left: 5px;
         padding-right: 5px;
         flex: 1;
+
         .conversation_info_top {
             display: flex;
             flex-direction: row;
