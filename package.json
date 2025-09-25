@@ -17,10 +17,12 @@
     "axios": "^1.6.5",
     "core-js": "^3.8.3",
     "element-plus": "^2.11.3",
+    "emoji-mart-vue-fast": "^15.0.5",
     "mitt": "^3.0.1",
     "vue": "^3.2.13",
     "vue-pick-colors": "^1.6.1",
-    "vue-router": "^4.0.13"
+    "vue-router": "^4.0.13",
+    "vue-wechat-emoji-picker": "^0.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

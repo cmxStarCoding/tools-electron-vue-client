@@ -6,7 +6,8 @@
         <el-container>
             <el-aside width="280px">
                 <div class="input-container">
-                    <el-input v-model="input2" class="responsive-input" placeholder="搜索" :prefix-icon="Search" />
+                    <el-input v-model="search_content" class="responsive-input" placeholder="搜索"
+                        :prefix-icon="Search" />
                     <el-icon>
                         <Plus />
                     </el-icon>
@@ -51,11 +52,13 @@
                 <el-header height="40px">婷婷</el-header>
                 <el-main height="800px">
                     <div v-if="chat_Messages">
-                        <div v-for="message in chat_Messages" :key="message.id" class="message-item" :class="message.sender === 'self' ? 'self' : 'other'">
+                        <div v-for="message in chat_Messages" :key="message.id" class="message-item"
+                            :class="message.sender === 'self' ? 'self' : 'other'">
                             <div class="message-content" v-if="message.sender === 'other'">
                                 <div class="message-info">
                                     <div class="message-avatar">
-                                        <el-avatar :size="32" shape="square" :src="message.sender === 'self' ? url : message.avatar" />
+                                        <el-avatar :size="32" shape="square"
+                                            :src="message.sender === 'self' ? url : message.avatar" />
                                     </div>
                                     <!-- <div class="message-sender">{{ message.sender === 'self' ? '我' : message.name}}</div> -->
                                 </div>
@@ -67,19 +70,36 @@
                                 <div class="message-bubble-self">{{ message.content }}</div>
                                 <div class="message-info">
                                     <div class="message-avatar">
-                                        <el-avatar :size="32" shape="square" :src="message.sender === 'self' ? url : message.avatar" />
+                                        <el-avatar :size="32" shape="square"
+                                            :src="message.sender === 'self' ? url : message.avatar" />
                                     </div>
                                     <!-- <div class="message-sender">{{ message.sender === 'self' ? '我' : message.name}}</div> -->
                                 </div>
-                                
+
                                 <!-- <div class="message-time">{{ formatMessageTime(message.time) }}</div> -->
                             </div>
 
                         </div>
                     </div>
-
                 </el-main>
-                <el-footer height="160px">Footer</el-footer>
+                <el-footer height="160px">
+                    <div class="menu">
+                        <Emoji class="emoji_ele" :data="emojiIndex" :emoji="selectedEmoji" :size="25"
+                            @click="toggleSelectable" />
+                        <el-icon class="folder">
+                            <Folder />
+                        </el-icon>
+                    </div>
+                    <div v-if="show_emoji_toast" class="emoji_main" ref="emojiPopup"
+                        v-click-outside="() => show_emoji_toast = false">
+                        <Picker :data="emojiIndex" set="apple" @select="showEmoji" />
+                    </div>
+
+                    <div class="input_chat_main">
+                        <!-- <el-input v-model="input_chat_content" style="width: 240px" clearable /> -->
+                        <textarea v-model="input_chat_content"></textarea>
+                    </div>
+                </el-footer>
             </el-container>
         </el-container>
     </div>
@@ -89,23 +109,59 @@
 
 <script>
 import { Search } from '@element-plus/icons-vue'
+// Import data/twitter.json to reduce size, all.json contains data for
+// all emoji sets.
+import data from "emoji-mart-vue-fast/data/all.json";
+// Import default CSS
+import "emoji-mart-vue-fast/css/emoji-mart.css";
+
+
+// Vue 3, import components from `/src`:
+import { Picker, Emoji, EmojiIndex } from "emoji-mart-vue-fast/src";
+
+// Create emoji data index.
+// We can change it (for example, filter by category) before passing to the component.
+let emojiIndex = new EmojiIndex(data);
 
 export default {
     components: {
-
+        Picker,
+        Emoji
+    },
+    directives: {
+        clickOutside: {
+            mounted(el, binding) {
+                el.clickOutsideHandler = (event) => {
+                    // 如果点击的是触发按钮（emoji_ele）或者点击在弹窗内部，就不关闭
+                    if (el.contains(event.target) || event.target.closest(".emoji_ele")) {
+                        return;
+                    }
+                    binding.value(event); // 关闭弹窗
+                };
+                document.addEventListener("click", el.clickOutsideHandler);
+            },
+            unmounted(el) {
+                document.removeEventListener("click", el.clickOutsideHandler);
+            }
+        }
     },
     computed: {
         Search() {
-            //把导入的图标挂到实例上，模板才能用
             return Search
         },
     },
     data() {
         return {
-            input2: '',
+            selectedEmoji: emojiIndex.findEmoji(':smile:'),
+            selectableVisible: true,
+            show_emoji_toast: false,
+            emojiIndex: emojiIndex,
+            emojisOutput: "",
+            search_content: '',
+            input_chat_content:"",
             url: "https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg",
             chat_Messages: [
-                { id: 1, nickname: "婷婷", avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg', sender: 'other', content: '大家好，今天天气不错啊,大家好，今天天气不错啊,大家好，今天天气不错啊大家好，今天天气不错啊,大家好，今天天气不错啊大家好，今天天气不错啊,大家好，今天天气不错啊大家好，今天天气不错啊,大家好，今天天气不错啊大家好，今天天气不错啊,大家好，今天天气不错啊大家好，今天天气不错啊,大家好，今天天气不错啊', time: new Date(Date.now() - 2 * 60 * 60 * 1000) },
+                { id: 1, nickname: "婷婷", avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg', sender: 'other', content: '大家好，今天天气不错啊', time: new Date(Date.now() - 2 * 60 * 60 * 1000) },
                 { id: 2, nickname: "银尘", avatar: 'https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg', sender: 'self', content: '是啊，适合出去走走', time: new Date(Date.now() - 1.5 * 60 * 60 * 1000) },
                 { id: 3, nickname: "婷婷", avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg', sender: 'other', content: '你有什么计划吗？', time: new Date(Date.now() - 60 * 60 * 1000) },
                 { id: 4, nickname: "银尘", avatar: 'https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg', sender: 'self', content: '还没想好，可能去公园吧', time: new Date(Date.now() - 45 * 60 * 1000) },
@@ -123,12 +179,27 @@ export default {
                 hour: '2-digit',
                 minute: '2-digit'
             });
+        },
+        showEmoji(emoji) {
+            //发丝空格
+            this.input_chat_content += emoji.native + '\u200A';
+        },
+        selectableSelectEmoji(emoji) {
+            this.selectedEmoji = emoji
+        },
+
+        toggleSelectable() {
+            this.show_emoji_toast = !this.show_emoji_toast
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
+.row>* {
+    margin: auto;
+}
+
 .el-aside {
     // border: 1px solid gray;
     // background-color: aqua;
@@ -179,6 +250,7 @@ export default {
         align-items: center;
         flex-direction: row;
         margin-bottom: 5px;
+
         .message-bubble-other {
             padding: 10px;
             margin-left: 5px;
@@ -193,11 +265,12 @@ export default {
             border-radius: 5px;
         }
     }
+
     /* 聊天消息样式 */
     .message-item {
         display: flex;
         margin-bottom: 20px;
-        
+
     }
 
     .message-item.self {
@@ -209,8 +282,60 @@ export default {
 }
 
 .el-footer {
-    // border: 1px solid gray;
-    // background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    background-color: #FAF8F8;
+
+    .menu {
+        display: flex;
+        flex-direction: row;
+        // justify-content: center;
+        align-items: center;
+
+        .emoji_ele {
+            margin-left: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .folder {
+            font-size: 22px;
+            cursor: pointer;
+        }
+    }
+
+    .emoji_main {
+        display: flex;
+        position: absolute;
+        left: 400px;
+        top: 300px;
+    }
+
+    .input_chat_main {
+        margin-left: 10px;
+        display: flex;
+        flex: 1;
+        textarea {
+            display: flex;
+            flex: 1;
+            border: none;
+            outline: none;
+            resize: none;
+            /* 禁止拖拽调整大小 */
+            background: transparent;
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            letter-spacing: 1px; 
+        }
+
+        textarea:focus {
+            border: none;
+            caret-color:#2FC160;
+            box-shadow: none;
+        }
+    }
 }
 
 .conversation_list {
@@ -218,7 +343,6 @@ export default {
     display: flex;
     flex-direction: row;
     padding-top: 10px;
-    // border: 1px solid grey;
 
     .new_msg {
         background-color: rgb(235, 5, 5);
@@ -226,7 +350,6 @@ export default {
         height: 16px;
         line-height: 16px;
         border-radius: 8px;
-        /* 添加以下代码实现完美居中 */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -234,16 +357,13 @@ export default {
         color: white;
         position: relative;
         left: -12px;
-        /* 向左移动15px */
         top: -5px;
-        /* 向上移动15px，定位到右上角 */
     }
 
     .conversation_info {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        // padding-left: 5px;
         padding-right: 5px;
         flex: 1;
 
