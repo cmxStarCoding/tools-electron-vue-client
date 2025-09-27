@@ -55,34 +55,56 @@
                         <div v-for="message in chat_Messages" :key="message.id" class="message-item"
                             :class="message.sender === 'self' ? 'self' : 'other'">
                             <div class="message-content" v-if="message.sender === 'other'">
-                                <div class="message-info">
-                                    <div class="message-avatar">
-                                        <el-avatar :size="32" shape="square"
-                                            :src="message.sender === 'self' ? url : message.avatar" />
-                                    </div>
-                                    <!-- <div class="message-sender">{{ message.sender === 'self' ? '我' : message.name}}</div> -->
+                                <div class="message-avatar">
+                                    <el-avatar :size="32" shape="square" :src="message.sender === 'self' ? url : message.avatar" />
                                 </div>
-                                <div class="message-bubble-other">{{ message.content }}</div>
-                                <!-- <div class="message-time">{{ formatMessageTime(message.time) }}</div> -->
+                                <div class="message-info">
+                                    <div class="message-bubble-other" v-if="message.msg_type == 1">
+                                        {{ message.content }}
+                                    </div>
+                                    <div class="video_content" v-if="message.msg_type == 3" >
+                                        <videoPlay v-if="message.msg_type == 3" v-bind="options" 
+                                        src="https://cms-static.pengwin.com/data/video/20220321/2220321647849740898836.mp4" 
+                                        
+                                        />
+                                    </div>
+                                    <div class="image_content" v-if="message.msg_type == 2" >
+                                        <!-- <VuePictureSwipe :items="items"></VuePictureSwipe> -->
+                                    </div>
+                                </div>
+                    
                             </div>
 
                             <div class="message-content" v-if="message.sender === 'self'">
-                                <div class="message-bubble-self">{{ message.content }}</div>
+                                <div class="message-bubble-self" v-if="message.msg_type == 1">{{ message.content }}</div>
+                                <!-- <div class="image_content" v-if="message.msg_type == 2" > -->
+                                             <div class="image_content" v-viewer v-if="message.msg_type == 2">
+                                                <img v-for="src in images" :key="src" :src="src">
+                                            </div>
+                                <!-- </div> -->
                                 <div class="message-info">
                                     <div class="message-avatar">
                                         <el-avatar :size="32" shape="square"
                                             :src="message.sender === 'self' ? url : message.avatar" />
                                     </div>
-                                    <!-- <div class="message-sender">{{ message.sender === 'self' ? '我' : message.name}}</div> -->
                                 </div>
-
-                                <!-- <div class="message-time">{{ formatMessageTime(message.time) }}</div> -->
                             </div>
 
                         </div>
                     </div>
+
+                    <div>
+                    <!-- directive -->
+           
+                    <!-- component -->
+                    <!-- <viewer :images="images">
+                        <img v-for="src in images" :key="src" :src="src">
+                    </viewer> -->
+                    <!-- api -->
+                    <!-- <button type="button" @click="show">Click to show</button> -->
+                </div>
                 </el-main>
-                <el-footer height="160px">
+                <el-footer>
                     <div class="menu">
                         <Emoji class="emoji_ele" :data="emojiIndex" :emoji="selectedEmoji" :size="25"
                             @click="toggleSelectable" />
@@ -96,7 +118,6 @@
                     </div>
 
                     <div class="input_chat_main">
-                        <!-- <el-input v-model="input_chat_content" style="width: 240px" clearable /> -->
                         <textarea v-model="input_chat_content"></textarea>
                     </div>
                 </el-footer>
@@ -109,16 +130,16 @@
 
 <script>
 import { Search } from '@element-plus/icons-vue'
+import "vue3-video-play/dist/style.css";
+import { videoPlay } from "vue3-video-play";
+
 // Import data/twitter.json to reduce size, all.json contains data for
 // all emoji sets.
 import data from "emoji-mart-vue-fast/data/all.json";
 // Import default CSS
 import "emoji-mart-vue-fast/css/emoji-mart.css";
-
-
 // Vue 3, import components from `/src`:
 import { Picker, Emoji, EmojiIndex } from "emoji-mart-vue-fast/src";
-
 // Create emoji data index.
 // We can change it (for example, filter by category) before passing to the component.
 let emojiIndex = new EmojiIndex(data);
@@ -126,7 +147,8 @@ let emojiIndex = new EmojiIndex(data);
 export default {
     components: {
         Picker,
-        Emoji
+        Emoji,
+        videoPlay
     },
     directives: {
         clickOutside: {
@@ -152,21 +174,110 @@ export default {
     },
     data() {
         return {
+            images: [
+                "https://cms-static.pengwin.com/data/crm/default/08/84/e5/0884e5bc3600bfd9a06d267ae282adea.jpg",
+            ],
             selectedEmoji: emojiIndex.findEmoji(':smile:'),
             selectableVisible: true,
             show_emoji_toast: false,
             emojiIndex: emojiIndex,
             emojisOutput: "",
             search_content: '',
-            input_chat_content:"",
+            input_chat_content: "",
             url: "https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg",
             chat_Messages: [
-                { id: 1, nickname: "婷婷", avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg', sender: 'other', content: '大家好，今天天气不错啊', time: new Date(Date.now() - 2 * 60 * 60 * 1000) },
-                { id: 2, nickname: "银尘", avatar: 'https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg', sender: 'self', content: '是啊，适合出去走走', time: new Date(Date.now() - 1.5 * 60 * 60 * 1000) },
-                { id: 3, nickname: "婷婷", avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg', sender: 'other', content: '你有什么计划吗？', time: new Date(Date.now() - 60 * 60 * 1000) },
-                { id: 4, nickname: "银尘", avatar: 'https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg', sender: 'self', content: '还没想好，可能去公园吧', time: new Date(Date.now() - 45 * 60 * 1000) },
-                { id: 5, nickname: "婷婷", avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg', sender: 'other', content: '听起来不错，我可以一起去吗？', time: new Date(Date.now() - 30 * 60 * 1000) },
-            ]
+                {
+                    id: 1,
+                    nickname: "婷婷",
+                    avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                    sender: 'other',
+                    content: '大家好，今天天气不错啊',
+                    time: new Date(Date.now() - 2 * 60 * 60 * 1000),
+                    msg_type: 1
+                },
+                {
+                    id: 2,
+                    nickname: "银尘",
+                    avatar: 'https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg',
+                    sender: 'self',
+                    content: '是啊，适合出去走走',
+                    time: new Date(Date.now() - 1.5 * 60 * 60 * 1000),
+                    msg_type: 1
+                },
+                {
+                    id: 5,
+                    nickname: "婷婷",
+                    avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                    sender: 'other',
+                    content: '听起来不错，我可以一起去吗？',
+                    time: new Date(Date.now() - 30 * 60 * 1000),
+                    msg_type: 1
+                },
+                {
+                    id: 5,
+                    nickname: "婷婷",
+                    avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                    sender: 'other',
+                    content: '',
+                    vieo_url: 'https://cms-static.pengwin.com/data/video/20220321/2220321647849740898836.mp4',
+                    time: new Date(Date.now() - 30 * 60 * 1000),
+                    msg_type: 3//视频
+                },
+                {
+                    id: 3,
+                    nickname: "婷婷",
+                    avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                    sender: 'other',
+                    content: '你有什么计划吗？',
+                    time: new Date(Date.now() - 60 * 60 * 1000),
+                    msg_type: 1
+                },
+                {
+                    id: 4,
+                    nickname: "银尘",
+                    avatar: 'https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg',
+                    sender: 'self',
+                    content: '还没想好，可能去公园吧',
+                    time: new Date(Date.now() - 45 * 60 * 1000),
+                    msg_type: 1
+                },
+                {
+                    id: 4,
+                    nickname: "银尘",
+                    avatar: 'https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg',
+                    sender: 'self',
+                    content: '',
+                    time: new Date(Date.now() - 45 * 60 * 1000),
+                    image_url:"https://cms-static.pengwin.com/data/images/20240117/4948751705487415326981.png",
+                    msg_type: 2
+                },
+            ],
+            options: {
+                // width: "200px", //播放器宽度
+                // height: "120px", //播放器高度
+                color: "#409eff", //主题色
+                title: "", //视频名称
+                // src: "https://cms-static.pengwin.com/data/video/20220321/2220321647849740898836.mp4", //视频源
+                muted: false, //静音
+                webFullScreen: false,
+                speedRate: ["0.75", "1.0", "1.25", "1.5", "2.0"], //播放倍速
+                autoPlay: false, //自动播放
+                loop: true, //循环播放
+                mirror: false, //镜像画面
+                ligthOff: true, //关灯模式
+                volume: 0.3, //默认音量大小
+                control: true, //是否显示控制
+                controlBtns: [
+                    // "audioTrack",
+                    // "quality",
+                    // "speedRate",
+                    "volume",
+                    // "setting",
+                    // "pip",
+                    "pageFullScreen",
+                    // "fullScreen",
+                ], //显示所有按钮,
+            }
         }
     },
     mounted() {
@@ -190,7 +301,12 @@ export default {
 
         toggleSelectable() {
             this.show_emoji_toast = !this.show_emoji_toast
-        }
+        },
+        show() {
+            this.$viewerApi({
+                images: this.images
+            })
+      }
     }
 }
 </script>
@@ -240,24 +356,45 @@ export default {
 }
 
 .el-main {
-    // border: 1px solid gray;
     background-color: rgb(250, 248, 248);
     border-bottom: 1px solid #eee;
-
+    max-height: calc(72vh );
     .message-content {
-        max-width: 70%;
         display: flex;
-        align-items: center;
         flex-direction: row;
         margin-bottom: 5px;
+        max-width: 70%; // 不让消息撑满整个聊天区域
+        word-wrap: break-word; // 文本自动换行
+        .video_content{
+            margin-left: 5px;
+            max-width: 160px;
+            .d-player-wrap{
+                border-radius: 8px;
+            }
+        }
+        .image_content{
+            flex-wrap: wrap; // 多张图片换行
+            gap: 5px;
+            img {
+                max-height: 280px; // 最大高度
+                width: auto;       // 保持比例
+                height: auto;      // 保持比例
+                border-radius: 8px;
+                object-fit: cover;
+            }
+        }
 
+        .message-info{
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
         .message-bubble-other {
             padding: 10px;
             margin-left: 5px;
             background-color: white;
             border-radius: 5px;
         }
-
         .message-bubble-self {
             padding: 10px;
             margin-right: 5px;
@@ -270,27 +407,23 @@ export default {
     .message-item {
         display: flex;
         margin-bottom: 20px;
-
     }
 
     .message-item.self {
         justify-content: flex-end;
     }
-
-
-
 }
 
 .el-footer {
     display: flex;
     flex-direction: column;
     padding: 0px;
+    flex: 1;
     background-color: #FAF8F8;
 
     .menu {
         display: flex;
         flex-direction: row;
-        // justify-content: center;
         align-items: center;
 
         .emoji_ele {
@@ -310,12 +443,14 @@ export default {
         position: absolute;
         left: 400px;
         top: 300px;
+        z-index: 9999;
     }
 
     .input_chat_main {
         margin-left: 10px;
         display: flex;
         flex: 1;
+
         textarea {
             display: flex;
             flex: 1;
@@ -323,16 +458,16 @@ export default {
             outline: none;
             resize: none;
             /* 禁止拖拽调整大小 */
-            background: transparent;
+            background: transparent;    
             box-shadow: none;
             padding: 0;
             margin: 0;
-            letter-spacing: 1px; 
+            letter-spacing: 1px;
         }
 
         textarea:focus {
             border: none;
-            caret-color:#2FC160;
+            caret-color: #2FC160;
             box-shadow: none;
         }
     }

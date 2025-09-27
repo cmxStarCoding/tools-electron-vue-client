@@ -19,10 +19,12 @@
     "element-plus": "^2.11.3",
     "emoji-mart-vue-fast": "^15.0.5",
     "mitt": "^3.0.1",
+    "v-viewer": "^3.0.22",
+    "viewerjs": "^1.11.7",
     "vue": "^3.2.13",
     "vue-pick-colors": "^1.6.1",
     "vue-router": "^4.0.13",
-    "vue-wechat-emoji-picker": "^0.1.2"
+    "vue3-video-play": "^1.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

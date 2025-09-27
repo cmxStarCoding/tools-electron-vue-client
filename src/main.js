@@ -4,7 +4,8 @@ import './assets/css/global.css' // 导入全局样式
 import router from './routes'
 // import axios from './models/axios'; 
 import GlobalDataMethodsMixin from './mixin/globalDataMethodsMixin';
-
+import 'viewerjs/dist/viewer.css'
+import VueViewer from 'v-viewer'
 
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
@@ -25,6 +26,7 @@ app.use(router)
 
 app.mixin(GlobalDataMethodsMixin);
 app.use(ElementPlus)
+app.use(VueViewer)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
