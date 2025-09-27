@@ -18,7 +18,7 @@ import TaskList from "./views/user/TaskList.vue"
 import PicPaste from "./views/tools/PicPaste.vue"
 import PdfToWord from "./views/tools/PdfToWord.vue"
 import WordToPdf from "./views/tools/WordToPdf.vue"
-
+import GroupFriendAndNewFriend from "./views/social/GroupFriendAndNewFriend.vue"
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -31,6 +31,9 @@ const router = createRouter({
 
         { path: '/', redirect: "/home" },
         { path: '/home', component: Home },
+
+        { path: '/group_friend_and_new_friend', component: GroupFriendAndNewFriend },
+
         //用户登录
         { path: '/user_login', component: UserLogin, name: 'user_login' },
         //用户注册

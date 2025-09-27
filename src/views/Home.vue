@@ -167,6 +167,10 @@ export default {
             }
         }
     },
+    emits: ["updateMsgNum"], 
+    mounted() {
+        this.$emit("updateNewMsgData", {"new_msg_num":"99+"})
+    }, // 声明要发出的事件
     computed: {
         Search() {
             return Search
@@ -280,9 +284,7 @@ export default {
             }
         }
     },
-    mounted() {
 
-    },
     methods: {
         formatMessageTime(time) {
             const messageTime = new Date(time);
@@ -481,10 +483,10 @@ export default {
 
     .new_msg {
         background-color: rgb(235, 5, 5);
-        width: 16px;
-        height: 16px;
-        line-height: 16px;
-        border-radius: 8px;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 10px;
         display: flex;
         justify-content: center;
         align-items: center;

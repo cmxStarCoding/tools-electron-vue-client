@@ -12,10 +12,10 @@
                     <div class="nav" @click="this.$router.push({ path: '/home' })" :class="{'active':$route.path == '/home'}">
                         <div class="new_msg">
                             <el-icon><ChatDotRound /></el-icon>
-                            <span>17</span>   
+                            <span>{{ new_msg_data.new_msg_num }}</span>   
                         </div>
                     </div>
-                    <div class="nav">
+                    <div class="nav" @click="this.$router.push({ path: '/group_friend_and_new_friend' })">
                         <el-icon><User /></el-icon>
                     </div> 
                     <div class="nav">
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="project_right">
-            <router-view></router-view>
+            <router-view @updateNewMsgData="new_msg_data = $event"></router-view>
         </div>
 
 
@@ -59,11 +59,13 @@ export default {
         // CommonHeader
         
     },
+    
     mounted() {
         this.getToolsList()
     },
     data() {
         return {
+            new_msg_data:{},
             show_fixed_bottom_ul: false,
             squareUrl:"https://cms-static.pengwin.com/data/crm/default/d4/e4/dc/d4e4dc60b1ef06ddc57e7c9185e584e1.jpg",
             recommend_tools_list_data:[]
@@ -166,17 +168,18 @@ body {
                 padding-left: 18px;
                 span {
                     background-color: rgb(235, 5, 5);
-                    width: 16px;
-                    height: 16px;
-                    line-height: 16px;
-                    border-radius: 8px;
+                    width: 20px;
+                    height: 20px;
+                    line-height: 20px;
+                    border-radius: 10px;
+                    padding-left: 2px;
                     /* 添加以下代码实现完美居中 */
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     text-align: center;
                     color: white;
-                    font-size: 12px;
+                    font-size: 10px;
                     position: relative;
                     left: -6px; 
                     top: -7px; 
