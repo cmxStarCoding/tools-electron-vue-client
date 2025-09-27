@@ -32,6 +32,7 @@ const router = createRouter({
         { path: '/', redirect: "/home" },
         { path: '/home', component: Home },
 
+        //我的群列表、好友列表，新朋友列表
         { path: '/group_friend_and_new_friend', component: GroupFriendAndNewFriend },
 
         //用户登录
