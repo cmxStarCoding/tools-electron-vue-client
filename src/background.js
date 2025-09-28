@@ -2,6 +2,7 @@
 require('dotenv').config({ path: './electron/.env' });
 import { app, protocol, BrowserWindow, Tray, Menu, ipcMain, shell, dialog, globalShortcut, nativeImage } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+import { createCanvas, loadImage } from 'canvas'
 // import { initMenu } from "./ipcMain/menu"
 
 // import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
@@ -110,7 +111,40 @@ app.on('window-all-closed', () => {
         app.quit()
     }
 })
+app.dock.setBadge('5') 
 
+// 生成带数字的图标
+async function createBadgeIcon(unreadCount) {
+  const size = 64 // 先画大一点，缩放时更清晰
+  const canvas = createCanvas(size, size)
+  const ctx = canvas.getContext('2d')
+
+  // 背景图
+  const baseImage = await loadImage(trayIconPath)
+  ctx.drawImage(baseImage, 0, 0, size, size)
+
+  if (unreadCount > 0) {
+    ctx.fillStyle = 'red'
+    ctx.beginPath()
+    ctx.arc(size - 18, 18, 18, 0, Math.PI * 2)
+    ctx.fill()
+
+    ctx.fillStyle = 'white'
+    ctx.font = 'bold 32px sans-serif'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(unreadCount > 99 ? '99+' : unreadCount.toString(), size - 18, 18)
+  }
+
+  // 绘制完成后再缩放
+  return nativeImage
+    .createFromBuffer(canvas.toBuffer())
+    .resize({ width: 22, height: 22 }) // 最终托盘大小
+}
+
+
+// 原始托盘图标路径
+const trayIconPath = path.join(__dirname, '../public/icon/20_20.png')
 app.on('ready', async () => {
     // if (isDevelopment && !process.env.IS_TEST) {
     //     // Install Vue Devtools
@@ -122,7 +156,7 @@ app.on('ready', async () => {
     // }
     createWindow()
     // tray = new Tray(path.join(__dirname, 'icon.png'))
-    tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '../public/icon/20_20.png')))
+    tray = new Tray(nativeImage.createFromPath(trayIconPath))
 
 
     // 单击系统托盘时触发的事件
@@ -156,6 +190,12 @@ app.on('ready', async () => {
         });
     }
 
+})
+
+ipcMain.on('update-unread', async (event, count) => {
+  const icon = await createBadgeIcon(count)
+  tray.setImage(icon)
+  tray.setToolTip(`有 ${count} 条新消息`)
 })
 
 // 下载文件
