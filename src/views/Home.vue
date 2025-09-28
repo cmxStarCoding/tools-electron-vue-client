@@ -167,7 +167,7 @@ export default {
             }
         }
     },
-    emits: ["updateMsgNum"], 
+    emits: ["updateNewMsgData"], 
     mounted() {
         this.$emit("updateNewMsgData", {"new_msg_num":"99+"})
     }, // 声明要发出的事件
