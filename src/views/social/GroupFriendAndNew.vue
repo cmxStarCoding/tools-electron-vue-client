@@ -10,14 +10,18 @@
                         p-id="1059">
                     </path>
                 </svg></el-aside>
-            <el-main>Main</el-main>
+            <el-main>Main1</el-main>
             <!-- <el-aside width="200px">Aside</el-aside> -->
         </el-container>
     </div>
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 export default {
+    mounted() {
+        ipcRenderer.send('update-unread', 5) // 显示 "5"
+    },
     data() {
         return {
 

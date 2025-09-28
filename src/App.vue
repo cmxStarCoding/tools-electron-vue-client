@@ -6,27 +6,37 @@
             <div>
                 <div class="left_top">
                     <div>
-                        <el-avatar shape="square"  :src="squareUrl" />
+                        <el-avatar shape="square" :src="squareUrl" />
                     </div>
 
-                    <div class="nav" @click="this.$router.push({ path: '/home' })" :class="{'active':$route.path == '/home'}">
+                    <div class="nav" @click="this.$router.push({ path: '/home' })"
+                        :class="{ 'active': $route.path == '/home' }">
                         <div class="new_msg">
-                            <el-icon><ChatDotRound /></el-icon>
-                            <span>{{ new_msg_data.new_msg_num }}</span>   
+                            <el-icon>
+                                <ChatDotRound />
+                            </el-icon>
+                            <span>{{ new_msg_data.new_msg_num }}</span>
                         </div>
                     </div>
                     <div class="nav" @click="this.$router.push({ path: '/group_friend_and_new_friend' })">
-                        <el-icon><User /></el-icon>
-                    </div> 
+                        <el-icon>
+                            <User />
+                        </el-icon>
+                    </div>
                     <div class="nav">
-                        <el-icon><Tools /></el-icon>
+                        <el-icon>
+                            <Tools />
+                        </el-icon>
 
-                    </div>   
+                    </div>
                 </div>
             </div>
             <div class="left_bottom">
-                <div class="nav" @click="this.$router.push({ path: '/system_setting' })" :class="{'active':$route.path == '/system_setting'}">
-                    <el-icon><Operation /></el-icon>
+                <div class="nav" @click="this.$router.push({ path: '/system_setting' })"
+                    :class="{ 'active': $route.path == '/system_setting' }">
+                    <el-icon>
+                        <Operation />
+                    </el-icon>
                 </div>
             </div>
         </div>
@@ -57,24 +67,24 @@ export default {
     components: {
         CommonTopHeader,
         // CommonHeader
-        
+
     },
-    
+
     mounted() {
         // this.getToolsList()
     },
     data() {
         return {
-            new_msg_data:{},
+            new_msg_data: {},
             show_fixed_bottom_ul: false,
-            squareUrl:"https://cms-static.pengwin.com/data/crm/default/d4/e4/dc/d4e4dc60b1ef06ddc57e7c9185e584e1.jpg",
-            recommend_tools_list_data:[]
+            squareUrl: "https://cms-static.pengwin.com/data/crm/default/d4/e4/dc/d4e4dc60b1ef06ddc57e7c9185e584e1.jpg",
+            recommend_tools_list_data: []
         }
     },
     methods: {
-        getToolsList(){
+        getToolsList() {
             apiService.ToolsListApi({
-                is_recommend:1
+                is_recommend: 1
             }).then((response) => {
                 this.recommend_tools_list_data = response.data
             }).catch(err => {
@@ -111,37 +121,39 @@ body {
 .project_content {
     display: flex;
     height: calc(100vh - 30px);
-    
+
 }
 
 .project_left {
     display: flex;
     height: 100%;
-    flex-direction: column; 
+    flex-direction: column;
     justify-content: space-between;
     background-color: rgb(250, 250, 250);
     border-right: 1px solid #eee;
 
-    .left_top{
+    .left_top {
         display: flex;
         flex-direction: column;
         // justify-content: flex-start;
         align-items: center;
     }
 
-    .el-avatar{
+    .el-avatar {
         margin: 13px 0px 13px 0px;
     }
 
-    .el-icon{
+    .el-icon {
         font-size: 23px;
     }
+
     .left_top,
     .left_middle,
     .left_bottom {
         width: 80px;
         color: #495366;
         cursor: pointer;
+
         .nav {
             // font-size: 11px;
             text-align: center;
@@ -149,8 +161,9 @@ body {
             // padding-top: 10px;
             display: flex;
             flex-direction: column;
-            align-items: center;   
-            justify-content: center; 
+            align-items: center;
+            justify-content: center;
+
             // width: 80%;
             img {
                 width: 24px;
@@ -159,13 +172,14 @@ body {
             p {
                 margin-top: 4px;
             }
-      
-            .new_msg{
+
+            .new_msg {
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
                 align-items: center;
                 padding-left: 18px;
+
                 span {
                     background-color: rgb(235, 5, 5);
                     width: 20px;
@@ -181,16 +195,16 @@ body {
                     color: white;
                     font-size: 10px;
                     position: relative;
-                    left: -6px; 
-                    top: -7px; 
+                    left: -6px;
+                    top: -7px;
+                }
             }
-            }
-            
+
         }
 
     }
 
-    .left_bottom{
+    .left_bottom {
         margin-bottom: 10px;
     }
 
@@ -276,12 +290,13 @@ body {
 }
 
 .nav.active {
-  /* 这里是你想要应用的样式 */
-//   background-color:#DCDFE6;
-//   border-radius: 10%;
-  font-weight: bold;
-//   padding-bottom: 3px;
-  /* 添加其他样式 */
+    /* 这里是你想要应用的样式 */
+    //   background-color:#DCDFE6;
+    //   border-radius: 10%;
+    font-weight: bold;
+    //   padding-bottom: 3px;
+    /* 添加其他样式 */
 }
+
 /* 定义路由切换的过渡效果 */
 </style>
