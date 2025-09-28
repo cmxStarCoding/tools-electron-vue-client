@@ -186,7 +186,7 @@ body {
                     height: 20px;
                     line-height: 20px;
                     border-radius: 10px;
-                    padding-left: 2px;
+                    padding-left: 3px;
                     /* 添加以下代码实现完美居中 */
                     display: flex;
                     justify-content: center;
