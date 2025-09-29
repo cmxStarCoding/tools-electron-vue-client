@@ -1,4 +1,3 @@
-
 <template>
     <div class="common-layout">
         <el-container>
@@ -10,7 +9,24 @@
                         p-id="1059">
                     </path>
                 </svg></el-aside>
-            <el-main>Main1</el-main>
+            <el-main>
+
+                <div>
+                    <!-- 文件选择 -->
+                    <input type="file" accept="video/*" @change="onFileChange" />
+
+                    <!-- 播放视频 -->
+                    <videoPlay v-if="videoUrl" :src="videoUrl" width="600px" height="400px" :autoPlay="false"
+                        :loop="false" :volume="0.8" :control="true" />
+
+
+                    <div>
+                        <input type="file" accept="image/*" @change="onFileChange1" />
+                        <img v-if="imgUrl" :src="imgUrl" v-viewer />
+                    </div>
+                </div>
+
+            </el-main>
             <!-- <el-aside width="200px">Aside</el-aside> -->
         </el-container>
     </div>
@@ -18,15 +34,45 @@
 
 <script>
 import { ipcRenderer } from 'electron'
+import { ref } from "vue";
+import "vue3-video-play/dist/style.css";
+import { videoPlay } from "vue3-video-play";
 export default {
+    name: "VideoPlayer",
+    components: {
+        videoPlay
+    },
+    setup() {
+        const videoUrl = ref("");
+
+        const onFileChange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                videoUrl.value = URL.createObjectURL(file);
+            }
+        };
+
+        return {
+            videoUrl,
+            onFileChange
+        };
+    },
     mounted() {
         ipcRenderer.send('update-unread', 5) // 显示 "5"
     },
     data() {
         return {
-
+            "imgUrl":""
         }
     },
+    methods: {
+        onFileChange1(e) {
+            const file = e.target.files[0];
+            if (file) {
+                this.imgUrl = URL.createObjectURL(file);
+            }
+        }
+    }
 }
 </script>
 

@@ -60,7 +60,7 @@
                                         :src="message.sender === 'self' ? url : message.avatar" />
                                 </div>
                                 <div class="message-info">
-                                    <div class="message-bubble-other" v-if="message.msg_type == 1">
+                                    <div class="text_content_other" v-if="message.msg_type == 1">
                                         {{ message.content }}
                                     </div>
                                     <div class="video_content" v-if="message.msg_type == 3">
@@ -85,7 +85,7 @@
                             </div>
 
                             <div class="message-content" v-if="message.sender === 'self'">
-                                <div class="message-bubble-self" v-if="message.msg_type == 1">{{ message.content }}
+                                <div class="text_content_self" v-if="message.msg_type == 1">{{ message.content }}
                                 </div>
                                 <div class="video_content" v-if="message.msg_type == 3">
                                     <videoPlay v-if="message.msg_type == 3" v-bind="options"
@@ -454,6 +454,7 @@ export default {
             width: 240px;
             padding: 5px 0px 5px 15px;
             margin: 0px 5px 0px 5px;
+            border-radius: 9px;
             .file_info_area{
                 .file_name{
                       /* 自动换行相关 */
@@ -472,14 +473,14 @@ export default {
             justify-content: flex-start;
         }
 
-        .message-bubble-other {
+        .text_content_other {
             padding: 10px;
             margin-left: 5px;
             background-color: white;
             border-radius: 5px;
         }
 
-        .message-bubble-self {
+        .text_content_self {
             padding: 10px;
             margin-right: 5px;
             background-color: #95ec69;
