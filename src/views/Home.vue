@@ -68,8 +68,8 @@
                                         
                                         />
                                     </div>
-                                    <div class="image_content" v-if="message.msg_type == 2" >
-                                        <!-- <VuePictureSwipe :items="items"></VuePictureSwipe> -->
+                                    <div class="image_content" v-viewer v-if="message.msg_type == 2">
+                                        <img v-for="src in images" :key="src" :src="src">
                                     </div>
                                 </div>
                     
@@ -77,11 +77,14 @@
 
                             <div class="message-content" v-if="message.sender === 'self'">
                                 <div class="message-bubble-self" v-if="message.msg_type == 1">{{ message.content }}</div>
-                                <!-- <div class="image_content" v-if="message.msg_type == 2" > -->
-                                             <div class="image_content" v-viewer v-if="message.msg_type == 2">
-                                                <img v-for="src in images" :key="src" :src="src">
-                                            </div>
-                                <!-- </div> -->
+                                   <div class="video_content" v-if="message.msg_type == 3" >
+                                        <videoPlay v-if="message.msg_type == 3" v-bind="options" 
+                                        src="https://cms-static.pengwin.com/data/video/20220321/2220321647849740898836.mp4" 
+                                        />
+                                    </div>
+                                <div class="image_content" v-viewer v-if="message.msg_type == 2">
+                                    <img v-for="src in images" :key="src" :src="src">
+                                </div>
                                 <div class="message-info">
                                     <div class="message-avatar">
                                         <el-avatar :size="32" shape="square"
@@ -92,17 +95,6 @@
 
                         </div>
                     </div>
-
-                    <div>
-                    <!-- directive -->
-           
-                    <!-- component -->
-                    <!-- <viewer :images="images">
-                        <img v-for="src in images" :key="src" :src="src">
-                    </viewer> -->
-                    <!-- api -->
-                    <!-- <button type="button" @click="show">Click to show</button> -->
-                </div>
                 </el-main>
                 <el-footer>
                     <div class="menu">
@@ -228,6 +220,16 @@ export default {
                     msg_type: 3//视频
                 },
                 {
+                    id: 5,
+                    nickname: "银尘",
+                    avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                    sender: 'self',
+                    content: '',
+                    vieo_url: 'https://cms-static.pengwin.com/data/video/20220321/2220321647849740898836.mp4',
+                    time: new Date(Date.now() - 30 * 60 * 1000),
+                    msg_type: 3//视频
+                },
+                {
                     id: 3,
                     nickname: "婷婷",
                     avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
@@ -250,6 +252,16 @@ export default {
                     nickname: "银尘",
                     avatar: 'https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg',
                     sender: 'self',
+                    content: '',
+                    time: new Date(Date.now() - 45 * 60 * 1000),
+                    image_url:"https://cms-static.pengwin.com/data/images/20240117/4948751705487415326981.png",
+                    msg_type: 2
+                },
+                {
+                    id: 4,
+                    nickname: "银尘",
+                    avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                    sender: 'other',
                     content: '',
                     time: new Date(Date.now() - 45 * 60 * 1000),
                     image_url:"https://cms-static.pengwin.com/data/images/20240117/4948751705487415326981.png",
@@ -308,7 +320,7 @@ export default {
             this.$viewerApi({
                 images: this.images
             })
-      }
+        }
     }
 }
 </script>
@@ -368,7 +380,7 @@ export default {
         max-width: 70%; // 不让消息撑满整个聊天区域
         word-wrap: break-word; // 文本自动换行
         .video_content{
-            margin-left: 5px;
+            margin: 0px 5px 0px 5px;
             max-width: 160px;
             .d-player-wrap{
                 border-radius: 8px;
@@ -376,6 +388,7 @@ export default {
         }
         .image_content{
             flex-wrap: wrap; // 多张图片换行
+            margin: 0px 5px 0px 5px;
             gap: 5px;
             img {
                 max-height: 280px; // 最大高度
