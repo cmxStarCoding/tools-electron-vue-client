@@ -56,34 +56,53 @@
                             :class="message.sender === 'self' ? 'self' : 'other'">
                             <div class="message-content" v-if="message.sender === 'other'">
                                 <div class="message-avatar">
-                                    <el-avatar :size="32" shape="square" :src="message.sender === 'self' ? url : message.avatar" />
+                                    <el-avatar :size="32" shape="square"
+                                        :src="message.sender === 'self' ? url : message.avatar" />
                                 </div>
                                 <div class="message-info">
                                     <div class="message-bubble-other" v-if="message.msg_type == 1">
                                         {{ message.content }}
                                     </div>
-                                    <div class="video_content" v-if="message.msg_type == 3" >
-                                        <videoPlay v-if="message.msg_type == 3" v-bind="options" 
-                                        src="https://cms-static.pengwin.com/data/video/20220321/2220321647849740898836.mp4" 
-                                        
-                                        />
+                                    <div class="video_content" v-if="message.msg_type == 3">
+                                        <videoPlay v-if="message.msg_type == 3" v-bind="options"
+                                            src="https://cms-static.pengwin.com/data/video/20220321/2220321647849740898836.mp4" />
                                     </div>
                                     <div class="image_content" v-viewer v-if="message.msg_type == 2">
                                         <img v-for="src in images" :key="src" :src="src">
                                     </div>
+
+                                    <div class="file_content" v-viewer v-if="message.msg_type == 4">
+                                            <div class="file_info_area">
+                                                <p class="file_name">测试文件上传123123123121.xlsx</p>
+                                                <p class="file_size">8.8k</p>
+                                            </div>
+                                            <div class="file_icon">
+                                                <svg t="1759156786577" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3454" width="70" height="70"><path d="M903.2 315.4V950c0 15.7-12.7 28.4-28.4 28.4H217.3c-12 0-21.6-9.7-21.6-21.6V98.7c0-8.8 7.1-15.9 15.9-15.9h443.1c0.9 0 1.4 1.1 0.8 1.8-0.4 0.4-0.4 1.1 0.1 1.5l247.5 228.6c0 0.1 0.1 0.4 0.1 0.7z" fill="#F4F4F4" p-id="3455"></path><path d="M654.8 300.1V82.8L903.3 315H669.7c-8.2 0-14.9-6.7-14.9-14.9zM431.4 374.1H213.2c-58.4 0-105.7-47.3-105.7-105.7 0-58.4 47.3-105.7 105.7-105.7h218.2c58.4 0 105.7 47.3 105.7 105.7 0.1 58.3-47.3 105.7-105.7 105.7z" fill="#4BC929" p-id="3456"></path><path d="M386.1 275.1c-1.1-1.7-2.3-3.1-3.4-4.3-4.1-4.2-9.6-7.1-16.5-8.5-4.5-1.1-8.5-1.4-11-1.5h-64.3c-8.6 0.1-15-1.7-18.5-5.3-0.7-0.7-1.2-1.4-1.6-2.1v-0.3c-1.2-2-1.9-4.5-1.9-7.5v-1-1.1c0.1-4.2 1.3-7.5 3.9-9.9 5.4-5.1 15.5-5.8 18.6-5.7H383.3c4 0 7.3-3.3 7.3-7.3s-3.3-7.3-7.3-7.3h-91.4c-2.5-0.1-17.2-0.2-27.6 8.3h-0.4c-0.6 0.5-1.2 1.1-1.8 1.7-2 2.1-4.3 5.1-5.8 9.1v0.3c-1.3 3.4-1.9 7-1.9 11v0.5c-0.2 7.6 1.8 13.2 4.3 17.1 0.5 0.8 1 1.5 1.6 2.2v0.1l0.3 0.3c0.1 0.1 0.1 0.2 0.2 0.2l0.3 0.3 0.2 0.2 0.3 0.3c0 0.1 0.1 0.1 0.1 0.2 0.1 0.2 0.3 0.3 0.4 0.5 4.1 4.2 9.6 7.1 16.5 8.5 4.5 1.1 8.5 1.4 11 1.5H354c3.2 0 6.1 0.2 8.7 0.7 3.4 0.8 7 2.3 9.5 4.7 0.8 0.7 1.4 1.5 1.9 2.4 0.2 0.3 0.3 0.5 0.4 0.8 0 0.1 0.1 0.2 0.1 0.3 0.1 0.2 0.2 0.4 0.3 0.5 0 0.1 0.1 0.2 0.1 0.3 0.1 0.2 0.1 0.3 0.2 0.5 0 0.1 0.1 0.3 0.1 0.4 0.1 0.2 0.1 0.3 0.2 0.5 0 0.1 0.1 0.3 0.1 0.4 0 0.2 0.1 0.3 0.1 0.5 0 0.1 0 0.3 0.1 0.5 0 0.2 0.1 0.4 0.1 0.5v0.5c0 0.2 0 0.4 0.1 0.6V293c-0.1 4.2-1.3 7.5-3.9 9.9-2.5 2.4-6.1 3.8-9.5 4.7-2.6 0.5-5.5 0.7-8.7 0.7h-78.3c-0.7 0-1.5 0.1-2.1 0.3h-12c-4 0-7.3 3.3-7.3 7.3s3.3 7.3 7.3 7.3h91.4c1.4 0.1 7 0.1 13.5-1.5 5.8-1.3 10.7-3.5 14.5-6.8 0.6-0.5 1.2-1.1 1.8-1.7 2-2.1 4.3-5.1 5.8-9.1 1.2-3.1 1.9-6.9 1.9-11.3v-0.7-0.5-0.2-0.1c0-7.1-1.9-12.4-4.3-16.2z" fill="#FFFFFF" p-id="3457"></path><path d="M716 509.4H369.6c-5.4 0-9.8 4.4-9.8 9.8v312.5c0 6.2 5.1 11.3 11.3 11.3h341.6c7.9 0 14.4-6.4 14.4-14.4v-308c0-6.2-5-11.2-11.1-11.2z m-11.2 22.3v83h-89.6v-83h89.6zM592.9 819.2h-99v-81.6h99v81.6zM494 715.3V637h99v78.4h-99z m-22.3 0h-88.9V637h88.9v78.3zM494 533.1h99v81.6h-99v-81.6zM615.2 637h88.9v78.4h-88.9V637zM382.1 531.7h89.6v83h-89.6v-83z m0 288.9v-83h89.6v83h-89.6z m322.7 0h-89.6v-83h89.6v83z" fill="#4BC929" p-id="3458"></path></svg>
+                                            </div>
+                                    </div>
                                 </div>
-                    
+
                             </div>
 
                             <div class="message-content" v-if="message.sender === 'self'">
-                                <div class="message-bubble-self" v-if="message.msg_type == 1">{{ message.content }}</div>
-                                   <div class="video_content" v-if="message.msg_type == 3" >
-                                        <videoPlay v-if="message.msg_type == 3" v-bind="options" 
-                                        src="https://cms-static.pengwin.com/data/video/20220321/2220321647849740898836.mp4" 
-                                        />
-                                    </div>
+                                <div class="message-bubble-self" v-if="message.msg_type == 1">{{ message.content }}
+                                </div>
+                                <div class="video_content" v-if="message.msg_type == 3">
+                                    <videoPlay v-if="message.msg_type == 3" v-bind="options"
+                                        src="https://cms-static.pengwin.com/data/video/20220321/2220321647849740898836.mp4" />
+                                </div>
                                 <div class="image_content" v-viewer v-if="message.msg_type == 2">
                                     <img v-for="src in images" :key="src" :src="src">
+                                </div>
+
+                                <div class="file_content" v-viewer v-if="message.msg_type == 4">
+                                        <div class="file_info_area">
+                                            <p class="file_name">测试文件上传123123123121.xlsx</p>
+                                            <p class="file_size">8.8k</p>
+                                        </div>
+                                        <div class="file_icon">
+                                            <svg t="1759156786577" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3454" width="70" height="70"><path d="M903.2 315.4V950c0 15.7-12.7 28.4-28.4 28.4H217.3c-12 0-21.6-9.7-21.6-21.6V98.7c0-8.8 7.1-15.9 15.9-15.9h443.1c0.9 0 1.4 1.1 0.8 1.8-0.4 0.4-0.4 1.1 0.1 1.5l247.5 228.6c0 0.1 0.1 0.4 0.1 0.7z" fill="#F4F4F4" p-id="3455"></path><path d="M654.8 300.1V82.8L903.3 315H669.7c-8.2 0-14.9-6.7-14.9-14.9zM431.4 374.1H213.2c-58.4 0-105.7-47.3-105.7-105.7 0-58.4 47.3-105.7 105.7-105.7h218.2c58.4 0 105.7 47.3 105.7 105.7 0.1 58.3-47.3 105.7-105.7 105.7z" fill="#4BC929" p-id="3456"></path><path d="M386.1 275.1c-1.1-1.7-2.3-3.1-3.4-4.3-4.1-4.2-9.6-7.1-16.5-8.5-4.5-1.1-8.5-1.4-11-1.5h-64.3c-8.6 0.1-15-1.7-18.5-5.3-0.7-0.7-1.2-1.4-1.6-2.1v-0.3c-1.2-2-1.9-4.5-1.9-7.5v-1-1.1c0.1-4.2 1.3-7.5 3.9-9.9 5.4-5.1 15.5-5.8 18.6-5.7H383.3c4 0 7.3-3.3 7.3-7.3s-3.3-7.3-7.3-7.3h-91.4c-2.5-0.1-17.2-0.2-27.6 8.3h-0.4c-0.6 0.5-1.2 1.1-1.8 1.7-2 2.1-4.3 5.1-5.8 9.1v0.3c-1.3 3.4-1.9 7-1.9 11v0.5c-0.2 7.6 1.8 13.2 4.3 17.1 0.5 0.8 1 1.5 1.6 2.2v0.1l0.3 0.3c0.1 0.1 0.1 0.2 0.2 0.2l0.3 0.3 0.2 0.2 0.3 0.3c0 0.1 0.1 0.1 0.1 0.2 0.1 0.2 0.3 0.3 0.4 0.5 4.1 4.2 9.6 7.1 16.5 8.5 4.5 1.1 8.5 1.4 11 1.5H354c3.2 0 6.1 0.2 8.7 0.7 3.4 0.8 7 2.3 9.5 4.7 0.8 0.7 1.4 1.5 1.9 2.4 0.2 0.3 0.3 0.5 0.4 0.8 0 0.1 0.1 0.2 0.1 0.3 0.1 0.2 0.2 0.4 0.3 0.5 0 0.1 0.1 0.2 0.1 0.3 0.1 0.2 0.1 0.3 0.2 0.5 0 0.1 0.1 0.3 0.1 0.4 0.1 0.2 0.1 0.3 0.2 0.5 0 0.1 0.1 0.3 0.1 0.4 0 0.2 0.1 0.3 0.1 0.5 0 0.1 0 0.3 0.1 0.5 0 0.2 0.1 0.4 0.1 0.5v0.5c0 0.2 0 0.4 0.1 0.6V293c-0.1 4.2-1.3 7.5-3.9 9.9-2.5 2.4-6.1 3.8-9.5 4.7-2.6 0.5-5.5 0.7-8.7 0.7h-78.3c-0.7 0-1.5 0.1-2.1 0.3h-12c-4 0-7.3 3.3-7.3 7.3s3.3 7.3 7.3 7.3h91.4c1.4 0.1 7 0.1 13.5-1.5 5.8-1.3 10.7-3.5 14.5-6.8 0.6-0.5 1.2-1.1 1.8-1.7 2-2.1 4.3-5.1 5.8-9.1 1.2-3.1 1.9-6.9 1.9-11.3v-0.7-0.5-0.2-0.1c0-7.1-1.9-12.4-4.3-16.2z" fill="#FFFFFF" p-id="3457"></path><path d="M716 509.4H369.6c-5.4 0-9.8 4.4-9.8 9.8v312.5c0 6.2 5.1 11.3 11.3 11.3h341.6c7.9 0 14.4-6.4 14.4-14.4v-308c0-6.2-5-11.2-11.1-11.2z m-11.2 22.3v83h-89.6v-83h89.6zM592.9 819.2h-99v-81.6h99v81.6zM494 715.3V637h99v78.4h-99z m-22.3 0h-88.9V637h88.9v78.3zM494 533.1h99v81.6h-99v-81.6zM615.2 637h88.9v78.4h-88.9V637zM382.1 531.7h89.6v83h-89.6v-83z m0 288.9v-83h89.6v83h-89.6z m322.7 0h-89.6v-83h89.6v83z" fill="#4BC929" p-id="3458"></path></svg>
+                                        </div>
                                 </div>
                                 <div class="message-info">
                                     <div class="message-avatar">
@@ -159,9 +178,9 @@ export default {
             }
         }
     },
-    emits: ["updateNewMsgData"], 
+    emits: ["updateNewMsgData"],
     mounted() {
-        this.$emit("updateNewMsgData", {"new_msg_num":"99+"})
+        this.$emit("updateNewMsgData", { "new_msg_num": "99+" })
     }, // 声明要发出的事件
     computed: {
         Search() {
@@ -182,6 +201,26 @@ export default {
             input_chat_content: "",
             url: "https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg",
             chat_Messages: [
+            {
+                    id: 4,
+                    nickname: "婷婷",
+                    avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                    sender: 'other',
+                    content: '',
+                    time: new Date(Date.now() - 45 * 60 * 1000),
+                    image_url: "https://cms-static.pengwin.com/data/images/20240117/4948751705487415326981.png",
+                    msg_type: 4
+                },
+                {
+                    id: 4,
+                    nickname: "银尘",
+                    avatar: 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                    sender: 'self',
+                    content: '',
+                    time: new Date(Date.now() - 45 * 60 * 1000),
+                    image_url: "https://cms-static.pengwin.com/data/images/20240117/4948751705487415326981.png",
+                    msg_type: 4
+                },
                 {
                     id: 1,
                     nickname: "婷婷",
@@ -254,7 +293,7 @@ export default {
                     sender: 'self',
                     content: '',
                     time: new Date(Date.now() - 45 * 60 * 1000),
-                    image_url:"https://cms-static.pengwin.com/data/images/20240117/4948751705487415326981.png",
+                    image_url: "https://cms-static.pengwin.com/data/images/20240117/4948751705487415326981.png",
                     msg_type: 2
                 },
                 {
@@ -264,9 +303,9 @@ export default {
                     sender: 'other',
                     content: '',
                     time: new Date(Date.now() - 45 * 60 * 1000),
-                    image_url:"https://cms-static.pengwin.com/data/images/20240117/4948751705487415326981.png",
+                    image_url: "https://cms-static.pengwin.com/data/images/20240117/4948751705487415326981.png",
                     msg_type: 2
-                },
+                }
             ],
             options: {
                 // width: "200px", //播放器宽度
@@ -332,10 +371,10 @@ export default {
 
 .el-aside {
     // border: 1px solid gray;
-    // background-color: aqua;
+    background-color: #F7F7F7;
     height: calc(100vh - 30px);
     padding-left: 10px;
-    border-right: 1px solid #eae4e4;
+    border-right: 1px solid #D5D5D5;
 
     .input-container {
         display: flex;
@@ -370,46 +409,74 @@ export default {
 }
 
 .el-main {
-    background-color: rgb(250, 248, 248);
-    border-bottom: 1px solid #eee;
-    max-height: calc(72vh );
+    background-color: #EDEDED;
+    border-bottom: 1px solid #D5D5D5;
+    max-height: calc(72vh);
+
     .message-content {
         display: flex;
         flex-direction: row;
         margin-bottom: 5px;
         max-width: 70%; // 不让消息撑满整个聊天区域
         word-wrap: break-word; // 文本自动换行
-        .video_content{
+
+        .video_content {
             margin: 0px 5px 0px 5px;
             max-width: 160px;
-            .d-player-wrap{
+
+            .d-player-wrap {
                 border-radius: 8px;
             }
         }
-        .image_content{
+
+        .image_content {
             flex-wrap: wrap; // 多张图片换行
             margin: 0px 5px 0px 5px;
             gap: 5px;
+
             img {
                 max-height: 280px; // 最大高度
-                width: auto;       // 保持比例
-                height: auto;      // 保持比例
+                width: auto; // 保持比例
+                height: auto; // 保持比例
                 border-radius: 8px;
                 object-fit: cover;
             }
         }
 
-        .message-info{
+        .file_content{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            background-color: white;
+            width: 240px;
+            padding: 5px 0px 5px 15px;
+            margin: 0px 5px 0px 5px;
+            .file_info_area{
+                .file_name{
+                      /* 自动换行相关 */
+                    word-wrap: break-word;       /* 长单词自动换行 */
+                    word-break: break-all;       /* 强制长串字符换行 */
+                    white-space: pre-wrap;       /* 保留空格 + 自动换行 */
+                }
+                .file_size{
+                    color: #9E9E9E;
+                }
+            }
+        }
+        .message-info {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
         }
+
         .message-bubble-other {
             padding: 10px;
             margin-left: 5px;
             background-color: white;
             border-radius: 5px;
         }
+
         .message-bubble-self {
             padding: 10px;
             margin-right: 5px;
@@ -434,7 +501,7 @@ export default {
     flex-direction: column;
     padding: 0px;
     flex: 1;
-    background-color: #FAF8F8;
+    background-color: #EDEDED;
 
     .menu {
         display: flex;
@@ -473,7 +540,7 @@ export default {
             outline: none;
             resize: none;
             /* 禁止拖拽调整大小 */
-            background: transparent;    
+            background: transparent;
             box-shadow: none;
             padding: 0;
             margin: 0;
