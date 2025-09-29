@@ -4,7 +4,7 @@
 <template>
     <div class="common-layout">
         <el-container>
-            <el-aside width="280px">
+            <el-aside width="290px">
                 <div class="input-container">
                     <el-input v-model="search_content" class="responsive-input" placeholder="搜索"
                         :prefix-icon="Search" />
@@ -383,12 +383,14 @@ export default {
         align-items: center;
         // border-bottom: 1px solid #ded5d5;
         height: 40px;
+        margin-top: 5px;
 
         .el-icon {
-            margin-right: 5px;
+            margin-right: 7px;
+            font-size: 15px;
             cursor: pointer;
-            height: 22px;
-            width: 22px;
+            height: 25px;
+            width: 25px;
             line-height: 10px;
             border-radius: 3px;
             background-color: white;
