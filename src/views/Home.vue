@@ -400,13 +400,16 @@ export default {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        
         align-items: center;
         // border-bottom: 1px solid #ded5d5;
         height: 40px;
         margin-top: 5px;
-
+        .el-input{
+            width: 90%;
+        }
         .el-icon {
-            margin-right: 7px;
+            margin: 0px 5px 0px 5px;
             font-size: 15px;
             cursor: pointer;
             height: 25px;
