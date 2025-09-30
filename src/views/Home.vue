@@ -1,6 +1,4 @@
 <!-- eslint-disable vue/multi-word-component-names -->
-
-<!-- <button @click="this.$router.push({path:'/system_update'})">测试</button> -->
 <template>
     <div class="common-layout">
         <el-container>
