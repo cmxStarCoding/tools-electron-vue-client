@@ -490,7 +490,6 @@ export default {
 
 .el-main {
     background-color: #EDEDED;
-    border-bottom: 1px solid #D5D5D5;
     max-height: calc(72vh);
 
     .message-content {
@@ -586,6 +585,8 @@ export default {
 .el-footer {
     display: flex;
     flex-direction: column;
+    border-top: 1px solid #D5D5D5;
+
     padding: 0px;
     flex: 1;
     background-color: #EDEDED;
