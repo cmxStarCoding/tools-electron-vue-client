@@ -558,6 +558,29 @@ export default {
 .messages-wrapper {
     height: 100%;
     overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        /* 垂直滚动条宽度 */
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #EDEDED;
+        /* 和背景一致 */
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        /* 滑块颜色 */
+        border-radius: 4px;
+        border: 2px solid #EDEDED;
+        /* 与轨道融合 */
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #aaa;
+        /* 悬停颜色 */
+    }
 }
 
 .el-main {
