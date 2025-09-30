@@ -51,7 +51,7 @@
             </el-aside>
             <el-container>
                 <el-header height="40px">婷婷</el-header>
-                <el-main height="800px">
+                <el-main :style="{ height: mainHeight + 'px' }">
                     <div v-if="chat_Messages">
                         <div v-for="message in chat_Messages" :key="message.id" class="message-item"
                             :class="message.sender === 'self' ? 'self' : 'other'">
@@ -145,6 +145,9 @@
                     </div>
                 </el-main>
                 <el-footer>
+                    <!-- 拖拽条 -->
+                    <div class="drag-handle-top" @mousedown="startResizeFooter"></div>
+
                     <div class="menu">
                         <Emoji class="emoji_ele" :data="emojiIndex" :emoji="selectedEmoji" :size="25"
                             @click="toggleSelectable" />
@@ -220,6 +223,12 @@ export default {
         return {
             asideWidth: 250, // 默认宽度
             isResizing: false,
+
+            mainHeight: 500,
+            isResizingFooter: false,
+            startY: 0,
+            startMainHeight: 0,
+
             images: [
                 "https://cms-static.pengwin.com/data/crm/default/08/84/e5/0884e5bc3600bfd9a06d267ae282adea.jpg",
             ],
@@ -413,6 +422,29 @@ export default {
             document.removeEventListener("mousemove", this.resizeAside);
             document.removeEventListener("mouseup", this.stopResize);
         },
+        startResizeFooter(e) {
+            this.isResizingFooter = true;
+            this.startY = e.clientY;
+            this.startMainHeight = this.mainHeight;
+
+            document.addEventListener("mousemove", this.resizeFooter);
+            document.addEventListener("mouseup", this.stopResizeFooter);
+        },
+        resizeFooter(e) {
+            if (this.isResizingFooter) {
+                const diff = e.clientY - this.startY; // 鼠标向下为正，向上为负
+                let newHeight = this.startMainHeight + diff;
+                newHeight = Math.max(200, Math.min(newHeight, window.innerHeight - 100));
+                this.mainHeight = newHeight;
+            }
+        },
+        stopResizeFooter() {
+            this.isResizingFooter = false;
+            document.removeEventListener("mousemove", this.resizeFooter);
+            document.removeEventListener("mouseup", this.stopResizeFooter);
+        }
+
+
     }
 }
 </script>
@@ -477,6 +509,23 @@ export default {
 .drag-handle:hover {
     background: #dcdcdc;
 }
+
+
+.drag-handle-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    cursor: row-resize;
+    background: transparent;
+    z-index: 10;
+}
+
+.drag-handle-top:hover {
+    background: #dcdcdc;
+}
+
 
 .el-header {
     // border: 1px solid gray;
@@ -583,6 +632,7 @@ export default {
 }
 
 .el-footer {
+    position: relative; // 关键
     display: flex;
     flex-direction: column;
     border-top: 1px solid #D5D5D5;
