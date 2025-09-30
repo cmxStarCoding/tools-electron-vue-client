@@ -4,7 +4,7 @@
 <template>
     <div class="common-layout">
         <el-container>
-            <el-aside width="290px">
+            <el-aside :style="{ width: asideWidth + 'px' }" class="aside-resizable">
                 <div class="input-container">
                     <el-input v-model="search_content" class="responsive-input" placeholder="搜索"
                         :prefix-icon="Search" />
@@ -46,7 +46,8 @@
                         </div>
                     </div>
                 </div>
-
+                <!-- 拖拽条 -->
+                <div class="drag-handle" @mousedown="startResize"></div>
             </el-aside>
             <el-container>
                 <el-header height="40px">婷婷</el-header>
@@ -189,6 +190,8 @@ export default {
     },
     data() {
         return {
+              asideWidth: 250, // 默认宽度
+                isResizing: false,
             images: [
                 "https://cms-static.pengwin.com/data/crm/default/08/84/e5/0884e5bc3600bfd9a06d267ae282adea.jpg",
             ],
@@ -359,7 +362,22 @@ export default {
             this.$viewerApi({
                 images: this.images
             })
-        }
+        },
+        startResize() {
+      this.isResizing = true;
+      document.addEventListener("mousemove", this.resizeAside);
+      document.addEventListener("mouseup", this.stopResize);
+    },
+    resizeAside(e) {
+      if (this.isResizing) {
+        this.asideWidth = e.clientX; // 鼠标到左侧的距离作为宽度
+      }
+    },
+    stopResize() {
+      this.isResizing = false;
+      document.removeEventListener("mousemove", this.resizeAside);
+      document.removeEventListener("mouseup", this.stopResize);
+    },
     }
 }
 </script>
@@ -375,6 +393,8 @@ export default {
     height: calc(100vh - 30px);
     padding-left: 10px;
     border-right: 1px solid #D5D5D5;
+    min-width: calc(25vh);
+    max-width: calc(50vh);
 
     .input-container {
         display: flex;
@@ -397,8 +417,26 @@ export default {
         }
     }
 
+
 }
 
+.aside-resizable {
+    position: relative;
+}
+
+.drag-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    cursor: col-resize;
+    background: transparent;
+}
+
+.drag-handle:hover {
+    background: #dcdcdc;
+}
 
 .el-header {
     // border: 1px solid gray;
