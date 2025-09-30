@@ -472,8 +472,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 .el-aside {
     // border: 1px solid gray;
     background-color: #F7F7F7;
