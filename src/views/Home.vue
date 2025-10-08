@@ -705,8 +705,8 @@ export default {
     .emoji_main {
         display: flex;
         position: absolute;
-        left: 400px;
-        top: 300px;
+        left: 20px;
+        top: -420px;
         z-index: 9999;
     }
 
