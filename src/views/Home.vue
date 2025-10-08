@@ -71,7 +71,7 @@
                                             <img v-for="src in images" :key="src" :src="src">
                                         </div>
 
-                                        <div class="file_content" v-viewer v-if="message.msg_type == 4">
+                                        <div class="file_content" v-viewer v-if="message.msg_type == 4" @click="handleFileClick">
                                             <div class="file_info_area">
                                                 <p class="file_name">测试文件上传123123123121.xlsx</p>
                                                 <p class="file_size">8.8k</p>
