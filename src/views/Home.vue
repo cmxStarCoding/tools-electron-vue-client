@@ -152,9 +152,17 @@
                     <div class="menu">
                         <Emoji class="emoji_ele" :data="emojiIndex" :emoji="selectedEmoji" :size="25"
                             @click="toggleSelectable" />
-                        <el-icon class="folder">
+                        <el-icon class="folder" @click="handleClick">
                             <Folder />
                         </el-icon>
+                            <el-upload
+                            ref="uploadRef"
+                            class="hidden-upload"
+                            :http-request="uploadFile"
+                            :show-file-list="false"
+                            :before-upload="beforeUploadFile"
+                            >
+                            </el-upload>
                     </div>
                     <div v-if="show_emoji_toast" class="emoji_main" ref="emojiPopup"
                         v-click-outside="() => show_emoji_toast = false">
@@ -392,6 +400,42 @@ export default {
     },
 
     methods: {
+        handleClick() {
+            // 手动触发隐藏的 input
+            this.$refs.uploadRef.$el.querySelector("input").click();
+        },
+        beforeUploadFile(file){
+            // 获取文件扩展名（小写）
+            const ext = file.name.split('.').pop().toLowerCase();
+
+            // 定义三类
+            let category = 'other'; // 默认“其他文件”
+
+            // 判断类别
+            if (file.type.startsWith('image/') || ['png','jpg','jpeg','gif','bmp','webp'].includes(ext)) {
+                category = 'image';
+            } else if (file.type.startsWith('video/') || file.type.startsWith('audio/') || ['mp4','mov','avi','mkv','mp3','wav'].includes(ext)) {
+                category = 'video';
+            }
+
+            console.log('文件名:', file.name);
+            console.log('扩展名:', ext);
+            console.log('文件类型分类:', category);
+
+            // 返回 true 表示允许上传
+            return true;
+        },
+        async uploadFile(options) {
+            const { file } = options;
+            const formData = new FormData();
+            formData.append("file", file);
+
+            // await axios.post("/api/upload", formData, {
+            //     onUploadProgress: (e) => {
+            //     this.progress = Math.round((e.loaded * 100) / e.total);
+            //     },
+            // });
+        },
         formatMessageTime(time) {
             const messageTime = new Date(time);
             return messageTime.toLocaleTimeString('zh-CN', {
