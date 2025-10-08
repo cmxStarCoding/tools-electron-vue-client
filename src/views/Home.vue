@@ -399,6 +399,7 @@ export default {
                 minute: '2-digit'
             });
         },
+        //输入框赋值添加选择的表情
         showEmoji(emoji) {
             //发丝空格
             this.input_chat_content += emoji.native + '\u200A';
@@ -406,7 +407,7 @@ export default {
         selectableSelectEmoji(emoji) {
             this.selectedEmoji = emoji
         },
-
+        //表情区域显示
         toggleSelectable() {
             this.show_emoji_toast = !this.show_emoji_toast
         },
