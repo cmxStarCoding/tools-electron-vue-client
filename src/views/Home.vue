@@ -110,7 +110,7 @@
                                         <img v-for="src in images" :key="src" :src="src">
                                     </div>
 
-                                    <div class="file_content" v-viewer v-if="message.msg_type == 4">
+                                    <div class="file_content" v-viewer v-if="message.msg_type == 4" @click="handleFileClick">
                                         <div class="file_info_area">
                                             <p class="file_name">测试文件上传123123123121.xlsx</p>
                                             <p class="file_size">8.8k</p>
@@ -181,6 +181,7 @@
 
 
 <script>
+import { ipcRenderer } from 'electron'
 import { Search } from '@element-plus/icons-vue'
 import "vue3-video-play/dist/style.css";
 import { videoPlay } from "vue3-video-play";
@@ -435,6 +436,16 @@ export default {
             //     this.progress = Math.round((e.loaded * 100) / e.total);
             //     },
             // });
+        },
+        //遍历文件数据时需要调用该方法判断本地文件是否存在
+        async handleFileClick() {
+            // 调用主进程方法
+            ipcRenderer.send('is_exist_spec_file',{"file_name":"1.txt"});
+            // 监听主进程的回复                              
+            ipcRenderer.on('is_exist_spec_file_response', (event, result) => {
+                console.log(result); // 处理主进程返回的结果
+            });
+
         },
         formatMessageTime(time) {
             const messageTime = new Date(time);
