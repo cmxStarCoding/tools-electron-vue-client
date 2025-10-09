@@ -421,6 +421,7 @@ export default {
             })
         },
         startResize(e) {
+            this.show_emoji_toast = !this.show_emoji_toast
             this.isResizing = true;
             this.startX = e.clientX;
             this.startWidth = this.asideWidth;
@@ -443,6 +444,7 @@ export default {
             document.removeEventListener("mouseup", this.stopResize);
         },
         startResizeFooter(e) {
+            this.show_emoji_toast = !this.show_emoji_toast
             this.isResizingFooter = true;
             this.startY = e.clientY;
             this.startMainHeight = this.mainHeight;
