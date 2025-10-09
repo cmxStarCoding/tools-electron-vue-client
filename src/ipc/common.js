@@ -63,18 +63,15 @@ function registerIpcHandlers() {
     });
 
     // 判断指定文件是否存在
-    ipcMain.on('is_exist_spec_file', async (event,data) => {
+    ipcMain.handle('is_exist_spec_file', async (event, data) => {
         console.log("主进程接受数据",data)
         const localDir = app.getPath('downloads');
         const localPath = path.join(localDir, data.file_name);
         if (fs.existsSync(localPath)) {
-            // 文件存在 → 打开所在文件夹
             shell.showItemInFolder(localPath);
-            // 向渲染进程发送结果
-            event.reply('is_exist_spec_file_response', {"is_exist":"ok"});
+            return { is_exist: "ok" };
         } else {
-            // 文件不存在 → 下载
-            event.reply('is_exist_spec_file_response', {"is_exist":"no"});
+            return { is_exist: "no" };
         }
     });
 

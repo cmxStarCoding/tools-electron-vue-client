@@ -382,6 +382,8 @@ export default {
             const { file } = options;
             const formData = new FormData();
             formData.append("file", file);
+            console.log("进入上传文件逻辑")
+            console.log(file)
 
             // await axios.post("/api/upload", formData, {
             //     onUploadProgress: (e) => {
@@ -391,13 +393,8 @@ export default {
         },
         //遍历文件数据时需要调用该方法判断本地文件是否存在
         async handleFileClick() {
-            // 调用主进程方法
-            ipcRenderer.send('is_exist_spec_file', { "file_name": "1.txt" });
-            // 监听主进程的回复                              
-            ipcRenderer.on('is_exist_spec_file_response', (event, result) => {
-                console.log(result); // 处理主进程返回的结果
-            });
-
+            const result = await ipcRenderer.invoke('is_exist_spec_file', { file_name: "1.txt" });
+            console.log(result); // { is_exist: "ok" } 或 { is_exist: "no" }
         },
         formatMessageTime(time) {
             const messageTime = new Date(time);
@@ -563,7 +560,7 @@ export default {
     height: 100%;
     overflow-y: auto;
     .message-item{
-        margin: 15px 10px 15px 10px;
+        margin: 15px 15px 15px 0px;
     }
 
     &::-webkit-scrollbar {
