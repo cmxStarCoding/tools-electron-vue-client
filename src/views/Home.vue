@@ -52,15 +52,15 @@
                 <el-main :style="{ height: mainHeight + 'px' }" ref="mainContainer">
                     <div class="messages-wrapper" ref="messagesWrapper">
                         <div v-if="chat_Messages">
-                            <div v-for="message in chat_Messages" :key="message.id" class="message-item"
-                                :class="message.sender === 'self' ? 'self' : 'other'">
-                                <div class="message-content" v-if="message.sender === 'other'">
+                            <div v-for="message in chat_Messages" :key="message.id" class="message-item">
+                                <div
+                                    :class="message.sender === 'self' ? 'message-content-self' : 'message-content-other'">
                                     <div class="message-avatar">
                                         <el-avatar :size="32" shape="square"
                                             :src="message.sender === 'self' ? url : message.avatar" />
                                     </div>
                                     <div class="message-info">
-                                        <div class="text_content_other" v-if="message.msg_type == 1">
+                                        <div class="text_content" v-if="message.msg_type == 1">
                                             {{ message.content }}
                                         </div>
                                         <div class="video_content" v-if="message.msg_type == 3">
@@ -71,7 +71,8 @@
                                             <img v-for="src in images" :key="src" :src="src">
                                         </div>
 
-                                        <div class="file_content" v-viewer v-if="message.msg_type == 4" @click="handleFileClick">
+                                        <div class="file_content" v-viewer v-if="message.msg_type == 4"
+                                            @click="handleFileClick">
                                             <div class="file_info_area">
                                                 <p class="file_name">测试文件上传123123123121.xlsx</p>
                                                 <p class="file_size">8.8k</p>
@@ -96,51 +97,7 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
-                                <div class="message-content" v-if="message.sender === 'self'">
-                                    <div class="text_content_self" v-if="message.msg_type == 1">{{ message.content }}
-                                    </div>
-                                    <div class="video_content" v-if="message.msg_type == 3">
-                                        <videoPlay v-if="message.msg_type == 3" v-bind="options"
-                                            src="https://cms-static.pengwin.com/data/video/20220321/2220321647849740898836.mp4" />
-                                    </div>
-                                    <div class="image_content" v-viewer v-if="message.msg_type == 2">
-                                        <img v-for="src in images" :key="src" :src="src">
-                                    </div>
-
-                                    <div class="file_content" v-viewer v-if="message.msg_type == 4" @click="handleFileClick">
-                                        <div class="file_info_area">
-                                            <p class="file_name">测试文件上传123123123121.xlsx</p>
-                                            <p class="file_size">8.8k</p>
-                                        </div>
-                                        <div class="file_icon">
-                                            <svg t="1759156786577" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                                                xmlns="http://www.w3.org/2000/svg" p-id="3454" width="70" height="70">
-                                                <path
-                                                    d="M903.2 315.4V950c0 15.7-12.7 28.4-28.4 28.4H217.3c-12 0-21.6-9.7-21.6-21.6V98.7c0-8.8 7.1-15.9 15.9-15.9h443.1c0.9 0 1.4 1.1 0.8 1.8-0.4 0.4-0.4 1.1 0.1 1.5l247.5 228.6c0 0.1 0.1 0.4 0.1 0.7z"
-                                                    fill="#F4F4F4" p-id="3455"></path>
-                                                <path
-                                                    d="M654.8 300.1V82.8L903.3 315H669.7c-8.2 0-14.9-6.7-14.9-14.9zM431.4 374.1H213.2c-58.4 0-105.7-47.3-105.7-105.7 0-58.4 47.3-105.7 105.7-105.7h218.2c58.4 0 105.7 47.3 105.7 105.7 0.1 58.3-47.3 105.7-105.7 105.7z"
-                                                    fill="#4BC929" p-id="3456"></path>
-                                                <path
-                                                    d="M386.1 275.1c-1.1-1.7-2.3-3.1-3.4-4.3-4.1-4.2-9.6-7.1-16.5-8.5-4.5-1.1-8.5-1.4-11-1.5h-64.3c-8.6 0.1-15-1.7-18.5-5.3-0.7-0.7-1.2-1.4-1.6-2.1v-0.3c-1.2-2-1.9-4.5-1.9-7.5v-1-1.1c0.1-4.2 1.3-7.5 3.9-9.9 5.4-5.1 15.5-5.8 18.6-5.7H383.3c4 0 7.3-3.3 7.3-7.3s-3.3-7.3-7.3-7.3h-91.4c-2.5-0.1-17.2-0.2-27.6 8.3h-0.4c-0.6 0.5-1.2 1.1-1.8 1.7-2 2.1-4.3 5.1-5.8 9.1v0.3c-1.3 3.4-1.9 7-1.9 11v0.5c-0.2 7.6 1.8 13.2 4.3 17.1 0.5 0.8 1 1.5 1.6 2.2v0.1l0.3 0.3c0.1 0.1 0.1 0.2 0.2 0.2l0.3 0.3 0.2 0.2 0.3 0.3c0 0.1 0.1 0.1 0.1 0.2 0.1 0.2 0.3 0.3 0.4 0.5 4.1 4.2 9.6 7.1 16.5 8.5 4.5 1.1 8.5 1.4 11 1.5H354c3.2 0 6.1 0.2 8.7 0.7 3.4 0.8 7 2.3 9.5 4.7 0.8 0.7 1.4 1.5 1.9 2.4 0.2 0.3 0.3 0.5 0.4 0.8 0 0.1 0.1 0.2 0.1 0.3 0.1 0.2 0.2 0.4 0.3 0.5 0 0.1 0.1 0.2 0.1 0.3 0.1 0.2 0.1 0.3 0.2 0.5 0 0.1 0.1 0.3 0.1 0.4 0.1 0.2 0.1 0.3 0.2 0.5 0 0.1 0.1 0.3 0.1 0.4 0 0.2 0.1 0.3 0.1 0.5 0 0.1 0 0.3 0.1 0.5 0 0.2 0.1 0.4 0.1 0.5v0.5c0 0.2 0 0.4 0.1 0.6V293c-0.1 4.2-1.3 7.5-3.9 9.9-2.5 2.4-6.1 3.8-9.5 4.7-2.6 0.5-5.5 0.7-8.7 0.7h-78.3c-0.7 0-1.5 0.1-2.1 0.3h-12c-4 0-7.3 3.3-7.3 7.3s3.3 7.3 7.3 7.3h91.4c1.4 0.1 7 0.1 13.5-1.5 5.8-1.3 10.7-3.5 14.5-6.8 0.6-0.5 1.2-1.1 1.8-1.7 2-2.1 4.3-5.1 5.8-9.1 1.2-3.1 1.9-6.9 1.9-11.3v-0.7-0.5-0.2-0.1c0-7.1-1.9-12.4-4.3-16.2z"
-                                                    fill="#FFFFFF" p-id="3457"></path>
-                                                <path
-                                                    d="M716 509.4H369.6c-5.4 0-9.8 4.4-9.8 9.8v312.5c0 6.2 5.1 11.3 11.3 11.3h341.6c7.9 0 14.4-6.4 14.4-14.4v-308c0-6.2-5-11.2-11.1-11.2z m-11.2 22.3v83h-89.6v-83h89.6zM592.9 819.2h-99v-81.6h99v81.6zM494 715.3V637h99v78.4h-99z m-22.3 0h-88.9V637h88.9v78.3zM494 533.1h99v81.6h-99v-81.6zM615.2 637h88.9v78.4h-88.9V637zM382.1 531.7h89.6v83h-89.6v-83z m0 288.9v-83h89.6v83h-89.6z m322.7 0h-89.6v-83h89.6v83z"
-                                                    fill="#4BC929" p-id="3458"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="message-info">
-                                        <div class="message-avatar">
-                                            <el-avatar :size="32" shape="square"
-                                                :src="message.sender === 'self' ? url : message.avatar" />
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -155,14 +112,9 @@
                         <el-icon class="folder" @click="handleClick">
                             <Folder />
                         </el-icon>
-                            <el-upload
-                            ref="uploadRef"
-                            class="hidden-upload"
-                            :http-request="uploadFile"
-                            :show-file-list="false"
-                            :before-upload="beforeUploadFile"
-                            >
-                            </el-upload>
+                        <el-upload ref="uploadRef" class="hidden-upload" :http-request="uploadFile"
+                            :show-file-list="false" :before-upload="beforeUploadFile">
+                        </el-upload>
                     </div>
                     <div v-if="show_emoji_toast" class="emoji_main" ref="emojiPopup"
                         v-click-outside="() => show_emoji_toast = false">
@@ -405,7 +357,7 @@ export default {
             // 手动触发隐藏的 input
             this.$refs.uploadRef.$el.querySelector("input").click();
         },
-        beforeUploadFile(file){
+        beforeUploadFile(file) {
             // 获取文件扩展名（小写）
             const ext = file.name.split('.').pop().toLowerCase();
 
@@ -413,9 +365,9 @@ export default {
             let category = 'other'; // 默认“其他文件”
 
             // 判断类别
-            if (file.type.startsWith('image/') || ['png','jpg','jpeg','gif','bmp','webp'].includes(ext)) {
+            if (file.type.startsWith('image/') || ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'].includes(ext)) {
                 category = 'image';
-            } else if (file.type.startsWith('video/') || file.type.startsWith('audio/') || ['mp4','mov','avi','mkv','mp3','wav'].includes(ext)) {
+            } else if (file.type.startsWith('video/') || file.type.startsWith('audio/') || ['mp4', 'mov', 'avi', 'mkv', 'mp3', 'wav'].includes(ext)) {
                 category = 'video';
             }
 
@@ -440,7 +392,7 @@ export default {
         //遍历文件数据时需要调用该方法判断本地文件是否存在
         async handleFileClick() {
             // 调用主进程方法
-            ipcRenderer.send('is_exist_spec_file',{"file_name":"1.txt"});
+            ipcRenderer.send('is_exist_spec_file', { "file_name": "1.txt" });
             // 监听主进程的回复                              
             ipcRenderer.on('is_exist_spec_file_response', (event, result) => {
                 console.log(result); // 处理主进程返回的结果
@@ -600,7 +552,6 @@ export default {
 
 
 .el-header {
-    // border: 1px solid gray;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -612,6 +563,9 @@ export default {
 .messages-wrapper {
     height: 100%;
     overflow-y: auto;
+    .message-item{
+        margin: 20px 0px 20px 0px;
+    }
 
     &::-webkit-scrollbar {
         width: 8px;
@@ -641,93 +595,75 @@ export default {
     background-color: #EDEDED;
     max-height: calc(72vh);
 
-    .message-content {
+    .message-content-other {
         display: flex;
         flex-direction: row;
         margin-bottom: 5px;
-        max-width: 70%; // 不让消息撑满整个聊天区域
         word-wrap: break-word; // 文本自动换行
-
-        .video_content {
-            margin: 0px 5px 0px 5px;
-            max-width: 160px;
-
-            .d-player-wrap {
-                border-radius: 8px;
-            }
-        }
-
-        .image_content {
-            flex-wrap: wrap; // 多张图片换行
-            margin: 0px 5px 0px 5px;
-            gap: 5px;
-
-            img {
-                max-height: 280px; // 最大高度
-                width: auto; // 保持比例
-                height: auto; // 保持比例
-                border-radius: 8px;
-                object-fit: cover;
-            }
-        }
-
-        .file_content {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            background-color: white;
-            width: 240px;
-            padding: 5px 0px 5px 15px;
-            margin: 0px 5px 0px 5px;
-            border-radius: 9px;
-
-            .file_info_area {
-                .file_name {
-                    /* 自动换行相关 */
-                    word-wrap: break-word;
-                    /* 长单词自动换行 */
-                    word-break: break-all;
-                    /* 强制长串字符换行 */
-                    white-space: pre-wrap;
-                    /* 保留空格 + 自动换行 */
-                }
-
-                .file_size {
-                    color: #9E9E9E;
-                }
-            }
-        }
-
-        .message-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-
-        .text_content_other {
-            padding: 10px;
-            margin-left: 5px;
-            background-color: white;
-            border-radius: 5px;
-        }
-
-        .text_content_self {
-            padding: 10px;
-            margin-right: 5px;
-            background-color: #95ec69;
-            border-radius: 5px;
-        }
     }
 
-    /* 聊天消息样式 */
-    .message-item {
+    .message-content-self {
         display: flex;
-        margin-bottom: 20px;
+        flex-direction: row-reverse;
+        margin-bottom: 5px;
+        word-wrap: break-word; // 文本自动换行
     }
 
-    .message-item.self {
-        justify-content: flex-end;
+    .video_content {
+        margin: 0px 5px 0px 5px;
+        max-width: 160px;
+        .d-player-wrap {
+            border-radius: 8px;
+        }
+    }
+
+    .image_content {
+        flex-wrap: wrap; // 多张图片换行
+        margin: 0px 5px 0px 5px;
+        gap: 5px;
+
+        img {
+            max-height: 280px; // 最大高度
+            width: auto; // 保持比例
+            height: auto; // 保持比例
+            border-radius: 8px;
+            object-fit: cover;
+        }
+    }
+
+    .file_content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background-color: white;
+        width: 240px;
+        padding: 5px 0px 5px 15px;
+        margin: 0px 5px 0px 5px;
+        border-radius: 9px;
+
+        .file_info_area {
+            .file_name {
+                /* 自动换行相关 */
+                word-wrap: break-word;
+                /* 长单词自动换行 */
+                word-break: break-all;
+                /* 强制长串字符换行 */
+                white-space: pre-wrap;
+                /* 保留空格 + 自动换行 */
+            }
+
+            .file_size {
+                color: #9E9E9E;
+            }
+        }
+    }
+
+    .text_content {
+        padding: 10px;
+        margin: 0px 5px 0px 5px;
+        background-color: white;
+        border-radius: 5px;
     }
 }
 
