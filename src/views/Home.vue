@@ -74,7 +74,7 @@
                                         <div class="file_content" v-viewer v-if="message.msg_type == 4"
                                             @click="handleFileClick">
                                             <div class="file_info_area">
-                                                <p class="file_name">测试文件上传123123123121.xlsx</p>
+                                                <p class="file_name">1.txt</p>
                                                 <p class="file_size">8.8k</p>
                                             </div>
                                             <div class="file_icon">
@@ -534,7 +534,6 @@ export default {
     background: #dcdcdc;
 }
 
-
 .drag-handle-top {
     position: absolute;
     top: 0;
@@ -564,7 +563,7 @@ export default {
     height: 100%;
     overflow-y: auto;
     .message-item{
-        margin: 20px 0px 20px 0px;
+        margin: 15px 10px 15px 10px;
     }
 
     &::-webkit-scrollbar {
