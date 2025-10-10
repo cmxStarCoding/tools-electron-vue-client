@@ -133,6 +133,7 @@
 
 
 <script>
+import { nextTick } from 'vue'
 import { ipcRenderer } from 'electron'
 import { Search } from '@element-plus/icons-vue'
 import "vue3-video-play/dist/style.css";
@@ -465,7 +466,8 @@ export default {
             document.removeEventListener("mousemove", this.resizeFooter);
             document.removeEventListener("mouseup", this.stopResizeFooter);
         },
-        scrollToBottom() {
+        async scrollToBottom() {
+            await nextTick() // 等待 DOM 更新完毕
             const container = this.$refs.messagesWrapper;
             if (container) {
                 container.scrollTop = container.scrollHeight;
