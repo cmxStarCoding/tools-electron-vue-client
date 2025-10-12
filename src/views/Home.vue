@@ -10,8 +10,8 @@
                         v-click-show-add-outside="() => ShowAddOptionsDialog = false">
                         <Plus />
                     </el-icon>
-                    <div class="show-add-options" v-if="ShowAddOptionsDialog">
-                        <span><svg t="1760279481115" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                    <div class="show-add-options" v-show="ShowAddOptionsDialog">
+                        <span @click="controlShowCreateGroupDialog"><svg t="1760279481115" class="icon" viewBox="0 0 1024 1024" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" p-id="10361" width="20" height="20">
                                 <path
                                     d="M175.616 833.024l18.944-48.64c13.824-35.328 25.088-74.24 26.112-89.088-71.68-58.88-110.592-135.68-110.592-217.6 0-173.568 178.688-314.368 398.848-314.368s398.848 141.312 398.848 314.368-178.688 314.368-398.848 314.368c-50.688 0-99.84-7.168-145.92-21.504-16.384 2.048-82.944 24.064-137.728 44.544l-49.664 17.92zM508.416 209.92c-194.048 0-351.744 119.808-351.744 267.776 0 69.632 34.816 135.168 98.816 185.344 8.192 6.656 22.528 17.92-0.512 90.624 99.84-34.816 111.616-31.232 118.272-29.184 43.008 13.824 88.064 20.48 135.168 20.48 194.048 0 351.744-119.808 351.744-267.776S702.464 209.92 508.416 209.92z"
@@ -145,12 +145,12 @@
                 </el-footer>
             </el-container>
         </el-container>
-        <el-dialog v-model="showCreateGroupVisible" title="Shipping address" width="800">
-            <el-table :data="gridData">
+        <el-dialog v-model="showCreateGroupDialog" title="Shipping address" width="800">
+            <!-- <el-table :data="gridData">
                 <el-table-column property="date" label="Date" width="150" />
                 <el-table-column property="name" label="Name" width="200" />
                 <el-table-column property="address" label="Address" />
-            </el-table>
+            </el-table> -->
         </el-dialog>
     </div>
 </template>
@@ -241,6 +241,7 @@ export default {
     data() {
         return {
             ShowAddOptionsDialog: false,
+            showCreateGroupDialog:false,
             gridData: [
                 {
                     date: '2016-05-02',
@@ -421,6 +422,9 @@ export default {
     methods: {
         controlShowAddOptionsDialog() {
             this.ShowAddOptionsDialog = true;
+        },
+        controlShowCreateGroupDialog() {
+            this.showCreateGroupDialog = true;
         },
         handleClick() {
             // 手动触发隐藏的 input
