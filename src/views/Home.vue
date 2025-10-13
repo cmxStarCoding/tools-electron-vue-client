@@ -11,8 +11,9 @@
                         <Plus />
                     </el-icon>
                     <div class="show-add-options" v-show="ShowAddOptionsDialog">
-                        <span @click="controlShowCreateGroupDialog"><svg t="1760279481115" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" p-id="10361" width="20" height="20">
+                        <span @click="controlShowCreateGroupDialog"><svg t="1760279481115" class="icon"
+                                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10361"
+                                width="20" height="20">
                                 <path
                                     d="M175.616 833.024l18.944-48.64c13.824-35.328 25.088-74.24 26.112-89.088-71.68-58.88-110.592-135.68-110.592-217.6 0-173.568 178.688-314.368 398.848-314.368s398.848 141.312 398.848 314.368-178.688 314.368-398.848 314.368c-50.688 0-99.84-7.168-145.92-21.504-16.384 2.048-82.944 24.064-137.728 44.544l-49.664 17.92zM508.416 209.92c-194.048 0-351.744 119.808-351.744 267.776 0 69.632 34.816 135.168 98.816 185.344 8.192 6.656 22.528 17.92-0.512 90.624 99.84-34.816 111.616-31.232 118.272-29.184 43.008 13.824 88.064 20.48 135.168 20.48 194.048 0 351.744-119.808 351.744-267.776S702.464 209.92 508.416 209.92z"
                                     p-id="10362" fill="#2c2c2c"></path>
@@ -145,12 +146,33 @@
                 </el-footer>
             </el-container>
         </el-container>
-        <el-dialog v-model="showCreateGroupDialog" title="Shipping address" width="800">
-            <!-- <el-table :data="gridData">
-                <el-table-column property="date" label="Date" width="150" />
-                <el-table-column property="name" label="Name" width="200" />
-                <el-table-column property="address" label="Address" />
-            </el-table> -->
+        <el-dialog v-model="showCreateGroupDialog" title="创建群聊" width="700">
+            <div class="create_group_area">
+                <div class="create_group_left">
+                    <el-collapse :expand-icon-position="position" v-model="activeNames">
+                        <el-collapse-item title="联系人" name="1">
+                            <div class="friend-list">
+                                <div v-for="friend in friends" :key="friend.id" class="friend-item"
+                                    @click="toggleSelect(friend.id)">
+                                    <span class="check-circle"
+                                        :class="{ active: selectedFriends.includes(friend.id) }"></span>
+                                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                                    <span class="friend-name">{{ friend.name }}</span>
+                                </div>
+                            </div>
+                        </el-collapse-item>
+                    </el-collapse>
+                </div>
+                <div class="create_group_right">
+                    <div v-for="selectedFriend in selectedFriends" :key="selectedFriend.id"
+                        class="selected-friend-item">
+                        <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                        <span class="friend-name">{{ selectedFriend.name }}</span>
+                        <span class="close">x</span>
+                    </div>
+                </div>
+            </div>
+
         </el-dialog>
     </div>
 </template>
@@ -240,30 +262,20 @@ export default {
     },
     data() {
         return {
-            ShowAddOptionsDialog: false,
-            showCreateGroupDialog:false,
-            gridData: [
-                {
-                    date: '2016-05-02',
-                    name: 'John Smith',
-                    address: 'No.1518,  Jinshajiang Road, Putuo District',
-                },
-                {
-                    date: '2016-05-04',
-                    name: 'John Smith',
-                    address: 'No.1518,  Jinshajiang Road, Putuo District',
-                },
-                {
-                    date: '2016-05-01',
-                    name: 'John Smith',
-                    address: 'No.1518,  Jinshajiang Road, Putuo District',
-                },
-                {
-                    date: '2016-05-03',
-                    name: 'John Smith',
-                    address: 'No.1518,  Jinshajiang Road, Putuo District',
-                },
+            friends: [
+                { id: 1, name: '张三' },
+                { id: 2, name: '李四' },
+                { id: 3, name: '王五' }
             ],
+            selectedFriends: [
+                { id: 1, name: '张三' },
+                { id: 2, name: '李四' },
+                { id: 3, name: '王五' }
+            ],
+            activeNames: ['1'],
+            position: "left",
+            ShowAddOptionsDialog: false,
+            showCreateGroupDialog: true,
             asideWidth: 250, // 默认宽度
             isResizing: false,
 
@@ -420,6 +432,16 @@ export default {
     },
 
     methods: {
+        toggleSelect(id) {
+            console.log(id)
+            // const index = this.selectedFriends.indexOf(id)
+            // if (index > -1) {
+            //     //从index开始移除1个元素
+            //     this.selectedFriends.splice(index, 1)
+            // } else {
+            //     this.selectedFriends.push(id)
+            // }
+        },
         controlShowAddOptionsDialog() {
             this.ShowAddOptionsDialog = true;
         },
@@ -873,6 +895,110 @@ export default {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+        }
+    }
+}
+
+::v-deep(.el-dialog){
+    border-radius: 10px !important;
+}
+.create_group_area {
+    display: flex;
+
+    .create_group_left {
+        width: 45%;
+        border-right: 1px solid #EDEDED;
+
+        .el-collapse {
+            border: none;
+
+            /* 穿透 Element Plus 内部组件 */
+            ::v-deep(.el-collapse-item__header) {
+                border-bottom: none !important;
+            }
+
+            ::v-deep(.el-collapse-item__wrap) {
+                border-bottom: none !important;
+            }
+
+        }
+    }
+
+    .create_group_right {
+        padding-left: 20px;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+
+        .selected-friend-item {
+            display: flex;
+            align-items: center;
+            position: relative;
+
+            .el-avatar {
+                margin-right: 10px;
+            }
+
+            .close {
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 10px;
+                height: 10px;
+                line-height: 17px;
+                right: 10px;
+                border-radius: 50%;
+                font-size: 10px;
+                color: white;
+                background-color: #B2B2B2;
+                
+                position: absolute;
+                right: 10px;
+            }
+        }
+    }
+}
+
+.friend-list {
+    .friend-item {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 6px 0;
+
+        .check-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all 0.2s ease;
+
+            &.active {
+                background-color: #06AD56;
+                /* 绿色背景 */
+                border-color: #06AD56;
+
+                &::after {
+                    content: "";
+                    width: 5px;
+                    height: 8px;
+                    border-right: 1px solid white;
+                    border-bottom: 1px solid white;
+                    transform: rotate(45deg);
+                    position: relative;
+                    top: -1.5px;
+                }
+            }
+        }
+
+        .friend-name {
+            font-size: 14px;
+            color: #333;
         }
     }
 }
