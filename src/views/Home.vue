@@ -434,13 +434,13 @@ export default {
     methods: {
         toggleSelect(id) {
             console.log(id)
-            // const index = this.selectedFriends.indexOf(id)
-            // if (index > -1) {
-            //     //从index开始移除1个元素
-            //     this.selectedFriends.splice(index, 1)
-            // } else {
-            //     this.selectedFriends.push(id)
-            // }
+            const index = this.selectedFriends.indexOf(id)
+            if (index > -1) {
+                //从index开始移除1个元素
+                this.selectedFriends.splice(index, 1)
+            } else {
+                this.selectedFriends.push(id)
+            }
         },
         controlShowAddOptionsDialog() {
             this.ShowAddOptionsDialog = true;
