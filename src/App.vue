@@ -23,7 +23,7 @@
                             <User />
                         </el-icon>
                     </div>
-                    <div class="nav">
+                    <div class="nav" @click="this.$router.push({ path: '/test' })">
                         <el-icon>
                             <Tools />
                         </el-icon>

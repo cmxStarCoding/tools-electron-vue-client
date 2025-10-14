@@ -19,6 +19,7 @@ import PicPaste from "./views/tools/PicPaste.vue"
 import PdfToWord from "./views/tools/PdfToWord.vue"
 import WordToPdf from "./views/tools/WordToPdf.vue"
 import GroupFriendAndNew from "./views/social/GroupFriendAndNew.vue"
+import Test from "./views/social/Test.vue"
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -34,6 +35,8 @@ const router = createRouter({
 
         //我的群列表、好友列表，新朋友列表
         { path: '/group_friend_and_new_friend', component: GroupFriendAndNew },
+        { path: '/test', component: Test },
+
 
         //用户登录
         { path: '/user_login', component: UserLogin, name: 'user_login' },
