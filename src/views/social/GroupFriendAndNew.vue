@@ -2,37 +2,54 @@
     <div class="common-layout">
         <el-container>
             <el-aside width="250px">
+                <div class="new_friend_area">
+                    <div class="new_friend_area_head" @click="toggleNewFriend">
+                        <div class="new_friend_area_head_top">
+                            <svg t="1760618163960" class="icon" :class="{ rotated: newFriendCollapsed }" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4583" width="15" height="15"><path d="M320 230.8 361.4 192 704 512 361.4 832 320 793.4 621 512Z" p-id="4584"></path></svg>
+                            <span class="title">新的朋友</span>
+                        </div>
+                        <div class="new_friend_num">1个</div>
+                    </div>
+                    <div class="new_friend_area_body" v-if="newFriendCollapsed">
+                        <div class="new_friend_item" v-for="new_friend in new_friends" :key="new_friend.id">
+                            <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                            <span class="new_group_name">{{new_friend.name}}</span>
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="group_area">
-                    <el-collapse :expand-icon-position="position" v-model="activeNames1">
-                        <el-collapse-item title="群聊" name="1" >
-                     
-                                <div class="friend-list">
-                                    <div v-for="group in groups" :key="group.id" class="friend-item"
-                                        @click="searchGroup(group.id)">
-                                        <el-avatar shape="square" :size="35" fit="cover" :src="url" />
-                                        <span class="friend-name">{{ group.name }}</span>
-                                    </div>
-                                </div>
-                                
-           
-                    
-                        </el-collapse-item>
-                    </el-collapse>
-                    <div class="group_num" v-show="!activeNames1.includes('1')">1个</div>
+                    <div class="group_area_head" @click="toggleGroup">
+                        <div class="group_area_head_top">
+                            <svg t="1760618163960" class="icon" :class="{ rotated: groupCollapsed }" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4583" width="15" height="15"><path d="M320 230.8 361.4 192 704 512 361.4 832 320 793.4 621 512Z" p-id="4584"></path></svg>
+                            <span class="title">群聊</span>
+                        </div>
+                        <div class="group_num">1个</div>
+                    </div>
+                    <div class="group_area_body"  v-if="groupCollapsed">
+                        <div class="group_item" v-for="group in groups" :key="group.id">
+                            <el-avatar shape="square" :size="35" fit="cover" :src="url" />
+                            <span class="group_name">{{group.name}}</span>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="friend_area">
-                    <el-collapse :expand-icon-position="position" v-model="activeNames2">
-                        <el-collapse-item title="联系人" name="2">
-                            <div class="friend-list">
-                                <div v-for="friend in friends" :key="friend.id" class="friend-item"
-                                    @click="searchFriend(friend.id)">
-                                    <el-avatar shape="square" :size="35" fit="cover" :src="url" />
-                                    <span class="friend-name">{{ friend.name }}</span>
-                                </div>
-                            </div>
-                        </el-collapse-item>
-                    </el-collapse>
-                    <div class="friend_num" v-show="!activeNames2.includes('2')">235个</div>
+                    <div class="friend_area_head" @click="toggleFriend">
+                        <div class="friend_area_head_top">
+                            <svg t="1760618163960" class="icon" :class="{ rotated: friendCollapsed }" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4583" width="15" height="15"><path d="M320 230.8 361.4 192 704 512 361.4 832 320 793.4 621 512Z" p-id="4584"></path></svg>
+                            <span class="title">联系人</span>
+                        </div>
+                        <div class="friend_num">1个</div>
+                    </div>
+                    <div class="friend_area_body" v-if="friendCollapsed">
+                        <div class="friend_item" v-for="friend in friends" :key="friend.id">
+                            <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                            <span class="group_name">{{friend.name}}</span>
+                        </div>
+                    </div>
+
                 </div>
 
             </el-aside>
@@ -61,10 +78,7 @@ export default {
     },
     data() {
         return {
-            activeNames1: [],
-            activeNames2: ['2'],
-            position: "left",
-            friends: [
+            new_friends: [
                 { id: 1, name: '张三' },
                 { id: 2, name: '李四' },
                 { id: 3, name: '王五' }
@@ -74,53 +88,146 @@ export default {
                 { id: 2, name: '李四' },
                 { id: 3, name: '王五' }
             ],
+            friends: [
+                { id: 1, name: '张三' },
+                { id: 2, name: '李四' },
+                { id: 3, name: '王五' }
+            ],
             url: "https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg",
-
+            groupCollapsed: false, // 默认展开
+            friendCollapsed: true,
+            newFriendCollapsed:false
         }
     },
     methods: {
-        searchFriend(id) {
-            console.log(id)
+        toggleNewFriend(){
+            this.newFriendCollapsed = !this.newFriendCollapsed;
         },
-        searchGroup(id) {
-            console.log(id)
+        toggleGroup() {
+            this.groupCollapsed = !this.groupCollapsed;
+        },
+        toggleFriend() {
+            this.friendCollapsed = !this.friendCollapsed;
         },
     }
 }
 </script>
 
 <style lang="scss" scoped>
+.icon {
+  transition: transform 0.2s;
+}
 
+.icon.rotated {
+  transform: rotate(90deg); /* 向下 */
+}
 .el-aside {
     height: calc(100vh - 30px);
-    // border: 1px solid grey;
     background-color: #F7F7F7;
-    // height: calc(100vh);
     padding-left: 8px;
-    /* 穿透 Element Plus 内部组件 */
-    ::v-deep(.el-collapse-item__header) {
-        border-bottom: none !important;
-        background-color: #F7F7F7;
-    }
 
-    ::v-deep(.el-collapse-item__wrap) {
-        background-color: #F7F7F7;
-        border-bottom: none !important;
-    }
     .group_area{
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
         padding-right: 10px;
-        flex-direction: row;
-        align-items: center;
+        .group_area_head{
+            display: flex;
+            height: 40px;
+            justify-content: space-between;
+            align-items: center;
+            .group_area_head_top{
+                display: flex;
+                align-items: center;
+            }
+            .col_icon{
+                color: #A1A1A1;
+                margin-right: 4px;
+                font-size: 15px;
+            }
+        }
+        .group_area_body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .group_item{
+                padding: 3px 0px;
+                display: flex;
+                align-items: center;
+                .el-avatar{
+                    margin-right: 10px;
+                }
+            }
+        }
     }
+
     .friend_area{
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
         padding-right: 10px;
-        flex-direction: row;
-        align-items: center;
+        .friend_area_head{
+            display: flex;
+            height: 40px;
+            justify-content: space-between;
+            align-items: center;
+            .friend_area_head_top{
+                display: flex;
+                align-items: center;
+            }
+            .col_icon{
+                color: #A1A1A1;
+                margin-right: 4px;
+                font-size: 15px;
+            }
+        }
+        .friend_area_body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .friend_item{
+                padding: 3px 0px;
+                display: flex;
+                align-items: center;
+                .el-avatar{
+                    margin-right: 10px;
+                }
+            }
+        }
     }
+
+    .new_friend_area{
+        display: flex;
+        flex-direction: column;
+        padding-right: 10px;
+        .new_friend_area_head{
+            display: flex;
+            height: 40px;
+            justify-content: space-between;
+            align-items: center;
+            .new_friend_area_head_top{
+                display: flex;
+                align-items: center;
+            }
+            .col_icon{
+                color: #A1A1A1;
+                margin-right: 4px;
+                font-size: 15px;
+            }
+        }
+        .new_friend_area_body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .new_friend_item{
+                padding: 3px 0px;
+                display: flex;
+                align-items: center;
+                .el-avatar{
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+
     .group_num{
         color: #A1A1A1;
         font-size: 12px;   
@@ -131,30 +238,13 @@ export default {
         font-size: 12px;   
         letter-spacing: 1px;
     }
-
-    .friend-list {
-
-        .friend-item {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            padding: 3px 0;
-            // position: relative;
-
-            .el-avatar {
-                margin-right: 10px;
-            }
-
-            .friend-name {
-                font-size: 14px;
-                color: #333;
-            }
-            // .group_num{
-            //     position: relative;
-            //     right: 3px;
-            // }
-        }
+    .new_friend_num{
+        color: #A1A1A1;
+        font-size: 12px;   
+        letter-spacing: 1px;
     }
+
+
 
 }
 
