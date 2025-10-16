@@ -275,7 +275,7 @@ export default {
             activeNames: ['1'],
             position: "left",
             ShowAddOptionsDialog: false,
-            showCreateGroupDialog: true,
+            showCreateGroupDialog: false,
             asideWidth: 250, // 默认宽度
             isResizing: false,
 
@@ -288,7 +288,6 @@ export default {
                 "https://cms-static.pengwin.com/data/crm/default/08/84/e5/0884e5bc3600bfd9a06d267ae282adea.jpg",
             ],
             selectedEmoji: emojiIndex.findEmoji(':smile:'),
-            selectableVisible: true,
             show_emoji_toast: false,
             emojiIndex: emojiIndex,
             emojisOutput: "",
