@@ -142,6 +142,7 @@ export default {
     padding-left: 8px;
 
     .group_area {
+        font-size: 13px;
         display: flex;
         flex-direction: column;
         padding-right: 10px;
@@ -182,6 +183,7 @@ export default {
     }
 
     .friend_area {
+        font-size: 13px;
         display: flex;
         flex-direction: column;
         padding-right: 10px;
@@ -227,6 +229,7 @@ export default {
     }
 
     .new_friend_area {
+        font-size: 13px;
         display: flex;
         flex-direction: column;
         padding-right: 10px;
