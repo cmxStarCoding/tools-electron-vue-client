@@ -69,7 +69,72 @@
             <el-container>
                 <el-header>Header</el-header>
                 <el-main>
+                    <div class="new_friend_detail">
+                        <div class="new_friend_detail_head">
+                            <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                            <span>会飞的鱼</span>
+                            <span class="new_friend_sex"></span>
+                        </div>
+                        <div class="new_friend_detail_remark">
+                            <textarea>你好，我是会飞的鱼</textarea>
+                        </div>
+                        <div class="new_friend_detail_source">
+                            来源 通过手机号添加
+                        </div>
+                        <div class="operate">
+                            <button>已过期</button>
+                        </div>
+                    </div>
 
+                    <div class="group_detail">
+                        <div class="group_detail_head">
+                            <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                            <span>28#509</span>
+                            <button>进入群聊</button>
+                        </div>
+                        <div class="group_detail_bottom">
+                            <span class="del_group">删除群聊</span>
+                        </div>
+                    </div>
+
+                    <div class="friend_detail">
+                        <div class="head">
+                            <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                            <div class="head_info">
+                                <div class="head_nickname">
+                                    <span>A00一汽丰田</span> <span><svg t="1760624224138" class="icon"
+                                            viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                            p-id="5590" width="15" height="15">
+                                            <path
+                                                d="M170.666667 437.333333c-41.386667 0-74.666667 33.28-74.666667 74.666667s33.28 74.666667 74.666667 74.666667 74.666667-33.28 74.666666-74.666667-33.28-74.666667-74.666666-74.666667zM512 437.333333c-41.386667 0-74.666667 33.28-74.666667 74.666667s33.28 74.666667 74.666667 74.666667 74.666667-33.28 74.666667-74.666667-33.28-74.666667-74.666667-74.666667zM853.333333 437.333333c-41.386667 0-74.666667 33.28-74.666666 74.666667s33.28 74.666667 74.666666 74.666667 74.666667-33.28 74.666667-74.666667-33.28-74.666667-74.666667-74.666667z"
+                                                fill="#8D9297" p-id="5591"></path>
+                                        </svg></span>
+                                </div>
+                                <span class="wechat_number">
+
+                                </span>
+                            </div>
+                        </div>
+                        <div class="remark">
+                            <span>备注</span><input type="text" name="friend_remark">
+                        </div>
+                        <data class="source">
+                            <span>来源</span> <span>通过搜索手机号添加</span>
+                        </data>
+                        <div class="operate">
+                            <span>
+                                <svg t="1760624517656" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" p-id="6601" width="15" height="15">
+                                    <path
+                                        d="M512 117.76c-225.28 0-409.6 161.28-409.6 358.4 0 112.64 58.88 215.04 153.6 279.04v181.76l179.2-110.08c25.6 5.12 51.2 7.68 76.8 7.68 225.28 0 409.6-161.28 409.6-358.4 0-199.68-184.32-358.4-409.6-358.4z m0 665.6c-30.72 0-58.88-2.56-87.04-10.24L304.64 844.8l2.56-117.76c-92.16-56.32-153.6-148.48-153.6-250.88 0-168.96 161.28-307.2 358.4-307.2s358.4 138.24 358.4 307.2-161.28 307.2-358.4 307.2z"
+                                        p-id="6602" fill="#576B95"></path>
+                                </svg>
+                            </span>
+                            <span>
+                                发消息
+                            </span>
+                        </div>
+                    </div>
                 </el-main>
             </el-container>
         </el-container>
@@ -210,7 +275,8 @@ export default {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            .first_letter{
+
+            .first_letter {
                 color: #A1A1A1;
                 margin-left: 15px;
                 padding: 7px 0px;
