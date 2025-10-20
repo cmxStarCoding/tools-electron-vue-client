@@ -23,12 +23,12 @@
                             <User />
                         </el-icon>
                     </div>
-                    <div class="nav" @click="this.$router.push({ path: '/test' })">
+                    <!-- <div class="nav" @click="this.$router.push({ path: '/test' })">
                         <el-icon>
                             <Tools />
                         </el-icon>
 
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="left_bottom">

@@ -67,7 +67,7 @@
 
             </el-aside>
             <el-container>
-                <el-header>Header</el-header>
+                <el-header></el-header>
                 <el-main>
                     <div class="new_friend_detail" v-if="new_friend_detail_show">
                         <div class="new_friend_detail_head">
@@ -199,8 +199,8 @@ export default {
             groupCollapsed: false, // 默认展开
             friendCollapsed: true,
             newFriendCollapsed: false,
-            friend_detail_show: false,
-            group_detail_show: true,
+            friend_detail_show: true,
+            group_detail_show: false,
             new_friend_detail_show: false,
             sex: 1,
         }
