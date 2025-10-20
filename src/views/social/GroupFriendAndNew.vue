@@ -16,7 +16,7 @@
                     </div>
                     <div class="new_friend_area_body" v-if="newFriendCollapsed">
                         <div class="new_friend_item" v-for="new_friend in new_friends" :key="new_friend.id">
-                            <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                            <el-avatar shape="square" :size="35" fit="cover" :src="url" />
                             <span class="new_group_name">{{ new_friend.name }}</span>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                     <div class="friend_area_body" v-if="friendCollapsed">
                         <span class="first_letter">A</span>
                         <div class="friend_item" v-for="friend in friends" :key="friend.id">
-                            <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                            <el-avatar shape="square" :size="35" fit="cover" :src="url" />
                             <span class="group_name">{{ friend.name }}</span>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                 <el-main>
                     <div class="new_friend_detail" v-if="new_friend_detail_show">
                         <div class="new_friend_detail_head">
-                            <el-avatar shape="square" :size="45" fit="cover" :src="url" />
+                            <el-avatar shape="square" :size="43" fit="cover" :src="url" />
                             <div class="nickname_area">
                                 <span class="nickname">会飞的鱼</span>
                                 <span class="new_friend_sex">
@@ -112,9 +112,9 @@
 
                     <div class="group_detail" v-if="group_detail_show">
                         <div class="group_detail_head">
-                            <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                            <span>28#509</span>
-                            <button>进入群聊</button>
+                            <el-avatar shape="square" :size="70" fit="cover" :src="url" />
+                            <span class="group_name">28#509</span>
+                            <button class="enter_group">进入群聊</button>
                         </div>
                         <div class="group_detail_bottom">
                             <span class="del_group">删除群聊</span>
@@ -195,12 +195,12 @@ export default {
                 { id: 2, name: '李四' },
                 { id: 3, name: '王五' }
             ],
-            url: "https://cms-static.pengwin.com/data/crm/default/cf/b8/d0/cfb8d09d4f09ec93f205b315616d77b8.jpeg",
+            url: "https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg",
             groupCollapsed: false, // 默认展开
             friendCollapsed: true,
             newFriendCollapsed: false,
-            friend_detail_show: true,
-            group_detail_show: false,
+            friend_detail_show: false,
+            group_detail_show: true,
             new_friend_detail_show: false,
             sex: 1,
         }
@@ -308,6 +308,40 @@ export default {
                 border: none;
                 border-radius: 3px;
                 color: white;
+            }
+        }
+    }
+    .group_detail{
+        height: 80vh;
+        font-size: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .group_detail_head{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .group_name{
+                padding: 15px 0px 15px 0px;
+                font-size: 14px;
+            }
+            .enter_group{
+                font-size: 12px;
+                background-color: #06C160;
+                color: white;
+                padding: 5px 7px 5px 7px;
+                border: none;
+                border-radius: 3px;
+            }
+        }
+        .group_detail_bottom{
+            color: #566B95;
+            .del_group{
+                cursor: pointer;
+                // &:hover{
+                    // background-color: red;
+                // }
             }
         }
     }
