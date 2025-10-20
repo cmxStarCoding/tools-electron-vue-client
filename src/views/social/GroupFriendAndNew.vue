@@ -104,7 +104,9 @@
                             <span class="left">来源</span> <span class="right">通过手机号添加</span>
                         </div>
                         <div class="operate">
-                            <button>已过期</button>
+                            <button class="expire">已过期</button>
+                            <button class="agree">同意</button>
+                            <button class="refuse">拒绝</button>
                         </div>
                     </div>
 
@@ -197,9 +199,9 @@ export default {
             groupCollapsed: false, // 默认展开
             friendCollapsed: true,
             newFriendCollapsed: false,
-            friend_detail_show: false,
+            friend_detail_show: true,
             group_detail_show: false,
-            new_friend_detail_show: true,
+            new_friend_detail_show: false,
             sex: 1,
         }
     },
@@ -234,6 +236,8 @@ export default {
     justify-content: center;
 
     .new_friend_detail {
+        font-size: 14px;
+        color: #2A2A2A;
         .new_friend_detail_head {
             margin-bottom: 20px;
             display: flex;
@@ -284,12 +288,26 @@ export default {
             margin-top: 10px;
             display: flex;
             justify-content: center;
-            button{
+            .expire{
                 background-color: #F2F2F2;
-                padding: 2px 30px;
+                padding: 5px 35px;
                 border: none;
                 border-radius: 3px;
                 color: #9E9E9E;
+            }
+            .agree{
+                background-color: #38E16E;
+                padding: 5px 35px;
+                border: none;
+                border-radius: 3px;
+                color: white;
+            }
+            .refuse{
+                background-color: #F24159;
+                padding: 5px 35px;
+                border: none;
+                border-radius: 3px;
+                color: white;
             }
         }
     }
