@@ -85,8 +85,9 @@
                                             d="M948.897511 786.207176 673.336502 664.326291c-22.270213-10.541077-20.563338-16.931624-18.828834-25.78834 2.018983-10.243295 8.904811-19.173688 18.046005-23.893176 17.030885-8.782014 42.979884-13.674441 83.593883-20.721951l6.099928-1.089821c15.011902-2.675946 27.946492-11.828396 35.440164-25.106818 7.43125-13.19144 8.597819-28.834722 3.172249-42.955324-15.494902-40.23026-25.793456-80.597643-30.624485-119.9233-1.858324-15.371082-4.270257-32.860409-6.932899-52.05968-4.384867-30.977525-10.117428-72.856331-15.679098-122.189923C735.657896 124.682697 644.050502 47.813982 529.35425 47.813982c-114.237811 0-205.846228 76.868715-217.811748 182.796256-5.67321 50.337455-11.345396 91.918479-15.668865 122.549104-2.675946 19.136849-5.066389 36.452213-6.935969 51.79976-4.805446 39.314401-15.111163 79.643921-30.606065 119.898741-5.425569 14.07046-4.285606 29.690206 3.133364 42.868343 7.493671 13.290701 20.412912 22.456455 35.536354 25.155936l6.15621 1.077541c40.577161 7.03523 66.316381 11.803837 83.532485 20.685111 9.228175 4.768607 16.188704 13.922081 18.158568 23.893176 1.771343 9.005095 3.059686 15.519462-18.034748 25.502837L112.818485 784.967952l-4.40738 1.238201c-8.534374 4.929266-24.806989 17.179264-24.806989 43.945885l0 75.072813c0 12.968359 8.380878 37.529755 49.615001 37.529755L925.94987 942.754604c36.452213 0 45.883003-16.696264 45.883003-37.542035l0-75.060533C971.832873 811.573913 964.367855 795.149848 948.897511 786.207176zM924.649248 891.590318 134.768403 891.590318l0-61.437258c0-0.35918 0-0.681522 0-0.966001l271.381827-119.007441c14.19428-6.712889 58.292638-27.16264 47.590901-81.452103-4.954849-25.169239-21.213137-47.291073-44.213991-59.168588-23.818475-12.274558-52.583612-17.724687-97.81784-25.565259l-6.145977-0.904603c16.994046-44.132126 28.370141-88.536452 33.683147-131.9758 1.845021-15.086603 4.213975-32.129768 6.839779-50.907437 4.360308-30.928407 10.120498-72.954569 15.85613-123.912148 9.165754-81.105203 78.002538-137.747247 167.865195-137.747247 89.404216 0 158.237931 56.642045 167.403684 137.734968 5.623068 49.965995 11.434423 92.302219 15.85613 123.552967 2.613524 18.814508 4.980431 36.007075 6.813173 51.142797 5.338588 43.500746 16.659425 87.917352 33.579793 131.901099l-5.969968 1.077541c-45.122687 7.816013-73.995271 13.240559-97.975429 25.602098-22.765493 11.742439-39.33896 33.864272-44.330648 59.168588-10.652618 54.016241 32.996508 74.664513 47.971571 81.736583L924.711669 827.045279 924.649248 891.590318z"
                                             fill="#FB7373" p-id="9427"></path>
                                     </svg></span>
-                                <svg v-if="sex == 1" t="1760708366269" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" p-id="10529" width="13" height="13">
+                                <svg v-if="sex == 1" t="1760708366269" class="icon" viewBox="0 0 1024 1024"
+                                    version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10529" width="13"
+                                    height="13">
                                     <path d="M893.456828 709.055005" fill="#FB7373" p-id="10530"></path>
                                     <path d="M491.889987 337.939709" fill="#FB7373" p-id="10531"></path>
                                     <path d="M568.154951 338.993714" fill="#FB7373" p-id="10532"></path>
@@ -123,28 +124,35 @@
 
                     <div class="friend_detail" v-if="friend_detail_show">
                         <div class="head">
-                            <el-avatar shape="square" :size="40" fit="cover" :src="url" />
+                            <el-avatar shape="square" :size="50" fit="cover" :src="url" />
                             <div class="head_info">
-                                <div class="head_nickname">
-                                    <span>A00一汽丰田</span> <span><svg t="1760624224138" class="icon"
-                                            viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                            p-id="5590" width="15" height="15">
-                                            <path
-                                                d="M170.666667 437.333333c-41.386667 0-74.666667 33.28-74.666667 74.666667s33.28 74.666667 74.666667 74.666667 74.666667-33.28 74.666666-74.666667-33.28-74.666667-74.666666-74.666667zM512 437.333333c-41.386667 0-74.666667 33.28-74.666667 74.666667s33.28 74.666667 74.666667 74.666667 74.666667-33.28 74.666667-74.666667-33.28-74.666667-74.666667-74.666667zM853.333333 437.333333c-41.386667 0-74.666667 33.28-74.666666 74.666667s33.28 74.666667 74.666666 74.666667 74.666667-33.28 74.666667-74.666667-33.28-74.666667-74.666667-74.666667z"
-                                                fill="#8D9297" p-id="5591"></path>
-                                        </svg></span>
+                                <div class="profile">
+                                    <div class="profile_head">
+                                        <span>程聚</span> <span><svg t="1760624224138" class="icon"
+                                                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                p-id="5590" width="15" height="15">
+                                                <path
+                                                    d="M170.666667 437.333333c-41.386667 0-74.666667 33.28-74.666667 74.666667s33.28 74.666667 74.666667 74.666667 74.666667-33.28 74.666666-74.666667-33.28-74.666667-74.666666-74.666667zM512 437.333333c-41.386667 0-74.666667 33.28-74.666667 74.666667s33.28 74.666667 74.666667 74.666667 74.666667-33.28 74.666667-74.666667-33.28-74.666667-74.666667-74.666667zM853.333333 437.333333c-41.386667 0-74.666667 33.28-74.666666 74.666667s33.28 74.666667 74.666666 74.666667 74.666667-33.28 74.666667-74.666667-33.28-74.666667-74.666667-74.666667z"
+                                                    fill="#8D9297" p-id="5591"></path>
+                                            </svg></span>
+                                    </div>
+
+                                    <span class="nickname">
+                                        昵称：聚
+                                    </span>
+                                    <span class="account_number">
+                                        账号：15638276200
+                                    </span>
                                 </div>
                                 <span class="wechat_number">
 
                                 </span>
                             </div>
                         </div>
-                        <div class="remark">
-                            <span>备注</span><input type="text" name="friend_remark">
+                        <div class="remark_area">
+                            <span class="remark_title">备注</span><input type="text" name="friend_remark">
                         </div>
-                        <data class="source">
-                            <span>来源</span> <span>通过搜索手机号添加</span>
-                        </data>
+
                         <div class="operate">
                             <span>
                                 <svg t="1760624517656" class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -238,6 +246,7 @@ export default {
     .new_friend_detail {
         font-size: 14px;
         color: #2A2A2A;
+
         .new_friend_detail_head {
             margin-bottom: 20px;
             display: flex;
@@ -245,11 +254,12 @@ export default {
             .nickname_area {
                 display: flex;
                 flex-direction: row;
-         
-                .nickname{
+
+                .nickname {
                     margin-left: 13px;
                 }
-                svg{
+
+                svg {
                     position: relative;
                     top: 2px;
                     margin-left: 3px;
@@ -257,9 +267,11 @@ export default {
 
             }
         }
-        .new_friend_detail_remark{
+
+        .new_friend_detail_remark {
             margin-bottom: 20px;
-            textarea{
+
+            textarea {
                 width: 320px;
                 height: 60px;
                 font-size: 11px;
@@ -272,37 +284,43 @@ export default {
                 border-radius: 3px;
             }
         }
-        .new_friend_detail_source{
+
+        .new_friend_detail_source {
             height: 50px;
             border-top: 1px solid #EEEEEE;
             border-bottom: 1px solid #EEEEEE;
             display: flex;
             align-items: center;
-            .left{
+
+            .left {
                 color: #9E9E9E;
                 margin-right: 50px;
-                
+
             }
         }
-        .operate{
+
+        .operate {
             margin-top: 10px;
             display: flex;
             justify-content: center;
-            .expire{
+
+            .expire {
                 background-color: #F2F2F2;
                 padding: 5px 35px;
                 border: none;
                 border-radius: 3px;
                 color: #9E9E9E;
             }
-            .agree{
+
+            .agree {
                 background-color: #38E16E;
                 padding: 5px 35px;
                 border: none;
                 border-radius: 3px;
                 color: white;
             }
-            .refuse{
+
+            .refuse {
                 background-color: #F24159;
                 padding: 5px 35px;
                 border: none;
@@ -311,22 +329,26 @@ export default {
             }
         }
     }
-    .group_detail{
+
+    .group_detail {
         height: 80vh;
         font-size: 15px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        .group_detail_head{
+
+        .group_detail_head {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            .group_name{
+
+            .group_name {
                 padding: 15px 0px 15px 0px;
                 font-size: 14px;
             }
-            .enter_group{
+
+            .enter_group {
                 font-size: 12px;
                 background-color: #06C160;
                 color: white;
@@ -335,20 +357,85 @@ export default {
                 border-radius: 3px;
             }
         }
-        .group_detail_bottom{
+
+        .group_detail_bottom {
             color: #566B95;
-            .del_group{
+
+            .del_group {
                 cursor: pointer;
                 // &:hover{
-                    // background-color: red;
+                // background-color: red;
                 // }
             }
         }
     }
+
+    .friend_detail {
+
+        .head {
+            display: flex;
+            margin-bottom: 10px;
+
+            .head_info {
+                margin-left: 10px;
+
+                .profile {
+                    display: flex;
+                    flex-direction: column;
+
+                    .profile_head {
+                        display: flex;
+                        justify-content: space-between;
+                        width: 30vh;
+                        font-size: 15px;
+                    }
+
+                    .account_number {
+                        font-size: 10px;
+                        color: #A4A4A4;
+                    }
+
+                    .nickname {
+                        font-size: 10px;
+                        color: #A4A4A4;
+                    }
+                }
+            }
+
+        }
+
+        .remark_area {
+            display: flex;
+            align-items: center;
+            height: 45px;
+            border-top: 1px solid #D5D5D5;
+            border-bottom: 1px solid #D5D5D5;
+            margin-bottom: 20px;
+
+            .remark_title {
+                color: #9E9E9E;
+                margin-right: 10px;
+            }
+            input{
+                border: none;
+                
+            }
+        }
+        .operate{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+    }
 }
-.el-header{
-     background-color: #fff;
+
+.el-header {
+    background-color: #fff;
 }
+
 .el-aside {
     height: calc(100vh - 30px);
     background-color: #F7F7F7;
