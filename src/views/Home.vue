@@ -440,6 +440,11 @@ export default {
                 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
                 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
                 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
             ]
 
             // 1️⃣ 生成 File 对象
@@ -469,6 +474,7 @@ export default {
                     console.log('上传进度：', percent + '%')
                 },
             })
+            this.url = 'http://static.cmxstar.top/'+data.dir + file.name
             console.log('上传成功')
         },
         aa(event, file) {
@@ -566,7 +572,11 @@ export default {
         },
         handleClick() {
             // 手动触发隐藏的 input
-            this.$refs.uploadRef.$el.querySelector("input").click();
+            const input = this.$refs.uploadRef.$el.querySelector("input")
+            if (input) {
+                input.value = null  // ✅ 清空之前的值
+                input.click()
+            }
         },
 
         //遍历文件数据时需要调用该方法判断本地文件是否存在
