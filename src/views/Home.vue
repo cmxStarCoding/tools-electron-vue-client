@@ -433,30 +433,9 @@ export default {
     },
 
     methods: {
-        aa(UploadProgressEvent, UploadFile, UploadFiles) {
-            console.log(UploadProgressEvent)
-            console.log(UploadFile)
-            console.log(UploadFiles)
-        },
-        toggleSelect(id) {
-            console.log(id)
-            const index = this.selectedFriends.indexOf(id)
-            if (index > -1) {
-                //从index开始移除1个元素
-                this.selectedFriends.splice(index, 1)
-            } else {
-                this.selectedFriends.push(id)
-            }
-        },
-        controlShowAddOptionsDialog() {
-            this.ShowAddOptionsDialog = true;
-        },
-        controlShowCreateGroupDialog() {
-            this.showCreateGroupDialog = true;
-        },
-        handleClick() {
-            // 手动触发隐藏的 input
-            this.$refs.uploadRef.$el.querySelector("input").click();
+        aa(event, file) {
+            // event.percent 是上传百分比
+            console.log(`文件: ${file.name} 上传进度: ${event.percent}%`);
         },
         beforeUploadFile(file) {
             // 获取文件扩展名（小写）
@@ -480,7 +459,7 @@ export default {
             return true;
         },
         async uploadFile(options) {
-            const { file } = options;
+            const { file, onProgress } = options;
             const formData = new FormData();
             formData.append("file", file);
             console.log("进入上传文件逻辑")
@@ -501,7 +480,15 @@ export default {
                     formData.append("key", data.dir + file.name)
                     formData.append("x-oss-security-token", data.security_token)
                     formData.append("file", file) // file 必须最后
-                    apiService.OssUploadFileApi(data.host, formData).then((response) => {
+                    apiService.OssUploadFileApi(data.host, formData, {
+                        onUploadProgress: (progressEvent) => {
+                            if (onProgress) {
+                                // 计算上传百分比
+                                const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                                onProgress({ percent }, file);
+                            }
+                        }
+                    }).then((response) => {
                         console.log(response)
                     }).catch(err => {
                         this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
@@ -522,6 +509,27 @@ export default {
                 this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
             })
         },
+        toggleSelect(id) {
+            console.log(id)
+            const index = this.selectedFriends.indexOf(id)
+            if (index > -1) {
+                //从index开始移除1个元素
+                this.selectedFriends.splice(index, 1)
+            } else {
+                this.selectedFriends.push(id)
+            }
+        },
+        controlShowAddOptionsDialog() {
+            this.ShowAddOptionsDialog = true;
+        },
+        controlShowCreateGroupDialog() {
+            this.showCreateGroupDialog = true;
+        },
+        handleClick() {
+            // 手动触发隐藏的 input
+            this.$refs.uploadRef.$el.querySelector("input").click();
+        },
+
         //遍历文件数据时需要调用该方法判断本地文件是否存在
         async handleFileClick() {
             const result = await ipcRenderer.invoke('is_exist_spec_file', { file_name: "1.txt" });

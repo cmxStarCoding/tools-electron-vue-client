@@ -92,7 +92,7 @@ const apiService = {
     //Oss上传文件获取sts
     OssGetSts: async (params) => api.get('v1/user/sts', params),
     //Oss上传文件
-    OssUploadFileApi: async (url,formData) => ossApi.post(url, formData),
+    OssUploadFileApi: async (url,formData,config={}) => ossApi.post(url, formData,config),
     //用户任务列表
     UserTaskListApi: async (params) => api.get('/api/v1/user_task_log', {'params':params}),
     //用户使用记录
