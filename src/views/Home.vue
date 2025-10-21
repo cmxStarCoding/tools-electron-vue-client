@@ -194,6 +194,7 @@ import "emoji-mart-vue-fast/css/emoji-mart.css";
 // Vue 3, import components from `/src`:
 import { Picker, Emoji, EmojiIndex } from "emoji-mart-vue-fast/src";
 import apiService from '../models/axios'
+import { generateGroupAvatar } from '@/utils/groupAvatar';
 // Create emoji data index.
 // We can change it (for example, filter by category) before passing to the component.
 let emojiIndex = new EmojiIndex(data);
@@ -433,11 +434,49 @@ export default {
     },
 
     methods: {
+        async generateGroupAvatar() {
+            const avatars = [
+                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+            ]
+
+            // 1️⃣ 生成 File 对象
+            const file = await generateGroupAvatar(avatars, 300)
+            console.log('生成的群头像文件:', file)
+
+            // 2️⃣ 调用获取STS接口
+            const response = await apiService.OssGetSts({})
+            const data = response.data.data
+
+            // 3️⃣ 构造 FormData
+            const formData = new FormData()
+            formData.append("success_action_status", "200")
+            formData.append("policy", data.policy)
+            formData.append("x-oss-signature", data.signature)
+            formData.append("x-oss-signature-version", "OSS4-HMAC-SHA256")
+            formData.append("x-oss-credential", data.x_oss_credential)
+            formData.append("x-oss-date", data.x_oss_date)
+            formData.append("key", data.dir + file.name)
+            formData.append("x-oss-security-token", data.security_token)
+            formData.append("file", file) // file 必须最后
+
+            // 4️⃣ 上传到 OSS
+            await apiService.OssUploadFileApi(data.host, formData, {
+                onUploadProgress: (progressEvent) => {
+                    const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                    console.log('上传进度：', percent + '%')
+                },
+            })
+            console.log('上传成功')
+        },
         aa(event, file) {
             // event.percent 是上传百分比
             console.log(`文件: ${file.name} 上传进度: ${event.percent}%`);
         },
         beforeUploadFile(file) {
+            this.generateGroupAvatar();
             // 获取文件扩展名（小写）
             const ext = file.name.split('.').pop().toLowerCase();
 
