@@ -433,7 +433,7 @@ export default {
         }
     },
 
-    methods: {
+    methods: { 
         async generateGroupAvatar() {
             const avatars = [
                 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
