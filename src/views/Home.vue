@@ -131,7 +131,7 @@
                         <el-icon class="folder" @click="handleClick">
                             <Folder />
                         </el-icon>
-                        <el-upload ref="uploadRef" class="hidden-upload" :http-request="uploadFile"
+                        <el-upload ref="uploadRef" class="hidden-upload" :on-progress="aa" :http-request="uploadFile"
                             :show-file-list="false" :before-upload="beforeUploadFile">
                         </el-upload>
                     </div>
@@ -193,6 +193,7 @@ import data from "emoji-mart-vue-fast/data/all.json";
 import "emoji-mart-vue-fast/css/emoji-mart.css";
 // Vue 3, import components from `/src`:
 import { Picker, Emoji, EmojiIndex } from "emoji-mart-vue-fast/src";
+import apiService from '../models/axios'
 // Create emoji data index.
 // We can change it (for example, filter by category) before passing to the component.
 let emojiIndex = new EmojiIndex(data);
@@ -262,6 +263,7 @@ export default {
     },
     data() {
         return {
+            oss_sts: {},
             friends: [
                 { id: 1, name: '张三' },
                 { id: 2, name: '李四' },
@@ -431,6 +433,11 @@ export default {
     },
 
     methods: {
+        aa(UploadProgressEvent, UploadFile, UploadFiles) {
+            console.log(UploadProgressEvent)
+            console.log(UploadFile)
+            console.log(UploadFiles)
+        },
         toggleSelect(id) {
             console.log(id)
             const index = this.selectedFriends.indexOf(id)
@@ -478,12 +485,42 @@ export default {
             formData.append("file", file);
             console.log("进入上传文件逻辑")
             console.log(file)
+            apiService.OssGetSts({}).then((response) => {
+                console.log("获取sts的结果111", response)
+                try {
+                    const data = response.data.data
+                    console.log("获取sts的结果", data)
+                    // 2. 构造 FormData
+                    const formData = new FormData()
+                    formData.append("success_action_status", "200")
+                    formData.append("policy", data.policy)
+                    formData.append("x-oss-signature", data.signature)
+                    formData.append("x-oss-signature-version", "OSS4-HMAC-SHA256")
+                    formData.append("x-oss-credential", data.x_oss_credential)
+                    formData.append("x-oss-date", data.x_oss_date)
+                    formData.append("key", data.dir + file.name)
+                    formData.append("x-oss-security-token", data.security_token)
+                    formData.append("file", file) // file 必须最后
+                    apiService.OssUploadFileApi(data.host, formData).then((response) => {
+                        console.log(response)
+                    }).catch(err => {
+                        this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+                    })
 
-            // await axios.post("/api/upload", formData, {
-            //     onUploadProgress: (e) => {
-            //     this.progress = Math.round((e.loaded * 100) / e.total);
-            //     },
-            // });
+                    // if (uploadRes.ok) {
+                    //     console.log("上传成功")
+                    //     alert("文件已上传")
+                    // } else {
+                    //     console.log("上传失败", uploadRes)
+                    //     alert("上传失败，请稍后再试")
+                    // }
+                } catch (err) {
+                    console.error("发生错误:", err)
+                    alert("上传失败")
+                }
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
         },
         //遍历文件数据时需要调用该方法判断本地文件是否存在
         async handleFileClick() {
@@ -898,9 +935,10 @@ export default {
     }
 }
 
-::v-deep(.el-dialog){
+::v-deep(.el-dialog) {
     border-radius: 10px !important;
 }
+
 .create_group_area {
     display: flex;
 
@@ -951,7 +989,7 @@ export default {
                 font-size: 10px;
                 color: white;
                 background-color: #B2B2B2;
-                
+
                 position: absolute;
                 right: 10px;
             }

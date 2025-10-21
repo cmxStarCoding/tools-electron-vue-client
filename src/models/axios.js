@@ -10,6 +10,13 @@ const api = axios.create({
     // 其他配置项...
 });
 
+// 独立的 OSS 上传 axios 实例，不走任何拦截器
+const ossApi = axios.create({
+    // baseURL 可以不设置，传入完整 url
+    // headers: 不设置任何 header
+});
+
+
 // 请求拦截器
 api.interceptors.request.use(
     (config) => {
@@ -18,13 +25,14 @@ api.interceptors.request.use(
         let userToken = localStorage.get("user_token")
 
         if (userToken) {
-            config.headers.Authorization = 'Bearer ' + userToken;
+            // config.headers.Authorization = 'Bearer ' + userToken;
+            config.headers.Authorization = 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MTQwNjMsImlhdCI6MTc2MDE3NDA2MywiaW1vb2MuY29tIjoiMHgwMDAwMDAwMDAwMDAwMDAxIn0.0irxL80xik5qYww6H12bCX2GQeLNjuovYOBPGalNJXc';
         }
 
         if(!config.headers['Content-Type']){
             config.headers['Content-Type'] = 'application/json'
         }
-        config.headers['timeout'] = 10
+        // config.headers['timeout'] = 10
         return config;
     },
     (error) => {
@@ -79,6 +87,12 @@ const apiService = {
     EditPasswordApi: async (params) => api.post('/api/v1/user/edit/password', params),
     //上传文件
     UploadFileApi: async (formData,config) => api.post('/api/v1/upload', formData, config),
+
+
+    //Oss上传文件获取sts
+    OssGetSts: async (params) => api.get('v1/user/sts', params),
+    //Oss上传文件
+    OssUploadFileApi: async (url,formData) => ossApi.post(url, formData),
     //用户任务列表
     UserTaskListApi: async (params) => api.get('/api/v1/user_task_log', {'params':params}),
     //用户使用记录
