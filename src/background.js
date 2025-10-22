@@ -3,14 +3,14 @@ require('dotenv').config({ path: './electron/.env' });
 import { app, protocol, BrowserWindow, Tray, Menu, ipcMain, shell, dialog, globalShortcut, nativeImage } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import { createCanvas, loadImage } from 'canvas'
-// import { initMenu } from "./ipcMain/menu"
+// import { initMenu } from "./common/menu"
 
 // import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 const path = require('path');
 // 引入 IPC 处理模块
-const { registerIpcHandlers } = require('./ipc/common');
+const { registerIpcHandlers } = require('./common/ipc');
 
 let tray = null
 

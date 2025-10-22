@@ -194,7 +194,7 @@ import "emoji-mart-vue-fast/css/emoji-mart.css";
 // Vue 3, import components from `/src`:
 import { Picker, Emoji, EmojiIndex } from "emoji-mart-vue-fast/src";
 import apiService from '../models/axios'
-import { generateGroupAvatar } from '@/utils/groupAvatar';
+import { generateGroupAvatar } from '@/common/groupAvatar';
 // Create emoji data index.
 // We can change it (for example, filter by category) before passing to the component.
 let emojiIndex = new EmojiIndex(data);
