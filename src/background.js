@@ -4,6 +4,7 @@ import { app, protocol, BrowserWindow, Tray, Menu, ipcMain, shell, dialog, globa
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import { createCanvas, loadImage } from 'canvas'
 // import { initMenu } from "./common/menu"
+import { initWS } from './common/wsManage'
 
 // import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -89,7 +90,9 @@ async function createWindow() {
         console.log("window-close")
         win.close();
     })
-
+    // ✅ 在这里初始化 WebSocket
+    const wsUrl = process.env.WS_URL || 'ws://127.0.0.1:10090/ws'
+    initWS(win, wsUrl)
 
 }
 
@@ -110,35 +113,35 @@ app.on('window-all-closed', () => {
         app.quit()
     }
 })
-app.dock.setBadge('5') 
+app.dock.setBadge('5')
 
 // 生成带数字的图标
 async function createBadgeIcon(unreadCount) {
-  const size = 64 // 先画大一点，缩放时更清晰
-  const canvas = createCanvas(size, size)
-  const ctx = canvas.getContext('2d')
+    const size = 64 // 先画大一点，缩放时更清晰
+    const canvas = createCanvas(size, size)
+    const ctx = canvas.getContext('2d')
 
-  // 背景图
-  const baseImage = await loadImage(trayIconPath)
-  ctx.drawImage(baseImage, 0, 0, size, size)
+    // 背景图
+    const baseImage = await loadImage(trayIconPath)
+    ctx.drawImage(baseImage, 0, 0, size, size)
 
-  if (unreadCount > 0) {
-    ctx.fillStyle = 'red'
-    ctx.beginPath()
-    ctx.arc(size - 18, 18, 18, 0, Math.PI * 2)
-    ctx.fill()
+    if (unreadCount > 0) {
+        ctx.fillStyle = 'red'
+        ctx.beginPath()
+        ctx.arc(size - 18, 18, 18, 0, Math.PI * 2)
+        ctx.fill()
 
-    ctx.fillStyle = 'white'
-    ctx.font = 'bold 32px sans-serif'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText(unreadCount > 99 ? '99+' : unreadCount.toString(), size - 18, 18)
-  }
+        ctx.fillStyle = 'white'
+        ctx.font = 'bold 32px sans-serif'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(unreadCount > 99 ? '99+' : unreadCount.toString(), size - 18, 18)
+    }
 
-  // 绘制完成后再缩放
-  return nativeImage
-    .createFromBuffer(canvas.toBuffer())
-    .resize({ width: 22, height: 22 }) // 最终托盘大小
+    // 绘制完成后再缩放
+    return nativeImage
+        .createFromBuffer(canvas.toBuffer())
+        .resize({ width: 22, height: 22 }) // 最终托盘大小
 }
 
 

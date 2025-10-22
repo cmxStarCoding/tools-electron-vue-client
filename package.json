@@ -15,11 +15,13 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",
     "axios": "^1.6.5",
+    "bufferutil": "^4.0.9",
     "canvas": "^3.2.0",
     "core-js": "^3.8.3",
     "element-plus": "^2.11.3",
     "emoji-mart-vue-fast": "^15.0.5",
     "mitt": "^3.0.1",
+    "utf-8-validate": "^5.0.10",
     "v-viewer": "^3.0.22",
     "viewerjs": "^1.11.7",
     "vue": "^3.2.13",
