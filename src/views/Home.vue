@@ -247,6 +247,34 @@ export default {
                 this.scrollToBottom();
             }, 50); // 延迟 50ms
         });
+        // ✅ 监听来自主进程的 WebSocket 事件
+        ipcRenderer.on('ws-event', (_, payload) => {
+            const { event, data } = payload
+            console.log(`[WS] ${event}:`, data)
+
+            switch (event) {
+                case 'open':
+                    this.wsStatus = 'connected'
+                    break
+                case 'message':
+                    this.messages.push(data)
+                    break
+                case 'close':
+                    this.wsStatus = 'closed'
+                    break
+                case 'error':
+                    this.wsStatus = 'error'
+                    break
+                case 'unread-update':
+                    this.unreadCount = data.unreadCount
+                    break
+                case 'reconnecting':
+                    this.wsStatus = 'reconnecting'
+                    break
+            }
+        })
+
+
     }, // 声明要发出的事件
     computed: {
         Search() {
@@ -264,6 +292,9 @@ export default {
     },
     data() {
         return {
+            wsStatus: 'disconnected',
+            messages: [],
+            unreadCount: 0,
             oss_sts: {},
             friends: [
                 { id: 1, name: '张三' },
@@ -433,7 +464,7 @@ export default {
         }
     },
 
-    methods: { 
+    methods: {
         async generateGroupAvatar() {
             const avatars = [
                 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
@@ -474,7 +505,7 @@ export default {
                     console.log('上传进度：', percent + '%')
                 },
             })
-            this.url = 'http://static.cmxstar.top/'+data.dir + file.name
+            this.url = 'http://static.cmxstar.top/' + data.dir + file.name
             console.log('上传成功')
         },
         aa(event, file) {
