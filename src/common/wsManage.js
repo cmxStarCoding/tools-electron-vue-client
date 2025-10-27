@@ -13,7 +13,7 @@ export function initWS(window, url) {
     currentUrl = url
     connectWebSocket(url)
 
-    // 注册 ipcMain.handle（更符合你的项目风格）
+    // 当渲染进程执行 ipcRenderer.invoke('ws-send', msg) 时，Electron 会自动触发主进程里的 ipcMain.handle('ws-send') 回调函数
     ipcMain.handle('ws-send', (_, msg) => {
         sendMessage(msg)
         return true
