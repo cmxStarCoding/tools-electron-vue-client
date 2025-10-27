@@ -1,14 +1,14 @@
 <template>
     <div class="container">
-        <div class="title">
+        <!-- <div class="title">
             <span>用户登录</span>
-        </div>
+        </div> -->
         <div class="form_item">
             <div class="form_item_title">
-                <span>账号：</span> 
+                <span>手机号：</span> 
             </div>
             <div>
-                <input type="text" placeholder="请输入账号" v-model="userLogonFormData.account">
+                <input type="text" placeholder="请输入手机号码" v-model="userLogonFormData.account">
             </div>
         </div>
         <div class="form_item">
@@ -83,8 +83,14 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 13px;
-    
+    // justify-content: center;
+    padding-top: 200px;
+    font-size: 12px;
+    height: calc(100vh - 30px);
+    background-image: url("../../assets/images/login_bgi1.png");
+    background-size: cover;          /* 背景图自动缩放以覆盖整个容器 */
+    background-repeat: no-repeat;    /* 不重复 */
+    background-position: center;     /* 居中显示 */
 }
 
 .title{
@@ -99,21 +105,23 @@ export default {
     align-items: center;
     width: 100%;
     padding-top: 30px;
-    border-bottom:1px solid rgb(239, 239, 239);
+    // border-bottom:1px solid rgb(239, 239, 239);
 }
 .form_item_title{
     display: flex;
     width: 40%;
     justify-content: flex-end;
     margin-right: 10px;
-    font-weight: bold;
+    // font-weight: bold;
 }
 
 input{
     border: 1px solid rgb(218, 218, 218);
     height: 25px;
     width: 200px;
-    border-radius: 5px; 
+    border-radius: 7px; 
+    outline: none;
+    font-size: 12px;
 }
 .reg_login_button{
     button{
@@ -124,17 +132,17 @@ input{
     }
     .reg_button{
         background-color: rgb(242, 242, 242);
-        border: 1px solid rgb(88, 232, 69);
+        border: none;
         color: rgb(88, 232, 69);
         margin-right: 37px;
-        padding: 2px 13px 2px 13px;
+        padding: 3px 10px 3px 10px;
     }
 
     .login_button{
         color: white;
         border: none;
         background-color: rgb(88, 232, 69);
-        padding: 2px 30px 2px 30px;
+        padding: 3px 20px 3px 20px;
         width: 100px;
 
     }
