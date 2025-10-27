@@ -36,10 +36,10 @@
   
 <script>
 
-import apiService from '../../models/axios'
+// import apiService from '../../models/axios'
 import AlertComponent from '../../components/AlertComponent.vue'
-import VueEvent from '../../models/event.js'
-
+// import VueEvent from '../../models/event.js'
+import localStorage from '../../models/storage'
 export default {
     name: 'UserLogin',
     components: {
@@ -55,18 +55,23 @@ export default {
     },
     methods: {
         login(){
-            apiService.UserLoginApi(this.userLogonFormData).then(response => {
-                VueEvent.emit("to-common-header-login",{
-                    response:response
-                });
-                this.showAlert("登录成功")
-                setTimeout(() => {
-                    this.$router.push({path:'/home'})
-                }, 500);
+            localStorage.set('user_token',"123")
+            setTimeout(() => {
+                this.$router.push({path:'/chat'})
+            }, 500);
 
-            }).catch(err => {
-                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')            
-            })
+            // apiService.UserLoginApi(this.userLogonFormData).then(response => {
+            //     VueEvent.emit("to-common-header-login",{
+            //         response:response
+            //     });
+            //     this.showAlert("登录成功")
+            //     setTimeout(() => {
+            //         this.$router.push({path:'/home'})
+            //     }, 500);
+
+            // }).catch(err => {
+            //     this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')            
+            // })
         }
     },
 }
@@ -79,6 +84,7 @@ export default {
     flex-direction: column;
     align-items: center;
     font-size: 13px;
+    
 }
 
 .title{

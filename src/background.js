@@ -91,7 +91,7 @@ async function createWindow() {
         win.close();
     })
     // ✅ 在这里初始化 WebSocket
-    const wsUrl = process.env.WS_URL || 'ws://127.0.0.1:10090/ws'
+    const wsUrl = process.env.WS_URL
     initWS(win, wsUrl)
 
 }

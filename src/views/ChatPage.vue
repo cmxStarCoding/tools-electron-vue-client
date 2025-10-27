@@ -1,6 +1,56 @@
 <template>
-    <CommonTopHeader></CommonTopHeader>
-    <router-view></router-view>
+    <!-- <CommonTopHeader></CommonTopHeader> -->
+    <!-- <CommonHeader> </CommonHeader> -->
+    <div class="project_content">
+        <div class="project_left">
+            <div>
+                <div class="left_top">
+                    <div>
+                        <el-avatar shape="square" :src="squareUrl" />
+                    </div>
+
+                    <div class="nav" @click="this.$router.push({ path: '/home' })"
+                        :class="{ 'active': $route.path == '/home' }">
+                        <div class="new_msg">
+                            <el-icon>
+                                <ChatDotRound />
+                            </el-icon>
+                            <span>{{ new_msg_data.new_msg_num }}</span>
+                        </div>
+                    </div>
+                    <div class="nav" @click="this.$router.push({ path: '/group_friend_and_new_friend' })">
+                        <el-icon>
+                            <User />
+                        </el-icon>
+                    </div>
+                    <!-- <div class="nav" @click="this.$router.push({ path: '/test' })">
+                        <el-icon>
+                            <Tools />
+                        </el-icon>
+
+                    </div> -->
+                </div>
+            </div>
+            <div class="left_bottom">
+                <div class="nav" @click="this.$router.push({ path: '/system_setting' })"
+                    :class="{ 'active': $route.path == '/system_setting' }">
+                    <el-icon>
+                        <Operation />
+                    </el-icon>
+                </div>
+            </div>
+        </div>
+        <div class="project_right">
+            <router-view @updateNewMsgData="new_msg_data = $event"></router-view>
+        </div>
+
+
+        <!-- <div class="fixed-icons" @click="close_fixed_icons_list">
+            <div class="float_icon">
+                ?
+            </div>
+        </div> -->
+    </div>
 </template>
 
 <script>
@@ -8,14 +58,14 @@
 // const mainProcessEnv = remote.getGlobal('process.env');
 // import HelloWorld from './components/HelloWorld.vue'
 // console.log(process.env.VUE_APP_API_URL, 'asdasdasd111')
-import CommonTopHeader from './views/common/CommonTopHeader.vue'
+// import CommonTopHeader from './common/CommonTopHeader.vue'
 // import CommonHeader from './views/common/CommonHeader.vue'
-// import apiService from './models/axios'
+import apiService from '../models/axios'
 
 export default {
-    name: 'App',
+    name: 'ChatPage',
     components: {
-        CommonTopHeader,
+        // CommonTopHeader,
         // CommonHeader
 
     },
@@ -25,30 +75,30 @@ export default {
     },
     data() {
         return {
-            // new_msg_data: {},
-            // show_fixed_bottom_ul: false,
-            // squareUrl: "https://cms-static.pengwin.com/data/crm/default/d4/e4/dc/d4e4dc60b1ef06ddc57e7c9185e584e1.jpg",
-            // recommend_tools_list_data: []
+            new_msg_data: {},
+            show_fixed_bottom_ul: false,
+            squareUrl: "https://cms-static.pengwin.com/data/crm/default/d4/e4/dc/d4e4dc60b1ef06ddc57e7c9185e584e1.jpg",
+            recommend_tools_list_data: []
         }
     },
     methods: {
-        // getToolsList() {
-        //     apiService.ToolsListApi({
-        //         is_recommend: 1
-        //     }).then((response) => {
-        //         this.recommend_tools_list_data = response.data
-        //     }).catch(err => {
-        //         this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
-        //     })
-        // },
-        // close_fixed_icons_list() {
-        //     this.show_fixed_bottom_ul = !this.show_fixed_bottom_ul
-        //     setTimeout(() => {
-        //         if (this.show_fixed_bottom_ul) {
-        //             this.show_fixed_bottom_ul = false
-        //         }
-        //     }, 7000);
-        // }
+        getToolsList() {
+            apiService.ToolsListApi({
+                is_recommend: 1
+            }).then((response) => {
+                this.recommend_tools_list_data = response.data
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
+        },
+        close_fixed_icons_list() {
+            this.show_fixed_bottom_ul = !this.show_fixed_bottom_ul
+            setTimeout(() => {
+                if (this.show_fixed_bottom_ul) {
+                    this.show_fixed_bottom_ul = false
+                }
+            }, 7000);
+        }
     }
 }
 </script>
