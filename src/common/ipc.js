@@ -91,3 +91,9 @@ function registerIpcHandlers() {
 }
 
 module.exports = { registerIpcHandlers };
+//方法                               属于            用途                               返回值 / 特点
+//ipcMain.on(channel, listener)	    ipcMain	        监听渲染进程发送的事件（send）	     无返回值，手动用 event.reply 回复
+//ipcMain.handle(channel, listener)	ipcMain	        监听渲染进程 invoke 调用	       可以返回值（Promise），渲染进程 await ipcRenderer.invoke
+//ipcRenderer.send(channel, data)	ipcRenderer	    向主进程发送事件（单向）	        不返回值，需要 ipcMain.on + event.reply 接收
+//ipcRenderer.invoke(channel, data)	ipcRenderer	    向主进程发起请求（请求-响应）	     返回 Promise，主进程用 ipcMain.handle 处理
+//ipcRenderer.on(channel, listener)	ipcRenderer	    监听主进程发送的事件	            用于实时更新或响应 send 的 event.reply
