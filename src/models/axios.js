@@ -60,55 +60,36 @@ api.interceptors.response.use(
 
 
 const apiService = {
-    //工具列表
-    ToolsListApi: async (params) => api.get('/api/v1/tools_list', {'params':params}),
     //检测系统更新
-    CheckSystemUpdateApi: async (params) => api.post('/api/v1/check_system_update', params),
+    // CheckSystemUpdateApi: async (params) => api.post('/api/v1/check_system_update', params),
     //用户登录
-    UserLoginApi: async (params) => api.post('/api/v1/user/login', params),
+    UserLoginApi: async (params) => api.post('/v1/user/login', params),
     //用户注册
-    UserRegisterApi: async (params) => api.post('/api/v1/user/register', params),
+    UserRegisterApi: async (params) => api.post('v1/user/register', params),
     //忘记密码重置
     ForgetPasswordResetApi: async (params) => api.post('/api/v1/forget_password_reset', params),
     //发送邮箱验证
     SendEmailApi: async (params) => api.get('/api/v1/send_email_code', {'params':params}),
     //系统更新日志
     SystemUpdateLogApi: async (params) => api.get('/api/v1/system_update_log', {'params':params}),
-    //分类工具列表
-    CateToolsListApi: async (params) => api.get('/api/v1/cate_tools_list', {'params':params}),
-
     //用户退出登录
     UserLogoutApi: async (params) => api.post('/api/v1/user/logout', params),
     //用户详情
-    UserDetailApi: async (params) => api.get('/api/v1/user', params),
+    UserDetailApi: async (params) => api.get('/v1/user/user', params),
+
+
     //编辑用户资料
     UserEditApi: async (params) => api.post('/api/v1/user/edit', params),
     //修改用户密码
     EditPasswordApi: async (params) => api.post('/api/v1/user/edit/password', params),
     //上传文件
     UploadFileApi: async (formData,config) => api.post('/api/v1/upload', formData, config),
-
-
     //Oss上传文件获取sts
     OssGetSts: async (params) => api.get('v1/user/sts', params),
     //Oss上传文件
     OssUploadFileApi: async (url,formData,config={}) => ossApi.post(url, formData,config),
-    //用户任务列表
-    UserTaskListApi: async (params) => api.get('/api/v1/user_task_log', {'params':params}),
-    //用户使用记录
-    UserUseLogApi: async (params) => api.get('/api/v1/user_use_log', {'params':params}),
     //意见反馈提交
     FeedbackApi: async (params) => api.post('/api/v1/feedback', params),
-    //用户贴图策略列表
-    UserStrategyListApi: async (params) => api.get('/api/v1/user_pic_paste_strategy_list', {'params':params}),
-    //用户贴图策略效果预览
-    UserStrategyDebugApi: async (params) => api.post('/api/v1/pic_paste_debug', params),
-    //用户贴图策略添加或修改
-    UserPicPasteStrategySaveApi: async (params) => api.post('/api/v1/user_pic_paste_strategy_save', params),
-    //用户贴图策略删除
-    UserPicPasteStrategyDeleteApi: async (id,params) => api.delete('/api/v1/user_pic_paste_strategy_delete/'+id,params),
-    //执行批量贴图任务
-    UserPasteApi: async (params) => api.post('/api/v1/pic/paste', params),
 };
 
 export default apiService;

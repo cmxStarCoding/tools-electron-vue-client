@@ -1,12 +1,10 @@
 <template>
-    <!-- <CommonTopHeader></CommonTopHeader> -->
-    <!-- <CommonHeader> </CommonHeader> -->
     <div class="project_content">
         <div class="project_left">
             <div>
                 <div class="left_top">
                     <div>
-                        <el-avatar shape="square" :src="squareUrl" />
+                        <el-avatar shape="square" :src="avatar" />
                     </div>
 
                     <div class="nav" @click="this.$router.push({ path: '/home' })"
@@ -60,6 +58,7 @@
 // console.log(process.env.VUE_APP_API_URL, 'asdasdasd111')
 // import CommonTopHeader from './common/CommonTopHeader.vue'
 // import CommonHeader from './views/common/CommonHeader.vue'
+import LocalStorage from '../models/storage'
 import apiService from '../models/axios'
 
 export default {
@@ -73,11 +72,16 @@ export default {
     mounted() {
         // this.getToolsList()
     },
+    created() {
+        const userInfo = JSON.parse(LocalStorage.get("user_info") || '{}')
+        console.log("获取到的用户信息",userInfo)
+        this.avatar = userInfo?.avatar ?? ""
+    },
     data() {
         return {
             new_msg_data: {},
             show_fixed_bottom_ul: false,
-            squareUrl: "https://cms-static.pengwin.com/data/crm/default/d4/e4/dc/d4e4dc60b1ef06ddc57e7c9185e584e1.jpg",
+            avatar: "",
             recommend_tools_list_data: []
         }
     },

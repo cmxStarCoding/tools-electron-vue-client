@@ -8,7 +8,7 @@
                 <span>手机号：</span> 
             </div>
             <div>
-                <input type="text" placeholder="请输入手机号码" v-model="userLogonFormData.account">
+                <input type="text" placeholder="请输入手机号码" v-model="userLogonFormData.phone">
             </div>
         </div>
         <div class="form_item">
@@ -36,10 +36,10 @@
   
 <script>
 
-// import apiService from '../../models/axios'
+import apiService from '../../models/axios'
 import AlertComponent from '../../components/AlertComponent.vue'
 // import VueEvent from '../../models/event.js'
-import localStorage from '../../models/storage'
+import LocalStorage from '../../models/storage'
 export default {
     name: 'UserLogin',
     components: {
@@ -48,30 +48,27 @@ export default {
     data() {
         return {
             userLogonFormData:{
-                account:"",
-                password:""
+                phone:"15638276200",
+                password:"123456"
             }
         }
     },
     methods: {
         login(){
-            localStorage.set('user_token',"123")
-            setTimeout(() => {
-                this.$router.push({path:'/chat'})
-            }, 500);
-
-            // apiService.UserLoginApi(this.userLogonFormData).then(response => {
-            //     VueEvent.emit("to-common-header-login",{
-            //         response:response
-            //     });
-            //     this.showAlert("登录成功")
-            //     setTimeout(() => {
-            //         this.$router.push({path:'/home'})
-            //     }, 500);
-
-            // }).catch(err => {
-            //     this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')            
-            // })
+            apiService.UserLoginApi(this.userLogonFormData).then(response => {
+                console.log(response.data.data.token)
+                LocalStorage.set('user_token',response.data.data.token)
+                apiService.UserDetailApi({}).then(responseData => {
+                    console.log("用户信息",responseData)
+                    LocalStorage.set('user_info',JSON.stringify(responseData.data.data.info))
+                    this.$router.push({path:'/chat'})
+                }).catch(err => {
+                    this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')            
+                })
+                
+            }).catch(err => {
+                this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')            
+            })
         }
     },
 }
