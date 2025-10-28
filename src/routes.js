@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-
+import LocalStorage from './models/storage'
 const router = createRouter({
     history: createWebHashHistory(),
     routes: [
@@ -34,7 +34,7 @@ const router = createRouter({
         },
         { path: '/test', component: () => import('./views/social/Test.vue') },
         //用户登录
-        { path: '/user_login',component: () => import('./views/user/UserLogin.vue') , name: 'user_login' },
+        { path: '/user_login', component: () => import('./views/user/UserLogin.vue'), name: 'user_login' },
         //用户注册
         { path: '/user_register', component: () => import('./views/user/UserRegister.vue'), name: 'user_register' },
         //重置密码
@@ -52,13 +52,14 @@ const router = createRouter({
 
 // 全局前置守卫 可用来判断一些路由是否用户是否可以访问等
 router.beforeEach((to, from, next) => {
-    const bool = true;
-    if (!bool) {
-        next({ path: '/user_login' });
+    const userToken = LocalStorage.get("user_token")
+    if (!userToken && to.path !== '/user_login') {
+        next('/user_login')
     } else {
-        next();
+        next()
     }
-});
+})
+
 
 
 export default router

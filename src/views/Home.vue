@@ -185,8 +185,8 @@ import { ipcRenderer } from 'electron'
 import { Search } from '@element-plus/icons-vue'
 import "vue3-video-play/dist/style.css";
 import { videoPlay } from "vue3-video-play";
-import router from '../routes';
-import localStorage from '../models/storage'
+// import router from '../routes';
+// import localStorage from '../models/storage'
 
 // Import data/twitter.json to reduce size, all.json contains data for
 // all emoji sets.
@@ -243,10 +243,10 @@ export default {
     },
     emits: ["updateNewMsgData"],
     mounted() {
-        let userToken = localStorage.get("user_token")
-        if(!userToken){
-            router.push({ path: '/user_login' })
-        }
+        // let userToken = localStorage.get("user_token")
+        // if(!userToken){
+        //     router.push({ path: '/user_login' })
+        // }
         this.$emit("updateNewMsgData", { "new_msg_num": "99+" });
         this.$nextTick(() => {
             setTimeout(() => {
