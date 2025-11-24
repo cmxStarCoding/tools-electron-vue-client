@@ -7,11 +7,28 @@ let wsReconnectTimer = null
 let unreadCount = 0
 let mainWindow = null
 let currentUrl = null
+let token = null
 
 export function initWS(window, url) {
     mainWindow = window
     currentUrl = url
     connectWebSocket(url)
+
+
+    // ❌ 不要在这里直接 connectWebSocket(url)
+    // 等渲染进程传 token 后再连接
+
+    // 渲染进程传 token
+    ipcMain.handle('ws-set-token', (_, t) => {
+        token = t
+        console.log("WS 设置 token:", token)
+
+        // token 设置后立即重连 WS
+        reconnectWebSocket(currentUrl, true)
+
+        return true
+    })
+
 
     // 当渲染进程执行 ipcRenderer.invoke('ws-send', msg) 时，Electron 会自动触发主进程里的 ipcMain.handle('ws-send') 回调函数
     ipcMain.handle('ws-send', (_, msg) => {
@@ -32,16 +49,21 @@ export function initWS(window, url) {
 
 // ---------- WebSocket 核心逻辑 ----------
 function connectWebSocket(url) {
+    if (!token) {
+        console.log("WS 未连接：token 为空")
+        return
+    }
+
     if (ws) {
         ws.removeAllListeners()
         ws.close()
     }
 
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MTQwNjMsImlhdCI6MTc2MDE3NDA2MywiaW1vb2MuY29tIjoiMHgwMDAwMDAwMDAwMDAwMDAxIn0.0irxL80xik5qYww6H12bCX2GQeLNjuovYOBPGalNJXc'
+    // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MTQwNjMsImlhdCI6MTc2MDE3NDA2MywiaW1vb2MuY29tIjoiMHgwMDAwMDAwMDAwMDAwMDAxIn0.0irxL80xik5qYww6H12bCX2GQeLNjuovYOBPGalNJXc'
 
     const wsOptions = {
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
         }
     }
 
@@ -63,9 +85,10 @@ function connectWebSocket(url) {
         }
     })
 
-    ws.on('close', () => {
-        sendToRenderer('close', { message: 'WebSocket closed' })
-        reconnectWebSocket(url)
+    ws.on('close', (code, reason) => { 
+        console.log("WS CLOSED:", code, reason.toString()) 
+        sendToRenderer('close', { message: 'WebSocket closed' }) 
+        reconnectWebSocket(url) 
     })
 
     ws.on('error', (err) => {

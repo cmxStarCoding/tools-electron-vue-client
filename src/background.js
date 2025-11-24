@@ -90,9 +90,7 @@ async function createWindow() {
         console.log("window-close")
         win.close();
     })
-    // ✅ 在这里初始化 WebSocket
-    const wsUrl = process.env.WS_URL
-    initWS(win, wsUrl)
+
 
 }
 
@@ -156,7 +154,10 @@ app.on('ready', async () => {
     //         console.error('Vue Devtools failed to install:', e.toString())
     //     }
     // }
-    createWindow()
+    let mainWindow = null
+    mainWindow = createWindow()
+        const wsUrl = process.env.WS_URL
+        initWS(mainWindow, wsUrl)
     // tray = new Tray(path.join(__dirname, 'icon.png'))
     tray = new Tray(nativeImage.createFromPath(trayIconPath))
 
@@ -191,6 +192,9 @@ app.on('ready', async () => {
             console.log('Command+R is disabled');
         });
     }
+        // ✅ 在这里初始化 WebSocket
+
+
 
 })
 

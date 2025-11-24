@@ -9,6 +9,7 @@
 // import HelloWorld from './components/HelloWorld.vue'
 // console.log(process.env.VUE_APP_API_URL, 'asdasdasd111')
 import CommonTopHeader from './views/common/CommonTopHeader.vue'
+import { ipcRenderer } from 'electron'
 // import CommonHeader from './views/common/CommonHeader.vue'
 // import apiService from './models/axios'
 
@@ -22,6 +23,12 @@ export default {
 
     mounted() {
         // this.getToolsList()
+        const token = localStorage.getItem("user_token");
+        if (token) {
+            ipcRenderer.invoke("ws-set-token", token);
+        } else {
+            console.warn("本地没有 user_token，无法初始化 WebSocket");
+        }
     },
     data() {
         return {
