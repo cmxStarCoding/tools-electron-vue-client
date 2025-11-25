@@ -71,6 +71,7 @@ function connectWebSocket(url) {
 
     ws.on('open', () => {
         console.log('WebSocket connected')
+        startHeartbeat()   // ❤️加这句
         sendToRenderer('open', { message: 'WebSocket connected' })
     })
 
@@ -134,4 +135,12 @@ function sendToRenderer(event, data) {
     if (mainWindow && mainWindow.webContents) {
         mainWindow.webContents.send('ws-event', { event, data })
     }
+}
+
+function startHeartbeat() {
+    setInterval(() => {
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({ frameType: 1, method : "user.online"}));
+        }
+    }, 3000);  // 每 3 秒 ping 一次
 }
