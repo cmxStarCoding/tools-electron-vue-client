@@ -58,9 +58,6 @@ function connectWebSocket(url) {
         ws.removeAllListeners()
         ws.close()
     }
-
-    // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MTQwNjMsImlhdCI6MTc2MDE3NDA2MywiaW1vb2MuY29tIjoiMHgwMDAwMDAwMDAwMDAwMDAxIn0.0irxL80xik5qYww6H12bCX2GQeLNjuovYOBPGalNJXc'
-
     const wsOptions = {
         headers: {
             Authorization: `${token}`,
@@ -86,10 +83,10 @@ function connectWebSocket(url) {
         }
     })
 
-    ws.on('close', (code, reason) => { 
-        console.log("WS CLOSED:", code, reason.toString()) 
-        sendToRenderer('close', { message: 'WebSocket closed' }) 
-        reconnectWebSocket(url) 
+    ws.on('close', (code, reason) => {
+        console.log("WS CLOSED:", code, reason.toString())
+        sendToRenderer('close', { message: 'WebSocket closed' })
+        reconnectWebSocket(url)
     })
 
     ws.on('error', (err) => {
@@ -140,7 +137,7 @@ function sendToRenderer(event, data) {
 function startHeartbeat() {
     setInterval(() => {
         if (ws && ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({ frameType: 1, method : "user.online"}));
+            ws.send(JSON.stringify({ frameType: 1, method: "user.online" }));
         }
     }, 3000);  // 每 3 秒 ping 一次
 }
