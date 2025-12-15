@@ -66,6 +66,10 @@ const apiService = {
     UserLoginApi: async (params) => api.post('/v1/user/login', params),
     //用户注册
     UserRegisterApi: async (params) => api.post('v1/user/register', params),
+    //获取会话列表
+    GetImConversation: async (params) => api.get('v1/im/conversation', params),
+
+
     //忘记密码重置
     ForgetPasswordResetApi: async (params) => api.post('/api/v1/forget_password_reset', params),
     //发送邮箱验证

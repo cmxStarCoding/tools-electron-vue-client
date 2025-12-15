@@ -29,37 +29,19 @@
                             </svg>添加朋友</span>
                     </div>
                 </div>
-                <div class="conversation_list">
-
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <span class="new_msg">12</span>
+                <div class="conversation_list" v-for="conversation in conversations" :key="conversation.id">
+                    <el-avatar shape="square" :size="40" fit="cover" :src="conversation.avatar" />
+                    <span class="new_msg">{{conversation.toRead}}</span>
                     <div class="conversation_info">
                         <div class="conversation_info_top">
                             <div>
                                 <!-- <el-text class="mx-1" size="small">群聊</el-text> -->
-                                <span style="font-size: 14px;">婷婷</span>
+                                <span style="font-size: 14px;">{{conversation.name}}</span>
                             </div>
-                            <el-text class="mx-1" size="small">19:21</el-text>
+                            <el-text class="mx-1" size="small">{{formatTimestamp(conversation.msg.SendTime)}}</el-text>
                         </div>
                         <div>
-                            <el-text size="small" type="info">大家好啊</el-text>
-                        </div>
-                    </div>
-                </div>
-                <div class="conversation_list">
-
-                    <el-avatar shape="square" :size="40" fit="cover" :src="url" />
-                    <span class="new_msg">5</span>
-                    <div class="conversation_info">
-                        <div class="conversation_info_top">
-                            <div>
-                                <!-- <el-text class="mx-1" size="small">群聊</el-text> -->
-                                <span style="font-size: 14px;">老妈</span>
-                            </div>
-                            <el-text class="mx-1" size="small">19:21</el-text>
-                        </div>
-                        <div>
-                            <el-text size="small" type="info">吃饭了吗</el-text>
+                            <el-text size="small" type="info">{{conversation.msg.msgContent}}</el-text>
                         </div>
                     </div>
                 </div>
@@ -185,6 +167,9 @@ import { ipcRenderer } from 'electron'
 import { Search } from '@element-plus/icons-vue'
 import "vue3-video-play/dist/style.css";
 import { videoPlay } from "vue3-video-play";
+// 在组件中使用
+import { formatTimestamp } from '@/common/helper';
+// import apiService from '../models/axios'
 // import router from '../routes';
 // import localStorage from '../models/storage'
 
@@ -242,6 +227,20 @@ export default {
         }
     },
     emits: ["updateNewMsgData"],
+    created(){
+        // apiService.GetImConversation({}).then((response) => {
+            
+        // }).catch((err) => {
+        //         this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+        // }),
+
+        apiService.GetImConversation({}).then((response) => {
+            console.log(response.data.conversationList)
+            this.conversations = response.data.conversationList
+        }).catch(err => {
+            this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+        })
+    },
     mounted() {
         // let userToken = localStorage.get("user_token")
         // if(!userToken){
@@ -298,6 +297,7 @@ export default {
     },
     data() {
         return {
+            conversations:[],
             wsStatus: 'disconnected',
             messages: [],
             unreadCount: 0,
@@ -353,8 +353,7 @@ export default {
                     content: '',
                     time: new Date(Date.now() - 45 * 60 * 1000),
                     image_url: "https://cms-static.pengwin.com/data/images/20240117/4948751705487415326981.png",
-                    msg_type: 4
-                },
+                    msg_type: 4                 },
                 {
                     id: 1,
                     nickname: "婷婷",
@@ -471,17 +470,20 @@ export default {
     },
 
     methods: {
+        formatTimestamp(timestamp) {
+            return formatTimestamp(timestamp);
+        },
         async generateGroupAvatar() {
             const avatars = [
+                'https://cms-static.pengwin.com/data/crm/default/d4/e4/dc/d4e4dc60b1ef06ddc57e7c9185e584e1.jpg',
                 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
-                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
-                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
-                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
-                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
-                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
-                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
-                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
-                'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                'https://cms-static.pengwin.com/data/crm/default/ab/3d/ef/ab3def128091358e94bb8d64d2baf226.jpg',
+                // 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                // 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                // 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                // 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                // 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
+                // 'https://cms-static.pengwin.com/data/crm/default/4c/7b/9f/4c7b9f267bbc2ad3a9364f45d8f7cdb5.jpg',
             ]
 
             // 1️⃣ 生成 File 对象
