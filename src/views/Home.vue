@@ -1020,13 +1020,16 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        padding-right: 5px;
+        // padding-right: 10px;
         flex: 1;
 
         .conversation_info_top {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+            .el-text{
+                margin-right: 10px;
+            }
         }
     }
 }
