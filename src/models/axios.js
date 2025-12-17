@@ -66,8 +66,20 @@ const apiService = {
     UserLoginApi: async (params) => api.post('/v1/user/login', params),
     //用户注册
     UserRegisterApi: async (params) => api.post('v1/user/register', params),
+    //用户详情
+    UserDetailApi: async (params) => api.get('/v1/user/user', params),
+    //Oss上传文件获取sts
+    OssGetSts: async (params) => api.get('v1/user/sts', params),
+    //Oss上传文件
+    OssUploadFileApi: async (url,formData,config={}) => ossApi.post(url, formData,config),
+
     //获取会话列表
     GetImConversation: async (params) => api.get('v1/im/conversation', params),
+    //获取会话列表
+    GetChatRecord: async (params) => api.get('v1/im/chatlog', params),
+
+
+
 
 
     //忘记密码重置
@@ -78,8 +90,6 @@ const apiService = {
     SystemUpdateLogApi: async (params) => api.get('/api/v1/system_update_log', {'params':params}),
     //用户退出登录
     UserLogoutApi: async (params) => api.post('/api/v1/user/logout', params),
-    //用户详情
-    UserDetailApi: async (params) => api.get('/v1/user/user', params),
 
 
     //编辑用户资料
@@ -88,10 +98,7 @@ const apiService = {
     EditPasswordApi: async (params) => api.post('/api/v1/user/edit/password', params),
     //上传文件
     UploadFileApi: async (formData,config) => api.post('/api/v1/upload', formData, config),
-    //Oss上传文件获取sts
-    OssGetSts: async (params) => api.get('v1/user/sts', params),
-    //Oss上传文件
-    OssUploadFileApi: async (url,formData,config={}) => ossApi.post(url, formData,config),
+
     //意见反馈提交
     FeedbackApi: async (params) => api.post('/api/v1/feedback', params),
 };

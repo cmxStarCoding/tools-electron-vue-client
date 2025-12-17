@@ -29,7 +29,7 @@
                             </svg>添加朋友</span>
                     </div>
                 </div>
-                <div class="conversation_list" v-for="conversation in conversations" :key="conversation.id">
+                <div class="conversation_list" v-for="conversation in conversations" :key="conversation.id" @click="getChatLog">
                     <el-avatar shape="square" :size="40" fit="cover" :src="conversation.avatar" />
                     <span class="new_msg">{{conversation.toRead}}</span>
                     <div class="conversation_info">
@@ -298,6 +298,9 @@ export default {
     data() {
         return {
             conversations:[],
+            chatLogs:[],
+
+
             wsStatus: 'disconnected',
             messages: [],
             unreadCount: 0,
@@ -470,6 +473,14 @@ export default {
     },
 
     methods: {
+        getChatLog(){
+            apiService.GetChatRecord({}).then((response) => {
+                console.log(response.data.conversationList)
+                // this.conversations = response.data.conversationList
+            }).catch(err => {
+                // this.showAlert(err?.response?.data?.error ?? "请求异常", 'fail')
+            })
+        },
         formatTimestamp(timestamp) {
             return formatTimestamp(timestamp);
         },
